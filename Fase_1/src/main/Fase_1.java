@@ -19,15 +19,15 @@ public class Fase_1 {
      */
     public static void main(String[] args) {
         
-        @SuppressWarnings("unused")
         String entrada = """
-                        2
+                        //comentario
+                        println("Hola Mundo");
                         """;
         
         // Generar Analizadores
-        analizadores("src/interprete/", "Lexer.jflex", "Parser.cup");
+        //analizadores("src/interprete/", "Lexer.jflex", "Parser.cup");
         // Analizar
-        //analizar(entrada);
+        analizar(entrada);
     }
 
     public static void analizadores(String ruta, String jflexFile, String cupFile){

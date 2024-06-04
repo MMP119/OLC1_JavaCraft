@@ -8,13 +8,41 @@ package interprete;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int error = 1;
+  public static final int CADENA = 14;
+  public static final int DECIMAL = 12;
+  public static final int INT = 2;
+  public static final int BOOL = 4;
+  public static final int BOOLEANO = 13;
+  public static final int ENTERO = 11;
+  public static final int PRINTLN = 10;
   public static final int EOF = 0;
-  public static final int ENTERO = 2;
+  public static final int STRING = 6;
+  public static final int PYC = 9;
+  public static final int DOUBLE = 3;
+  public static final int ID = 16;
+  public static final int error = 1;
+  public static final int C_PARENTESIS = 8;
+  public static final int CARACTER = 15;
+  public static final int CHAR = 5;
+  public static final int A_PARENTESIS = 7;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "ENTERO"
+  "INT",
+  "DOUBLE",
+  "BOOL",
+  "CHAR",
+  "STRING",
+  "A_PARENTESIS",
+  "C_PARENTESIS",
+  "PYC",
+  "PRINTLN",
+  "ENTERO",
+  "DECIMAL",
+  "BOOLEANO",
+  "CADENA",
+  "CARACTER",
+  "ID"
   };
 }
 

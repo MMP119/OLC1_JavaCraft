@@ -30,18 +30,34 @@ action code
 
 
 //------> Declaración de terminales
-terminal String ENTERO;
+terminal String INT, DOUBLE, BOOL, CHAR, STRING;
+terminal String A_PARENTESIS, C_PARENTESIS, PYC;
+terminal String PRINTLN;
+terminal String ENTERO, DECIMAL, BOOLEANO, CADENA, CARACTER, ID;
 
 
 //------> Declaración de no terminales
 non terminal inicio;
+non terminal instruccion;
+non terminal expresiones;
+non terminal printConsole;
 
 
 //------> Definir Simbolo Inicial
 start with inicio; 
 
-
 // ------------>  Producciones  <------------
 
-inicio ::= ENTERO
+inicio ::= instruccion
+;
+
+instruccion ::= expresiones
+                | instruccion expresiones
+;
+
+expresiones ::= printConsole
+;
+
+//imprimir en consola
+printConsole ::= PRINTLN A_PARENTESIS CADENA:val C_PARENTESIS PYC {:System.out.println(val);:}
 ;
