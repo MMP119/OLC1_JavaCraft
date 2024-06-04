@@ -1,0 +1,9 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\marit\\Downloads\\flatlaf-3.4.1.jar",
+        "c:\\Users\\marit\\Downloads\\java-cup-11b.jar",
+        "c:\\Users\\marit\\Downloads\\java-cup-11b-runtime.jar",
+        "c:\\Users\\marit\\Downloads\\jflex-1.9.1.jar"
+    ]
+}
