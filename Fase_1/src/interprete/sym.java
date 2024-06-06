@@ -8,23 +8,71 @@ package interprete;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int CADENA = 14;
-  public static final int DECIMAL = 12;
-  public static final int INT = 2;
-  public static final int BOOL = 4;
-  public static final int BOOLEANO = 13;
-  public static final int ENTERO = 11;
-  public static final int PRINTLN = 10;
-  public static final int EOF = 0;
-  public static final int STRING = 6;
-  public static final int PYC = 9;
-  public static final int DOUBLE = 3;
-  public static final int ID = 16;
-  public static final int error = 1;
-  public static final int C_PARENTESIS = 8;
-  public static final int CARACTER = 15;
+  public static final int POR = 11;
   public static final int CHAR = 5;
-  public static final int A_PARENTESIS = 7;
+  public static final int IGUALACION = 14;
+  public static final int FIND = 56;
+  public static final int REMOVE = 49;
+  public static final int ENTERO = 58;
+  public static final int XOR = 24;
+  public static final int DOUBLE = 3;
+  public static final int CONTINUE = 44;
+  public static final int INT = 2;
+  public static final int PRINTLN = 52;
+  public static final int FOR = 41;
+  public static final int C_CORCHETE = 30;
+  public static final int MATCH = 38;
+  public static final int C_LLAVE = 28;
+  public static final int A_LLAVE = 27;
+  public static final int CONSTANTE = 34;
+  public static final int NOT = 19;
+  public static final int AND = 23;
+  public static final int APPEND = 48;
+  public static final int IGUAL = 18;
+  public static final int CARACTER = 62;
+  public static final int OR = 22;
+  public static final int BOOL = 4;
+  public static final int DOS_P = 8;
+  public static final int UMENOS = 64;
+  public static final int IF = 36;
+  public static final int MAYOR_Q = 21;
+  public static final int ID = 63;
+  public static final int DECIMAL = 59;
+  public static final int EOF = 0;
+  public static final int RETURN = 45;
+  public static final int MENOR_Q = 20;
+  public static final int NEW = 47;
+  public static final int error = 1;
+  public static final int COMA = 31;
+  public static final int CADENA = 61;
+  public static final int MODULO = 13;
+  public static final int MENOS = 10;
+  public static final int TOSTRING = 55;
+  public static final int BREAK = 43;
+  public static final int VOID = 51;
+  public static final int DIFERENCIACION = 15;
+  public static final int POTENCIA = 33;
+  public static final int A_PARENTESIS = 25;
+  public static final int ELSE = 37;
+  public static final int PUNTO = 32;
+  public static final int DIVIDIR = 12;
+  public static final int VARIABLE = 35;
+  public static final int START_WITH = 57;
+  public static final int C_PARENTESIS = 26;
+  public static final int WHILE = 40;
+  public static final int LIST = 46;
+  public static final int DEFAULT = 39;
+  public static final int MAYOR_IGUAL = 17;
+  public static final int A_CORCHETE = 29;
+  public static final int BOOLEANO = 60;
+  public static final int STRING = 6;
+  public static final int MENOR_IGUAL = 16;
+  public static final int STRUCT = 50;
+  public static final int LENGTH = 54;
+  public static final int ROUND = 53;
+  public static final int DO = 42;
+  public static final int PYC = 7;
+  public static final int MAS = 9;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -33,16 +81,64 @@ public class sym {
   "BOOL",
   "CHAR",
   "STRING",
+  "PYC",
+  "DOS_P",
+  "MAS",
+  "MENOS",
+  "POR",
+  "DIVIDIR",
+  "MODULO",
+  "IGUALACION",
+  "DIFERENCIACION",
+  "MENOR_IGUAL",
+  "MAYOR_IGUAL",
+  "IGUAL",
+  "NOT",
+  "MENOR_Q",
+  "MAYOR_Q",
+  "OR",
+  "AND",
+  "XOR",
   "A_PARENTESIS",
   "C_PARENTESIS",
-  "PYC",
+  "A_LLAVE",
+  "C_LLAVE",
+  "A_CORCHETE",
+  "C_CORCHETE",
+  "COMA",
+  "PUNTO",
+  "POTENCIA",
+  "CONSTANTE",
+  "VARIABLE",
+  "IF",
+  "ELSE",
+  "MATCH",
+  "DEFAULT",
+  "WHILE",
+  "FOR",
+  "DO",
+  "BREAK",
+  "CONTINUE",
+  "RETURN",
+  "LIST",
+  "NEW",
+  "APPEND",
+  "REMOVE",
+  "STRUCT",
+  "VOID",
   "PRINTLN",
+  "ROUND",
+  "LENGTH",
+  "TOSTRING",
+  "FIND",
+  "START_WITH",
   "ENTERO",
   "DECIMAL",
   "BOOLEANO",
   "CADENA",
   "CARACTER",
-  "ID"
+  "ID",
+  "UMENOS"
   };
 }
 

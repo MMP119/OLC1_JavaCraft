@@ -2,13 +2,22 @@
 package interprete;
 
 import java_cup.runtime.*;
-
+import expresiones.Dato;
+import expresiones.Aritmeticas;
+import expresiones.TipoDato;
+import java.util.ArrayList;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
 
 parser code 
 {:
+
+        //instancias de las clases
+
+
+        //arreglo para las instrucciones
+
     public String resultado = ""; 
 
     public void syntax_error(Symbol s)
@@ -30,10 +39,27 @@ action code
 
 
 //------> Declaración de terminales
+
+//tipos de datos
 terminal String INT, DOUBLE, BOOL, CHAR, STRING;
-terminal String A_PARENTESIS, C_PARENTESIS, PYC;
-terminal String PRINTLN;
+
+//simbolos
+terminal String PYC, DOS_P, MAS, MENOS, POR, DIVIDIR, MODULO, IGUALACION, DIFERENCIACION, MENOR_IGUAL, MAYOR_IGUAL, IGUAL, NOT, MENOR_Q, MAYOR_Q;
+terminal String OR, AND, XOR, A_PARENTESIS, C_PARENTESIS, A_LLAVE, C_LLAVE, A_CORCHETE, C_CORCHETE, COMA, PUNTO;
+terminal String POTENCIA;
+
+//reservadas
+terminal String CONSTANTE, VARIABLE, IF, ELSE, MATCH, DEFAULT, WHILE, FOR, DO, BREAK, CONTINUE, RETURN;
+terminal String LIST, NEW, APPEND, REMOVE, STRUCT, VOID;
+
+//funciones
+terminal String PRINTLN, ROUND, LENGTH, TOSTRING, FIND, START_WITH;
+
+//expresiones
 terminal String ENTERO, DECIMAL, BOOLEANO, CADENA, CARACTER, ID;
+
+
+terminal String UMENOS;
 
 
 //------> Declaración de no terminales
@@ -41,6 +67,20 @@ non terminal inicio;
 non terminal instruccion;
 non terminal expresiones;
 non terminal printConsole;
+non terminal expresion;
+
+
+//-------> Precedencias
+
+precedence left OR;
+precedence left AND;
+precedence left XOR;
+precedence right NOT;
+precedence left IGUALACION, DIFERENCIACION, MENOR_Q, MENOR_IGUAL, MAYOR_Q, MAYOR_IGUAL;
+precedence left MAS, MENOS;
+precedence left POR, DIVIDIR, MODULO;
+precedence nonassoc POTENCIA;
+precedence right UMENOS;
 
 
 //------> Definir Simbolo Inicial
@@ -58,6 +98,112 @@ instruccion ::= expresiones
 expresiones ::= printConsole
 ;
 
+
+//Tipos de datos
+tipoExpresion ::= INT
+        | DOUBLE
+        | BOOL
+        | CHAR
+        | STRING
+
+;
+
+
+//varibles y constantes
+variableConstante ::= VARIABLE
+                | CONSTANTE
+;
+
+
+//Declarar variables
+declararVariables ::= variableConstante ID DOS_P tipoExpresion PYC
+                | variableConstante ID DOS_P tipoExpresion IGUAL expresion PYC
+;
+
+
+//asignar variables
+asignarVariables ::= ID IGUAL expresion PYC
+;
+
+
+//Acc a variables
+accVariables ::= ID
+;
+
+
+//Casteos
+casteos ::= variableConstante ID DOS_P tipoExpresion IGUAL A_PARENTESIS tipoExpresion C_PARENTESIS expresion PYC
+;
+
+
+//Incremento-Decremento
+incDec ::= ID MAS MAS PYC
+        | ID MENOS MENOS PYC
+;
+
+
+//Sentencia de control
+
+        //Sentencia if
+sentIF ::= IF A_PARENTESIS expresion C_PARENTESIS A_LLAVE instruccion C_LLAVE 
+        | IF A_PARENTESIS expresion C_PARENTESIS A_LLAVE instruccion C_LLAVE elseIF
+;
+
+elseIF ::= ELSE A_LLAVE instruccion C_LLAVE
+        | ELSE sentIF
+;
+
+        //Sentencia MATCH
+sentMATCH ::=
+;
+
+
+//Sentencia ciclicas
+
+        //while
+sentWhile ::= A_PARENTESIS expresion C_PARENTESIS A_LLAVE instruccion C_LLAVE
+;
+
+        //FOR
+sentFOR ::= FOR A_PARENTESIS 
+
+;
+
+        // DO-WHILE
+sentDO ::= 
+;
+
+//sentencias de transferencia
+
+        //beak
+
+
+        //continue
+
+
+
 //imprimir en consola
-printConsole ::= PRINTLN A_PARENTESIS CADENA:val C_PARENTESIS PYC {:System.out.println(val);:}
+printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:System.out.println(val);:}
+;
+
+
+//expresiones 
+expresion::= MENOS expresion: val                       {::}%prec UMENOS
+        |expresion:val1 MAS expresion:val2              {:RESULT = new Aritmeticas(val1, "+", val2, val2left,val2right);:}
+        | expresion:val1 MENOS expresion:val2           {:RESULT = new Aritmeticas(val1, "-", val2, val2left,val2right);:}
+        | expresion:val1 POR expresion:val2             {:RESULT = new Aritmeticas(val1, "*", val2, val2left,val2right);:}
+        | expresion:val1 DIVIDIR expresion:val2         {:RESULT = new Aritmeticas(val1, "/", val2, val2left,val2right);:}
+        | expresion:val1 POR POR  expresion:val2        {:RESULT = new Aritmeticas(val1, "**", val2, val2left,val2right);:}
+        | expresion:val1 MODULO expresion:val2          {:RESULT = new Aritmeticas(val1, "%", val2, val2left,val2right);:}
+        | expresion:val1 IGUALACION expresion:val2      {::}
+        | expresion:val1 DIFERENCIACION expresion:val2  {::}
+        | expresion:val1 MENOR_Q expresion:val2         {::}
+        | expresion:val1 MENOR_IGUAL expresion:val2     {::}
+        | expresion:val1 MAYOR_Q expresion:val2         {::}
+        | expresion:val1 MAYOR_IGUAL expresion:val2     {::}
+        | ENTERO:val                                    {: RESULT = new Dato(val, TipoDato.INT, valleft, valright);:}
+        | DECIMAL:val                                   {: RESULT = new Dato(val, TipoDato.DOUBLE, valleft, valright);:} 
+        | BOOLEANO:val                                  {: RESULT = new Dato(val, TipoDato.BOOLEAN, valleft, valright);:}
+        | CADENA:val                                    {: RESULT = new Dato(val, TipoDato.CADENA, valleft, valright);:}
+        | CARACTER:val                                  {: RESULT = new Dato(val, TipoDato.CHAR, valleft, valright);:}
 ;
