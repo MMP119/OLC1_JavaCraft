@@ -532,5 +532,50 @@ public class Aritmeticas extends Expresion{
         return this;
     }
 
+    // Getters y Setters
+    public Object getIzq() {
+        return izq;
+    }
+
+    public void setIzq(Object izq) {
+        this.izq = izq;
+    }
+
+    public Object getDer() {
+        return der;
+    }
+
+    public void setDer(Object der) {
+        this.der = der;
+    }
+
+    public int getFila() {
+        return fila;
+    }
+
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+
+    @Override
+    public String toString() {
+        return "Aritmeticas{" +
+                "izq=" + izq +
+                ", der=" + der +
+                ", fila=" + fila +
+                ", columna=" + columna +
+                '}'+
+                "Operador: " + operador + " "+
+                "Valor: " + getValor()
+                ;
+    }
 
 }

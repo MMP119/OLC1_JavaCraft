@@ -66,6 +66,17 @@ terminal String UMENOS;
 non terminal inicio;
 non terminal instruccion;
 non terminal expresiones;
+non terminal tipoExpresion;
+non terminal variableConstante;
+non terminal declararVariables;
+non terminal asignarVariables;
+non terminal accVariables;
+non terminal casteos;
+non terminal incDec;
+non terminal sentIF;
+non terminal elseIF;
+non terminal sentWhile;
+non terminal sentFOR;
 non terminal printConsole;
 non terminal expresion;
 
@@ -154,8 +165,8 @@ elseIF ::= ELSE A_LLAVE instruccion C_LLAVE
 ;
 
         //Sentencia MATCH
-sentMATCH ::=
-;
+//sentMATCH ::=
+//;
 
 
 //Sentencia ciclicas
@@ -166,12 +177,11 @@ sentWhile ::= A_PARENTESIS expresion C_PARENTESIS A_LLAVE instruccion C_LLAVE
 
         //FOR
 sentFOR ::= FOR A_PARENTESIS 
-
 ;
 
         // DO-WHILE
-sentDO ::= 
-;
+//sentDO ::= 
+//;
 
 //sentencias de transferencia
 
@@ -183,7 +193,7 @@ sentDO ::=
 
 
 //imprimir en consola
-printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:System.out.println(val);:}
+printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:System.out.println(val.toString());:}
 ;
 
 
@@ -193,7 +203,7 @@ expresion::= MENOS expresion: val                       {::}%prec UMENOS
         | expresion:val1 MENOS expresion:val2           {:RESULT = new Aritmeticas(val1, "-", val2, val2left,val2right);:}
         | expresion:val1 POR expresion:val2             {:RESULT = new Aritmeticas(val1, "*", val2, val2left,val2right);:}
         | expresion:val1 DIVIDIR expresion:val2         {:RESULT = new Aritmeticas(val1, "/", val2, val2left,val2right);:}
-        | expresion:val1 POR POR  expresion:val2        {:RESULT = new Aritmeticas(val1, "**", val2, val2left,val2right);:}
+        | expresion:val1 POTENCIA  expresion:val2       {:RESULT = new Aritmeticas(val1, "**", val2, val2left,val2right);:}
         | expresion:val1 MODULO expresion:val2          {:RESULT = new Aritmeticas(val1, "%", val2, val2left,val2right);:}
         | expresion:val1 IGUALACION expresion:val2      {::}
         | expresion:val1 DIFERENCIACION expresion:val2  {::}

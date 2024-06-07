@@ -20,7 +20,7 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-                        println("Hola Mundo");
+                        println(1**1);
                         """;
         
         // Generar Analizadores
