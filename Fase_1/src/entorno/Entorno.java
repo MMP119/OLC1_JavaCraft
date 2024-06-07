@@ -1,32 +1,59 @@
 package entorno;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
+
+import excepciones.Errores;
+import instruccion.Instruccion;
 
 
 public class Entorno {
 
-    private String nombre;
-    private Entorno anterior;
-    private HashMap<String, Simbolo> tablaSimbolos = new HashMap<>();
+    private LinkedList<Instruccion> instrucciones;
+    private String consola;
+    private tablaSimbolos tablaGlobal;
+    private LinkedList<Errores> errores;
 
-
-    public Entorno(String nombre, Entorno anterior){
-        this.nombre = nombre;
-        this.anterior = anterior;
-        this.tablaSimbolos = new HashMap<>();
+    public Entorno(LinkedList<Instruccion> instrucciones) {
+        this.instrucciones = instrucciones;
+        this.consola = "";
+        this.tablaGlobal = new tablaSimbolos();
+        this.errores = new LinkedList<>();
     }
 
-    public void addSimbolo(String nombre, Object valor, String tipo, String TipoVar, int fila, int columna){
-        if(tablaSimbolos.containsKey(nombre)){
-            System.out.println("Error: La variable " + nombre + " ya existe en el entorno actual");
-            return;
-        }
-        tablaSimbolos.put(nombre, new Simbolo(nombre, valor, tipo, TipoVar, fila, columna));
+    public LinkedList<Instruccion> getInstrucciones() {
+        return instrucciones;
     }
 
-    public void getSimbolo(String nombre, int fila, int columna){
+    public void setInstrucciones(LinkedList<Instruccion> instrucciones) {
+        this.instrucciones = instrucciones;
+    }
 
+    public String getConsola() {
+        return consola;
+    }
+
+    public void setConsola(String consola) {
+        this.consola = consola;
+    }
+
+    public tablaSimbolos getTablaGlobal() {
+        return tablaGlobal;
+    }
+
+    public void setTablaGlobal(tablaSimbolos tablaGlobal) {
+        this.tablaGlobal = tablaGlobal;
+    }
+
+    public LinkedList<Errores> getErrores() {
+        return errores;
+    }
+
+    public void setErrores(LinkedList<Errores> errores) {
+        this.errores = errores;
+    }
+
+    public void Print(String mensaje){
+        this.consola += mensaje + "\n";
     }
 
 }

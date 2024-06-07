@@ -1,5 +1,7 @@
 package expresiones;
 
+import entorno.*;
+
 public class Dato extends Expresion{
 
     private Object valor;
@@ -17,8 +19,8 @@ public class Dato extends Expresion{
     }
 
     @Override
-    public Expresion interpretar(Object entorno) {
-        return this;
+    public Object interpretar(Entorno ent, tablaSimbolos ts) {
+        return this.valor;
     }
 
 

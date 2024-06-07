@@ -9,5 +9,6 @@ public enum TipoDato {
     CADENA,
     ERROR,
     VOID,
-    LOGICO
+    LOGICO,
+    FUNCION,
 }

@@ -1,7 +1,12 @@
 package expresiones;
 
+
+import entorno.Entorno;
+import entorno.tablaSimbolos;
+
+
 // Clase Expresion
-public class Expresion {
+public abstract class Expresion {
     private Object valor;
     private TipoDato tipo;
     private int fila;
@@ -15,9 +20,7 @@ public class Expresion {
         this.columna = columna;
     }
 
-    public Expresion interpretar(Object entorno){
-        return this;
-    }
+    public abstract Object interpretar(Entorno ent, tablaSimbolos ts);
 
     // Getters y Setters
     public Object getValor() {

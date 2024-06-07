@@ -6,6 +6,9 @@ import expresiones.Dato;
 import expresiones.Aritmeticas;
 import expresiones.TipoDato;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import instruccion.Instruccion;
+import funciones.Println;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -63,9 +66,9 @@ terminal String UMENOS;
 
 
 //------> Declaración de no terminales
-non terminal inicio;
-non terminal instruccion;
-non terminal expresiones;
+non terminal LinkedList<Instruccion> inicio;
+non terminal LinkedList<Instruccion> instruccion;
+non terminal Instruccion expresiones;
 non terminal tipoExpresion;
 non terminal variableConstante;
 non terminal declararVariables;
@@ -77,8 +80,8 @@ non terminal sentIF;
 non terminal elseIF;
 non terminal sentWhile;
 non terminal sentFOR;
-non terminal printConsole;
-non terminal expresion;
+non terminal Instruccion printConsole;
+non terminal  expresion;
 
 
 //-------> Precedencias
@@ -99,14 +102,14 @@ start with inicio;
 
 // ------------>  Producciones  <------------
 
-inicio ::= instruccion
+inicio ::= instruccion:val {: RESULT=val; :}
 ;
 
-instruccion ::= expresiones
-                | instruccion expresiones
+instruccion ::= expresiones:a                     {:RESULT = new LinkedList<>(); RESULT.add(a);:}
+                | instruccion:a expresiones:b       {:RESULT = a; RESULT.add(b);:}
 ;
 
-expresiones ::= printConsole
+expresiones ::= printConsole:a    {:RESULT=a;:}
 ;
 
 
@@ -193,7 +196,7 @@ sentFOR ::= FOR A_PARENTESIS
 
 
 //imprimir en consola
-printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:System.out.println(val.toString());:}
+printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:RESULT= new Println(val, valleft, valright);:}
 ;
 
 

@@ -1,4 +1,4 @@
-package expresiones;
+package instruccion;
 
 public enum TipoInstruccion {
     PRINT, 

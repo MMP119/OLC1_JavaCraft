@@ -1,5 +1,6 @@
 package expresiones;
 
+import entorno.*;
 
 public class Aritmeticas extends Expresion{
     
@@ -19,13 +20,10 @@ public class Aritmeticas extends Expresion{
     }
 
     @Override
-    public Expresion interpretar(Object entorno){
+    public Object interpretar(Entorno ent, tablaSimbolos ts){
 
         Expresion izq = (Expresion) this.izq;
         Expresion der = (Expresion) this.der;
-
-        izq.interpretar(entorno);
-        der.interpretar(entorno);
 
         //Sumar
         if(this.operador.equals("+")){
