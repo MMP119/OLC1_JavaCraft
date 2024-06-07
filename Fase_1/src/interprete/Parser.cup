@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import instruccion.Instruccion;
 import funciones.Println;
+import expresiones.Expresion;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -81,7 +82,7 @@ non terminal elseIF;
 non terminal sentWhile;
 non terminal sentFOR;
 non terminal Instruccion printConsole;
-non terminal  expresion;
+non terminal Expresion expresion;
 
 
 //-------> Precedencias
@@ -102,7 +103,7 @@ start with inicio;
 
 // ------------>  Producciones  <------------
 
-inicio ::= instruccion:val {: RESULT=val; :}
+inicio ::= instruccion:val {: System.out.println(val);RESULT=val; :}
 ;
 
 instruccion ::= expresiones:a                     {:RESULT = new LinkedList<>(); RESULT.add(a);:}

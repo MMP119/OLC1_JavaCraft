@@ -7,6 +7,9 @@ package main;
 import java.io.StringReader;
 
 import interprete.*;
+import entorno.*;
+import java.util.LinkedList;
+import instruccion.*;
 
 /**
  *
@@ -20,13 +23,13 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-                        println(1**1);
+                        println("hola mundo");
                         """;
         
         // Generar Analizadores
-        analizadores("src/interprete/", "Lexer.jflex", "Parser.cup");
+        //analizadores("src/interprete/", "Lexer.jflex", "Parser.cup");
         // Analizar
-        //analizar(entrada);
+        analizar(entrada);
     }
 
     public static void analizadores(String ruta, String jflexFile, String cupFile){
@@ -49,7 +52,16 @@ public class Fase_1 {
             interprete.Lexer lexer = new interprete.Lexer(new StringReader(entrada)); 
             @SuppressWarnings("deprecation")
             interprete.Parser parser = new Parser(lexer);
-            parser.parse();
+            var resultado = parser.parse();
+            @SuppressWarnings("unchecked")
+            var ast = new Entorno((LinkedList<Instruccion>)resultado.value);
+            var ts = new tablaSimbolos();
+            ts.setNombre("Global");
+            ast.setConsola("");
+            for (var a: ast.getInstrucciones()){
+                a.interpretar(ast, ts);
+            }
+            System.out.println(ast.getConsola());
         } catch (Exception e) {
             System.out.println("Error fatal en compilación de entrada.");
             System.out.println(e);

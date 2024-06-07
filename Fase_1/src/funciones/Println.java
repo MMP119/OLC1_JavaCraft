@@ -5,12 +5,13 @@ import entorno.*;
 import instruccion.*;
 import expresiones.TipoDato;
 import excepciones.Errores;
+import expresiones.Expresion;
 
 public class Println extends Instruccion{
 
-    private Instruccion expresion;
+    private Expresion expresion;
 
-    public Println(Instruccion expresion, int fila, int columna){
+    public Println(Expresion expresion, int fila, int columna){
         super(new Tipo(TipoDato.VOID), fila, columna);
         this.expresion = expresion;
     }
