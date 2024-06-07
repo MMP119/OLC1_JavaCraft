@@ -103,7 +103,7 @@ start with inicio;
 
 // ------------>  Producciones  <------------
 
-inicio ::= instruccion:val {: System.out.println(val);RESULT=val; :}
+inicio ::= instruccion:val {: RESULT=val; :}
 ;
 
 instruccion ::= expresiones:a                     {:RESULT = new LinkedList<>(); RESULT.add(a);:}

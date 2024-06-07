@@ -60,11 +60,6 @@ public class Dato extends Expresion{
 
     @Override
     public String toString() {
-        return "Dato{" +
-                "valor=" + valor +
-                ", tipo=" + tipo +
-                ", fila=" + fila +
-                ", columna=" + columna +
-                '}';
+        return valor.toString();
     }
 }

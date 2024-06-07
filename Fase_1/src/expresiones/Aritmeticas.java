@@ -25,14 +25,18 @@ public class Aritmeticas extends Expresion{
         Expresion izq = (Expresion) this.izq;
         Expresion der = (Expresion) this.der;
 
+        izq.interpretar(ent, ts);
+        der.interpretar(ent, ts);
+
         //Sumar
         if(this.operador.equals("+")){
+            System.out.println(izq.getValor() + " + " + der.getValor());
 
             //INT 
             if(izq.getTipo() == TipoDato.INT && der.getTipo() == TipoDato.INT){
                 this.setTipo(TipoDato.INT);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
+                int valorIzq = izq.getValor() != null ? (int) Integer.valueOf(izq.getValor().toString()) : 0;
+                int valorDer = der.getValor() != null ? (int) Integer.valueOf(der.getValor().toString()) : 0;
                 int resultado = valorIzq + valorDer;
                 this.setValor(resultado);
                 System.out.println("Resultado: " + resultado);
