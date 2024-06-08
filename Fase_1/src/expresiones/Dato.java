@@ -1,6 +1,7 @@
 package expresiones;
 
 import entorno.*;
+import AST.*;
 
 public class Dato extends Expresion{
 
@@ -17,6 +18,13 @@ public class Dato extends Expresion{
         this.fila = fila;
         this.columna = columna;
     }
+
+    public NodoAst getNodo() {
+        NodoAst nodo = new NodoAst(this.tipo.toString());
+        nodo.agregarHijo(this.valor.toString());
+        return nodo;
+    }
+
 
     @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts) {

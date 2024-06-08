@@ -1,16 +1,17 @@
 package expresiones;
 
 import entorno.*;
+import AST.*;
 
 public class Aritmeticas extends Expresion{
     
-    private Object izq;
-    private Object der;
+    private Expresion izq;
+    private Expresion der;
     private int fila;
     private int columna;
     private String operador;
 
-    public Aritmeticas(Object izq, String operador, Object der, int fila, int columna){
+    public Aritmeticas(Expresion izq, String operador, Expresion der, int fila, int columna){
         super("ERROR", TipoDato.ERROR, fila, columna);
         this.izq = izq;
         this.der = der;
@@ -18,6 +19,16 @@ public class Aritmeticas extends Expresion{
         this.columna = columna;
         this.operador = operador;
     }
+
+    //obtener los nodos para el ast
+    public NodoAst getNodo() {
+        NodoAst nodo = new NodoAst("ARITMETICA");
+        nodo.agregarHijoAST(this.izq.getNodo());
+        nodo.agregarHijo(this.operador);
+        nodo.agregarHijoAST(this.der.getNodo());
+        return nodo;
+    }
+
 
     @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts){
@@ -30,7 +41,7 @@ public class Aritmeticas extends Expresion{
 
         //Sumar
         if(this.operador.equals("+")){
-            System.out.println(izq.getValor() + " + " + der.getValor());
+            //System.out.println(izq.getValor() + " + " + der.getValor());
 
             //INT 
             if(izq.getTipo() == TipoDato.INT && der.getTipo() == TipoDato.INT){
@@ -39,7 +50,7 @@ public class Aritmeticas extends Expresion{
                 int valorDer = der.getValor() != null ? (int) Integer.valueOf(der.getValor().toString()) : 0;
                 int resultado = valorIzq + valorDer;
                 this.setValor(resultado);
-                System.out.println("Resultado: " + resultado);
+                //System.out.println("Resultado: " + resultado);
                 return this;
             }
             if(izq.getTipo() == TipoDato.INT && der.getTipo()==TipoDato.DOUBLE){
@@ -539,7 +550,7 @@ public class Aritmeticas extends Expresion{
         return izq;
     }
 
-    public void setIzq(Object izq) {
+    public void setIzq(Expresion izq) {
         this.izq = izq;
     }
 
@@ -547,7 +558,7 @@ public class Aritmeticas extends Expresion{
         return der;
     }
 
-    public void setDer(Object der) {
+    public void setDer(Expresion der) {
         this.der = der;
     }
 
@@ -569,15 +580,7 @@ public class Aritmeticas extends Expresion{
 
     @Override
     public String toString() {
-        return "Aritmeticas{" +
-                "izq=" + izq +
-                ", der=" + der +
-                ", fila=" + fila +
-                ", columna=" + columna +
-                '}'+
-                "Operador: " + operador + " "+
-                "Valor: " + getValor()
-                ;
+        return "" + getValor();
     }
 
 }

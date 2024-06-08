@@ -6,6 +6,7 @@ import instruccion.*;
 import expresiones.TipoDato;
 import excepciones.Errores;
 import expresiones.Expresion;
+import AST.*;
 
 public class Println extends Instruccion{
 
@@ -15,6 +16,17 @@ public class Println extends Instruccion{
         super(new Tipo(TipoDato.VOID), fila, columna);
         this.expresion = expresion;
     }
+
+    public NodoAst getNodo(){
+        NodoAst nodo = new NodoAst("PRINTLN");
+        nodo.agregarHijo("Println");
+        nodo.agregarHijo("(");
+        nodo.agregarHijoAST(expresion.getNodo());
+        nodo.agregarHijo(")");
+        nodo.agregarHijo(";");
+        return nodo;
+    }
+
 
     @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts) {

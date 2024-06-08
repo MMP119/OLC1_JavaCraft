@@ -10,6 +10,7 @@ import interprete.*;
 import entorno.*;
 import java.util.LinkedList;
 import instruccion.*;
+import AST.*;
 
 /**
  *
@@ -23,7 +24,8 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-                        println(5+90 );
+                        println(1+5);
+                        println("Hola Mundo");
                         """;
         
         // Generar Analizadores
@@ -58,10 +60,18 @@ public class Fase_1 {
             var ts = new tablaSimbolos();
             ts.setNombre("Global");
             ast.setConsola("");
+            var init = new NodoAst("INICIO");
+            var instruc = new NodoAst("INSTRUCCIONES");
             for (var a: ast.getInstrucciones()){
                 a.interpretar(ast, ts);
+                instruc.agregarHijoAST(a.getNodo());
             }
             System.out.println(ast.getConsola());
+            init.agregarHijoAST(instruc);
+
+            ArbolAST arbol = new ArbolAST();
+            arbol.graficarArbol(init);
+
         } catch (Exception e) {
             System.out.println("Error fatal en compilación de entrada.");
             System.out.println(e);

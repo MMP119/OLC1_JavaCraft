@@ -3,6 +3,8 @@ package instruccion;
 import entorno.Entorno;
 import entorno.tablaSimbolos;
 import entorno.Tipo;
+import AST.*;
+
 
 public abstract class Instruccion {
     
@@ -16,6 +18,7 @@ public abstract class Instruccion {
         this.columna = columna;
     }
 
+    public abstract NodoAst getNodo();
 
     public abstract Object interpretar(Entorno ent ,tablaSimbolos ts);
 

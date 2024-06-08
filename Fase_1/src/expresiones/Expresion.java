@@ -3,6 +3,7 @@ package expresiones;
 
 import entorno.Entorno;
 import entorno.tablaSimbolos;
+import AST.*;
 
 
 // Clase Expresion
@@ -19,6 +20,9 @@ public abstract class Expresion {
         this.fila = fila;
         this.columna = columna;
     }
+
+    public abstract NodoAst getNodo();
+
 
     public abstract Object interpretar(Entorno ent, tablaSimbolos ts);
 
