@@ -24,7 +24,7 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-                        println(-32--34-2-43--4);
+                        println(-32--34+2*44/4**2);
                         """;
         
         // Generar Analizadores

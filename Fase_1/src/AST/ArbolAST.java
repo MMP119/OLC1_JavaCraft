@@ -20,11 +20,16 @@ public class ArbolAST {
                 cuerpo +
                 "}";
 
-        try (FileWriter writer = new FileWriter("arbolAST.dot")) {
+        
+        // Rutas de los archivos
+        String dotRuta = "Fase_1/Reports/arbolAST.dot";
+        String svgRuta = "Fase_1/Reports/arbolAST.svg";
+
+        try (FileWriter writer = new FileWriter(dotRuta)) {
             writer.write(principal);
         }
 
-        ProcessBuilder processBuilder = new ProcessBuilder("dot", "-Tsvg", "arbolAST.dot", "-o", "arbolAST.svg");
+        ProcessBuilder processBuilder = new ProcessBuilder("dot", "-Tsvg", dotRuta, "-o", svgRuta);
         Process process = processBuilder.start();
         int exitCode = process.waitFor();
 

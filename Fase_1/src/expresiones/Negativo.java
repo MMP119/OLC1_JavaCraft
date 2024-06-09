@@ -14,7 +14,7 @@ public class Negativo extends Expresion {
 
     @Override
     public NodoAst getNodo() {
-        NodoAst nodo = new NodoAst("NEGATIVO");
+        NodoAst nodo = new NodoAst("NEGACION");
         nodo.agregarHijo(new NodoAst("-"));
         nodo.agregarHijoAST(expresion.getNodo());
         return nodo;
