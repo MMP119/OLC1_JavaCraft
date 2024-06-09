@@ -28,9 +28,9 @@ public class Fase_1 {
                         """;
         
         // Generar Analizadores
-        analizadores("src/interprete/", "Lexer.jflex", "Parser.cup");
+        //analizadores("src/interprete/", "Lexer.jflex", "Parser.cup");
         // Analizar
-        //analizar(entrada);
+        analizar(entrada);
     }
 
     public static void analizadores(String ruta, String jflexFile, String cupFile){
