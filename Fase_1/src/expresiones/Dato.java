@@ -28,7 +28,7 @@ public class Dato extends Expresion{
 
     @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
-        return this.valor;
+        return this;
     }
 
 

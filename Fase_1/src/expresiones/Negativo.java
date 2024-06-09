@@ -3,12 +3,12 @@ package expresiones;
 import entorno.*;
 import AST.*;
 
-public class Negativo extends Expresion{
-    
+public class Negativo extends Expresion {
+
     private Expresion expresion;
 
-    public Negativo(Expresion expresion,int fila, int columna){
-        super(expresion,TipoDato.ERROR, fila, columna);
+    public Negativo(Expresion expresion, int fila, int columna) {
+        super("ERROR", TipoDato.ERROR, fila, columna);
         this.expresion = expresion;
     }
 
@@ -20,24 +20,28 @@ public class Negativo extends Expresion{
         return nodo;
     }
 
+    @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
-        
-        Expresion valor = (Expresion)this.expresion;
-        System.out.println("Valor: "+valor.getValor());
+        Expresion valor = (Expresion) this.expresion.interpretar(ent, ts);
 
-        valor.interpretar(ent, ts);
-
-        if(valor.getTipo() == TipoDato.INT){
-            valor.setTipo(TipoDato.INT);
-            valor.setValor((int)Integer.parseInt(valor.getValor().toString()) * -1);
+        if (valor.getTipo() == TipoDato.DOUBLE) {
+            this.setTipo(valor.getTipo());
+            this.setValor(-1 * Double.parseDouble(valor.getValor().toString()));
             return this;
         }
-        if(valor.getTipo() == TipoDato.DOUBLE){
-            valor.setTipo(TipoDato.DOUBLE);
-            valor.setValor((double)Double.parseDouble(valor.getValor().toString()) * -1);
+        else if(valor.getTipo() == TipoDato.INT){
+            this.setTipo(valor.getTipo());
+            this.setValor(-1 * Integer.parseInt(valor.getValor().toString()));
             return this;
         }
 
+        System.out.println("Error Semántico: Error en la operacion negativo.");
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "-" + this.expresion.toString();
+    }
+
 }

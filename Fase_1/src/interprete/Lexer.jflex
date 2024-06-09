@@ -20,8 +20,8 @@ import java_cup.runtime.*;
 
 // ------> Expresiones Regulares 
 
-entero = -?[0-9]+
-decimal = -?[0-9]+[\.][0-9]+
+entero = [0-9]+
+decimal = [0-9]+[\.][0-9]+
 booleano = (true|false)
 cadena = [\"]((\\[\"'\\tnr])|[^\"\\])*[\"]
 caracter = [\']((\\[\"'\\tnr])|[^\'\\])[\']
