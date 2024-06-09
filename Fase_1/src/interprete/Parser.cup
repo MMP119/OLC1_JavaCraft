@@ -11,6 +11,8 @@ import instruccion.Instruccion;
 import funciones.Println;
 import expresiones.Expresion;
 import expresiones.Negativo;
+import expresiones.Relacionales;
+import expresiones.Logicos;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -210,12 +212,16 @@ expresion::= MENOS expresion: val                       {:RESULT = new Negativo(
         | expresion:val1 MODULO expresion:val2          {:RESULT = new Aritmeticas(val1, "%", val2, val2left,val2right);:}
         | expresion:val1 MAS expresion:val2             {:RESULT = new Aritmeticas(val1, "+", val2, val2left,val2right);:}
         | expresion:val1 MENOS expresion:val2           {:RESULT = new Aritmeticas(val1, "-", val2, val2left,val2right);:}
-        | expresion:val1 IGUALACION expresion:val2      {::}
-        | expresion:val1 DIFERENCIACION expresion:val2  {::}
-        | expresion:val1 MENOR_Q expresion:val2         {::}
-        | expresion:val1 MENOR_IGUAL expresion:val2     {::}
-        | expresion:val1 MAYOR_Q expresion:val2         {::}
-        | expresion:val1 MAYOR_IGUAL expresion:val2     {::}
+        | expresion:val1 IGUALACION expresion:val2      {:RESULT = new Relacionales(val1, val2, "==", val2left, val2right);:}
+        | expresion:val1 DIFERENCIACION expresion:val2  {:RESULT = new Relacionales(val1, val2, "!=", val2left, val2right);:}
+        | expresion:val1 MENOR_Q expresion:val2         {:RESULT = new Relacionales(val1, val2, "<", val2left, val2right);:}
+        | expresion:val1 MENOR_IGUAL expresion:val2     {:RESULT = new Relacionales(val1, val2, "<=", val2left, val2right);:}
+        | expresion:val1 MAYOR_Q expresion:val2         {:RESULT = new Relacionales(val1, val2, ">", val2left, val2right);:}
+        | expresion:val1 MAYOR_IGUAL expresion:val2     {:RESULT = new Relacionales(val1, val2, ">=", val2left, val2right);:}
+        | NOT expresion :val                            {:RESULT = new Logicos(val, null, "!", valleft, valright);:}%prec NOT
+        | expresion:val1 XOR expresion:val2             {:RESULT = new Logicos(val1, val2, "^", val2left, val2right);:}
+        | expresion:val1 OR expresion:val2              {:RESULT = new Logicos(val1, val2, "||", val2left, val2right);:}
+        | expresion:val1 AND expresion:val2             {:RESULT = new Logicos(val1, val2, "&&", val2left, val2right);:}
         | ENTERO:val                                    {:RESULT = new Dato(val, TipoDato.INT, valleft, valright);:}
         | DECIMAL:val                                   {: RESULT = new Dato(val, TipoDato.DOUBLE, valleft, valright);:} 
         | BOOLEANO:val                                  {: RESULT = new Dato(val, TipoDato.BOOLEAN, valleft, valright);:}
