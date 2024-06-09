@@ -24,11 +24,11 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-                        println(-32--34+2*44/4**2);
+                        println(((4*2)-1)!=8);
                         """;
         
         // Generar Analizadores
-        //analizadores("src/interprete/", "Lexer.jflex", "Parser.cup");
+        //analizadores("Fase_1/src/interprete/", "Lexer.jflex", "Parser.cup");
         // Analizar
         analizar(entrada);
     }

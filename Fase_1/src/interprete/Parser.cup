@@ -222,6 +222,7 @@ expresion::= MENOS expresion: val                       {:RESULT = new Negativo(
         | expresion:val1 XOR expresion:val2             {:RESULT = new Logicos(val1, val2, "^", val2left, val2right);:}
         | expresion:val1 OR expresion:val2              {:RESULT = new Logicos(val1, val2, "||", val2left, val2right);:}
         | expresion:val1 AND expresion:val2             {:RESULT = new Logicos(val1, val2, "&&", val2left, val2right);:}
+        | A_PARENTESIS expresion:val C_PARENTESIS       {:RESULT = val;:}
         | ENTERO:val                                    {:RESULT = new Dato(val, TipoDato.INT, valleft, valright);:}
         | DECIMAL:val                                   {: RESULT = new Dato(val, TipoDato.DOUBLE, valleft, valright);:} 
         | BOOLEANO:val                                  {: RESULT = new Dato(val, TipoDato.BOOLEAN, valleft, valright);:}
