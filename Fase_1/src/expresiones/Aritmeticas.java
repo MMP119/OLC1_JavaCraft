@@ -64,7 +64,14 @@ public class Aritmeticas extends Expresion{
                 this.setTipo(TipoDato.INT);
                 int valorIzq = izq.getValor() != null ? (int)Integer.valueOf(izq.getValor().toString()) : 0;
                 String valorDer = der.getValor() != null ? (String)der.getValor() : "0";
-                char valorDerChar = valorDer.charAt(1);
+                char valorDerChar = valorDer.charAt(0);
+                //verificar si el char es un numero
+                if(Character.isDigit(valorDerChar)){
+                    int valorDer1 = Integer.parseInt(String.valueOf(valorDerChar));
+                    int resultado = valorIzq + valorDer1;
+                    this.setValor(resultado);
+                    return this;
+                }
                 //pasar el char a ascii y sumar
                 int valorDerAscii = (int)valorDerChar;
                 int resultado = valorIzq + valorDerAscii;
@@ -104,7 +111,14 @@ public class Aritmeticas extends Expresion{
                 double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
                 String valorDer = der.getValor() != null ? (String) der.getValor() : "0";
                 //pasar el char a ascii y sumar
-                char valorDerChar = valorDer.charAt(1);
+                char valorDerChar = valorDer.charAt(0);
+                //verificar si el char es un numero
+                if(Character.isDigit(valorDerChar)){
+                    int valorDer1 = Integer.parseInt(String.valueOf(valorDerChar));
+                    double resultado = valorIzq + valorDer1;
+                    this.setValor(resultado);
+                    return this;
+                }
                 double valorDerAscii = (double) valorDerChar;
                 double resultado = valorIzq + valorDerAscii;
                 this.setValor(resultado);
@@ -124,7 +138,7 @@ public class Aritmeticas extends Expresion{
             //boolean
             if(izq.getTipo()==TipoDato.BOOLEAN && der.getTipo()==TipoDato.CADENA){
                 this.setTipo(TipoDato.CADENA);
-                boolean valorIzq = izq.getValor() != null ? (boolean) izq.getValor() : true;
+                boolean valorIzq = izq.getValor() != null ? (boolean) Boolean.parseBoolean(izq.getValor().toString()) : true;
                 String valorDer = der.getValor() != null ? (String) der.getValor() : "";
                 //pasar el boolean a string y concatenar
                 String valorIzqString = String.valueOf(valorIzq);
@@ -136,37 +150,64 @@ public class Aritmeticas extends Expresion{
             //CHAR
             if(izq.getTipo()==TipoDato.CHAR && der.getTipo()==TipoDato.INT){
                 this.setTipo(TipoDato.INT);
-                char valorIzq = izq.getValor() != null ? (char) izq.getValor() : '0';
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
-                int valorIzqAscii = (int) valorIzq;
+                String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
+                char valorIzqChar = valorIzq.charAt(0);
+                //verificar si el char es un numero
+                if(Character.isDigit(valorIzqChar)){
+                    int valorIzq1 = Integer.parseInt(String.valueOf(valorIzqChar));
+                    int resultado = valorIzq1 + valorDer;
+                    this.setValor(resultado);
+                    return this;
+                }
+                int valorIzqAscii = (int) valorIzqChar;
                 int resultado = valorIzqAscii + valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.CHAR && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.DOUBLE);
-                char valorIzq = izq.getValor() != null ? (char) izq.getValor() : '0';
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
-                int valorIzqAscii = (int) valorIzq;
+                String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
+                char valorIzqChar = valorIzq.charAt(0);
+                //verificar si el char es un numero
+                if(Character.isDigit(valorIzqChar)){
+                    double valorIzq1 = Double.parseDouble(String.valueOf(valorIzqChar));
+                    double resultado = valorIzq1 + valorDer;
+                    this.setValor(resultado);
+                    return this;
+                }
+                int valorIzqAscii = (int) valorIzqChar;
                 double resultado = valorIzqAscii + valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.CHAR && der.getTipo()==TipoDato.CHAR){
                 this.setTipo(TipoDato.CADENA);
-                char valorIzq = izq.getValor() != null ? (char) izq.getValor() : '0';
-                char valorDer = der.getValor() != null ? (char) der.getValor() : '0';
-                String valorIzqString = String.valueOf(valorIzq);
-                String valorDerString = String.valueOf(valorDer);
+                String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
+                String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
+                char valorIzqChar = valorIzq.charAt(0);
+                char valorDerChar = valorDer.charAt(0);
+                //verificar si los char son numeros
+                if(Character.isDigit(valorIzqChar) && Character.isDigit(valorDerChar)){
+                    int valorIzq1 = Integer.parseInt(String.valueOf(valorIzqChar));
+                    int valorDer1 = Integer.parseInt(String.valueOf(valorDerChar));
+                    int resultado = valorIzq1 + valorDer1;
+                    this.setValor(resultado);
+                    return this;
+                }
+                String valorIzqString = String.valueOf(valorIzqChar);
+                String valorDerString = String.valueOf(valorDerChar);
                 String resultado = valorIzqString + valorDerString;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.CHAR && der.getTipo()==TipoDato.CADENA){
                 this.setTipo(TipoDato.CADENA);
-                char valorIzq = izq.getValor() != null ? (char) izq.getValor() : '0';
+                String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
                 String valorDer = der.getValor() != null ? (String) der.getValor() : "";
-                String valorIzqString = String.valueOf(valorIzq);
+                char valorIzqChar = valorIzq.charAt(0);
+                String valorIzqString = String.valueOf(valorIzqChar);
                 String resultado = valorIzqString + valorDer;
                 this.setValor(resultado);
                 return this;
@@ -176,7 +217,7 @@ public class Aritmeticas extends Expresion{
             if(izq.getTipo()==TipoDato.CADENA && der.getTipo()==TipoDato.INT){
                 this.setTipo(TipoDato.CADENA);
                 String valorIzq = izq.getValor() != null ? (String) izq.getValor() : "";
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 String valorDerString = String.valueOf(valorDer);
                 String resultado = valorIzq + valorDerString;
                 this.setValor(resultado);
@@ -185,7 +226,7 @@ public class Aritmeticas extends Expresion{
             if(izq.getTipo()==TipoDato.CADENA && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.CADENA);
                 String valorIzq = izq.getValor() != null ? (String) izq.getValor() : "";
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 String valorDerString = String.valueOf(valorDer);
                 String resultado = valorIzq + valorDerString;
                 this.setValor(resultado);
@@ -194,8 +235,9 @@ public class Aritmeticas extends Expresion{
             if(izq.getTipo()==TipoDato.CADENA && der.getTipo()==TipoDato.CHAR){
                 this.setTipo(TipoDato.CADENA);
                 String valorIzq = izq.getValor() != null ? (String) izq.getValor() : "";
-                char valorDer = der.getValor() != null ? (char) der.getValor() : '0';
-                String valorDerString = String.valueOf(valorDer);
+                String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
+                char valorDerChar = valorDer.charAt(0);
+                String valorDerString = String.valueOf(valorDerChar);
                 String resultado = valorIzq + valorDerString;
                 this.setValor(resultado);
                 return this;
@@ -211,7 +253,7 @@ public class Aritmeticas extends Expresion{
             if(izq.getTipo()==TipoDato.CADENA && der.getTipo()==TipoDato.BOOLEAN){
                 this.setTipo(TipoDato.CADENA);
                 String valorIzq = izq.getValor() != null ? (String) izq.getValor() : "";
-                boolean valorDer = der.getValor() != null ? (boolean) der.getValor() : true;
+                boolean valorDer = der.getValor() != null ? (boolean) Boolean.parseBoolean(der.getValor().toString()) : true;
                 String valorDerString = String.valueOf(valorDer);
                 String resultado = valorIzq + valorDerString;
                 this.setValor(resultado);
@@ -221,13 +263,14 @@ public class Aritmeticas extends Expresion{
 
 
         //Restar
-        if(this.operador.equals("-")){
+        else if(this.operador.equals("-")){
 
             //INT 
             if(izq.getTipo() == TipoDato.INT && der.getTipo() == TipoDato.INT){
                 this.setTipo(TipoDato.INT);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
+                System.out.println("Resta de: "+izq.getValor() + " - " + der.getValor());
+                int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 int resultado = valorIzq - valorDer;
                 this.setValor(resultado);
                 return this;
@@ -244,6 +287,13 @@ public class Aritmeticas extends Expresion{
                 this.setTipo(TipoDato.INT);
                 int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
                 char valorDer = der.getValor() != null ? (char) der.getValor() : '0';
+                //verificar si el char es un numero
+                if(Character.isDigit(valorDer)){
+                    int valorDer1 = Integer.parseInt(String.valueOf(valorDer));
+                    int resultado = valorIzq - valorDer1;
+                    this.setValor(resultado);
+                    return this;
+                }
                 //pasar el char a ascii y restar
                 int valorDerAscii = (int) valorDer;
                 int resultado = valorIzq - valorDerAscii;
@@ -272,6 +322,13 @@ public class Aritmeticas extends Expresion{
                 this.setTipo(TipoDato.DOUBLE);
                 double valorIzq = izq.getValor() != null ? (double) izq.getValor() : 0.0;
                 char valorDer = der.getValor() != null ? (char) der.getValor() : '0';
+                //verificar si el char es un numero
+                if(Character.isDigit(valorDer)){
+                    int valorDer1 = Integer.parseInt(String.valueOf(valorDer));
+                    double resultado = valorIzq - valorDer1;
+                    this.setValor(resultado);
+                    return this;
+                }
                 //pasar el char a ascii y restar
                 int valorDerAscii = (int) valorDer;
                 double resultado = valorIzq - valorDerAscii;
@@ -284,6 +341,13 @@ public class Aritmeticas extends Expresion{
                 this.setTipo(TipoDato.INT);
                 char valorIzq = izq.getValor() != null ? (char) izq.getValor() : '0';
                 int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
+                //verificar si el char es un numero
+                if(Character.isDigit(valorIzq)){
+                    int valorIzq1 = Integer.parseInt(String.valueOf(valorIzq));
+                    int resultado = valorIzq1 - valorDer;
+                    this.setValor(resultado);
+                    return this;
+                }
                 int valorIzqAscii = (int) valorIzq;
                 int resultado = valorIzqAscii - valorDer;
                 this.setValor(resultado);
@@ -293,6 +357,13 @@ public class Aritmeticas extends Expresion{
                 this.setTipo(TipoDato.DOUBLE);
                 char valorIzq = izq.getValor() != null ? (char) izq.getValor() : '0';
                 double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
+                //verificar si el char es un numero
+                if(Character.isDigit(valorIzq)){
+                    double valorIzq1 = Double.parseDouble(String.valueOf(valorIzq));
+                    double resultado = valorIzq1 - valorDer;
+                    this.setValor(resultado);
+                    return this;
+                }
                 int valorIzqAscii = (int) valorIzq;
                 double resultado = valorIzqAscii - valorDer;
                 this.setValor(resultado);
@@ -303,31 +374,39 @@ public class Aritmeticas extends Expresion{
 
         
         //Multiplicar
-        if(this.operador.equals("*")){
+        else if(this.operador.equals("*")){
 
             //INT 
             if(izq.getTipo() == TipoDato.INT && der.getTipo() == TipoDato.INT){
                 this.setTipo(TipoDato.INT);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
+                int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 int resultado = valorIzq * valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo() == TipoDato.INT && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.DOUBLE);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
+                int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 double resultado = valorIzq * valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.INT && der.getTipo()==TipoDato.CHAR){
                 this.setTipo(TipoDato.INT);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                char valorDer = der.getValor() != null ? (char) der.getValor() : '0';
+                int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
+                String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
+                //verificar si el char es un numero
+                if(Character.isDigit(valorDer.charAt(0))){
+                    int valorDer1 = Integer.parseInt(valorDer);
+                    int resultado = valorIzq * valorDer1;
+                    this.setValor(resultado);
+                    return this;
+                }
                 //pasar el char a ascii y multiplicar
-                int valorDerAscii = (int) valorDer;
+                char valorDerChar = valorDer.charAt(0);
+                int valorDerAscii = (int) valorDerChar;
                 int resultado = valorIzq * valorDerAscii;
                 this.setValor(resultado);
                 return this;                
@@ -336,26 +415,34 @@ public class Aritmeticas extends Expresion{
             //DOUBLE
             if(izq.getTipo()==TipoDato.DOUBLE && der.getTipo()==TipoDato.INT){
                 this.setTipo(TipoDato.DOUBLE);
-                double valorIzq = izq.getValor() != null ? (double) izq.getValor() : 0.0;
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
+                double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 double resultado = valorIzq * valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.DOUBLE && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.DOUBLE);
-                double valorIzq = izq.getValor() != null ? (double) izq.getValor() : 0.0;
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
+                double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 double resultado = valorIzq * valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.DOUBLE && der.getTipo()==TipoDato.CHAR){
                 this.setTipo(TipoDato.DOUBLE);
-                double valorIzq = izq.getValor() != null ? (double) izq.getValor() : 0.0;
-                char valorDer = der.getValor() != null ? (char) der.getValor() : '0';
+                double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
+                String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
+                //verificar si el char es un numero
+                if(Character.isDigit(valorDer.charAt(0))){
+                    double valorDer1 = Double.parseDouble(valorDer);
+                    double resultado = valorIzq * valorDer1;
+                    this.setValor(resultado);
+                    return this;
+                }
                 //pasar el char a ascii y multiplicar
-                int valorDerAscii = (int) valorDer;
+                char valorDerChar = valorDer.charAt(0);
+                int valorDerAscii = (int) valorDerChar;
                 double resultado = valorIzq * valorDerAscii;
                 this.setValor(resultado);
                 return this;                
@@ -364,18 +451,34 @@ public class Aritmeticas extends Expresion{
             //CHAR
             if(izq.getTipo()==TipoDato.CHAR && der.getTipo()==TipoDato.INT){
                 this.setTipo(TipoDato.INT);
-                char valorIzq = izq.getValor() != null ? (char) izq.getValor() : '0';
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
-                int valorIzqAscii = (int) valorIzq;
+                String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
+                char valorIzqChar = valorIzq.charAt(0);
+                //verificar si el char es un numero
+                if(Character.isDigit(valorIzqChar)){
+                    int valorIzq1 = Integer.parseInt(valorIzq);
+                    int resultado = valorIzq1 * valorDer;
+                    this.setValor(resultado);
+                    return this;
+                }
+                int valorIzqAscii = (int) valorIzqChar;
                 int resultado = valorIzqAscii * valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.CHAR && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.DOUBLE);
-                char valorIzq = izq.getValor() != null ? (char) izq.getValor() : '0';
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
-                int valorIzqAscii = (int) valorIzq;
+                String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
+                char valorIzqChar = valorIzq.charAt(0);
+                //verificar si el char es un numero
+                if(Character.isDigit(valorIzqChar)){
+                    double valorIzq1 = Double.parseDouble(valorIzq);
+                    double resultado = valorIzq1 * valorDer;
+                    this.setValor(resultado);
+                    return this;
+                }
+                int valorIzqAscii = (int) valorIzqChar;
                 double resultado = valorIzqAscii * valorDer;
                 this.setValor(resultado);
                 return this;
@@ -383,32 +486,40 @@ public class Aritmeticas extends Expresion{
         }
 
         //Dividir
-        if(this.operador.equals("/")){
+        else if(this.operador.equals("/")){
 
             //INT 
             if(izq.getTipo() == TipoDato.INT && der.getTipo() == TipoDato.INT){
                 this.setTipo(TipoDato.DOUBLE);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
-                int resultado = valorIzq / valorDer;
+                double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()): 0;
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0;
+                double resultado = valorIzq / valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo() == TipoDato.INT && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.DOUBLE);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
+                int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 double resultado = valorIzq / valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.INT && der.getTipo()==TipoDato.CHAR){
                 this.setTipo(TipoDato.DOUBLE);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                char valorDer = der.getValor() != null ? (char) der.getValor() : '0';
+                int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
+                String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
+                char valorDerChar = valorDer.charAt(0);
+                //verificar si el char es un numero
+                if(Character.isDigit(valorDerChar)){
+                    double valorDer1 = Double.parseDouble(valorDer);
+                    double resultado = valorIzq / valorDer1;
+                    this.setValor(resultado);
+                    return this;
+                }
                 //pasar el char a ascii y dividir
-                int valorDerAscii = (int) valorDer;
-                int resultado = valorIzq / valorDerAscii;
+                int valorDerAscii = (int) valorDerChar;
+                double resultado = valorIzq / valorDerAscii;
                 this.setValor(resultado);
                 return this;                
             }
@@ -416,26 +527,34 @@ public class Aritmeticas extends Expresion{
             //DOUBLE
             if(izq.getTipo()==TipoDato.DOUBLE && der.getTipo()==TipoDato.INT){
                 this.setTipo(TipoDato.DOUBLE);
-                double valorIzq = izq.getValor() != null ? (double) izq.getValor() : 0.0;
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
+                double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 double resultado = valorIzq / valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.DOUBLE && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.DOUBLE);
-                double valorIzq = izq.getValor() != null ? (double) izq.getValor() : 0.0;
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
+                double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 double resultado = valorIzq / valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.DOUBLE && der.getTipo()==TipoDato.CHAR){
                 this.setTipo(TipoDato.DOUBLE);
-                double valorIzq = izq.getValor() != null ? (double) izq.getValor() : 0.0;
-                char valorDer = der.getValor() != null ? (char) der.getValor() : '0';
+                double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
+                String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
+                char valorDerChar = valorDer.charAt(0);
+                //verificar si el char es un numero
+                if(Character.isDigit(valorDerChar)){
+                    double valorDer1 = Double.parseDouble(valorDer);
+                    double resultado = valorIzq / valorDer1;
+                    this.setValor(resultado);
+                    return this;
+                }
                 //pasar el char a ascii y dividir
-                int valorDerAscii = (int) valorDer;
+                int valorDerAscii = (int) valorDerChar;
                 double resultado = valorIzq / valorDerAscii;
                 this.setValor(resultado);
                 return this;                
@@ -444,18 +563,34 @@ public class Aritmeticas extends Expresion{
             //CHAR
             if(izq.getTipo()==TipoDato.CHAR && der.getTipo()==TipoDato.INT){
                 this.setTipo(TipoDato.DOUBLE);
-                char valorIzq = izq.getValor() != null ? (char) izq.getValor() : '0';
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
-                int valorIzqAscii = (int) valorIzq;
+                String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
+                char valorIzqChar = valorIzq.charAt(0);
+                //verificar si el char es un numero
+                if(Character.isDigit(valorIzqChar)){
+                    double valorIzq1 = Double.parseDouble(valorIzq);
+                    double resultado = valorIzq1 / valorDer;
+                    this.setValor(resultado);
+                    return this;
+                }
+                int valorIzqAscii = (int) valorIzqChar;
                 double resultado = valorIzqAscii / valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.CHAR && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.DOUBLE);
-                char valorIzq = izq.getValor() != null ? (char) izq.getValor() : '0';
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
-                int valorIzqAscii = (int) valorIzq;
+                String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
+                char valorIzqChar = valorIzq.charAt(0);
+                //verificar si el char es un numero
+                if(Character.isDigit(valorIzqChar)){
+                    double valorIzq1 = Double.parseDouble(valorIzq);
+                    double resultado = valorIzq1 / valorDer;
+                    this.setValor(resultado);
+                    return this;
+                }
+                int valorIzqAscii = (int) valorIzqChar;
                 double resultado = valorIzqAscii / valorDer;
                 this.setValor(resultado);
                 return this;
@@ -464,21 +599,21 @@ public class Aritmeticas extends Expresion{
 
 
         //Potencia
-        if(this.operador.equals("**")){
+        else if(this.operador.equals("**")){
 
             //INT 
             if(izq.getTipo() == TipoDato.INT && der.getTipo() == TipoDato.INT){
                 this.setTipo(TipoDato.INT);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
+                int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 int resultado = (int) Math.pow(valorIzq, valorDer);
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo() == TipoDato.INT && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.DOUBLE);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
+                int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 double resultado = Math.pow(valorIzq, valorDer);
                 this.setValor(resultado);
                 return this;
@@ -487,16 +622,16 @@ public class Aritmeticas extends Expresion{
             //DOUBLE
             if(izq.getTipo()==TipoDato.DOUBLE && der.getTipo()==TipoDato.INT){
                 this.setTipo(TipoDato.DOUBLE);
-                double valorIzq = izq.getValor() != null ? (double) izq.getValor() : 0.0;
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
+                double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 double resultado = Math.pow(valorIzq, valorDer);
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.DOUBLE && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.DOUBLE);
-                double valorIzq = izq.getValor() != null ? (double) izq.getValor() : 0.0;
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
+                double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 double resultado = Math.pow(valorIzq, valorDer);
                 this.setValor(resultado);
                 return this;
@@ -504,21 +639,21 @@ public class Aritmeticas extends Expresion{
         }
 
         //Modulo
-        if(this.operador.equals("%")){
+        else if(this.operador.equals("%")){
 
             //INT 
             if(izq.getTipo() == TipoDato.INT && der.getTipo() == TipoDato.INT){
                 this.setTipo(TipoDato.INT);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
+                int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 int resultado = valorIzq % valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo() == TipoDato.INT && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.DOUBLE);
-                int valorIzq = izq.getValor() != null ? (int) izq.getValor() : 0;
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
+                int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 double resultado = valorIzq % valorDer;
                 this.setValor(resultado);
                 return this;
@@ -527,22 +662,27 @@ public class Aritmeticas extends Expresion{
             //DOUBLE
             if(izq.getTipo()==TipoDato.DOUBLE && der.getTipo()==TipoDato.INT){
                 this.setTipo(TipoDato.DOUBLE);
-                double valorIzq = izq.getValor() != null ? (double) izq.getValor() : 0.0;
-                int valorDer = der.getValor() != null ? (int) der.getValor() : 0;
+                double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
+                int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 double resultado = valorIzq % valorDer;
                 this.setValor(resultado);
                 return this;
             }
             if(izq.getTipo()==TipoDato.DOUBLE && der.getTipo()==TipoDato.DOUBLE){
                 this.setTipo(TipoDato.DOUBLE);
-                double valorIzq = izq.getValor() != null ? (double) izq.getValor() : 0.0;
-                double valorDer = der.getValor() != null ? (double) der.getValor() : 0.0;
+                double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
+                double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 double resultado = valorIzq % valorDer;
                 this.setValor(resultado);
                 return this;
             }
         }
-        
+
+        else{
+            System.out.println("Error en la operacion aritmetica");
+            return this;
+        }
+        System.out.println("Error SEMANTICO en la operacion aritmetica");
         return this;
     }
 

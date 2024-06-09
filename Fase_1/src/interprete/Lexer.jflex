@@ -109,7 +109,7 @@ Id = (\_)*[a-zA-Z][a-zA-Z0-9\_]*
 {comentario}        {}
 {comentarioMulti}   {}
 {cadena}            {return new Symbol(sym.CADENA, yycolumn, yyline, yytext().replace("\"", ""));}
-{caracter}          {return new Symbol(sym.CARACTER, yycolumn, yyline, yytext().replace("\"", ""));}
+{caracter}          {return new Symbol(sym.CARACTER, yycolumn, yyline, yytext().replace("\'", ""));}
 {Id}                {return new Symbol(sym.ID, yycolumn, yyline, yytext());}
 
 

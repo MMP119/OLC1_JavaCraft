@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import instruccion.Instruccion;
 import funciones.Println;
 import expresiones.Expresion;
+import expresiones.Negativo;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -202,13 +203,13 @@ printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:RESULT= n
 
 
 //expresiones 
-expresion::= MENOS expresion: val                       {::}%prec UMENOS
-        |expresion:val1 MAS expresion:val2              {:RESULT = new Aritmeticas(val1, "+", val2, val2left,val2right);:}
-        | expresion:val1 MENOS expresion:val2           {:RESULT = new Aritmeticas(val1, "-", val2, val2left,val2right);:}
+expresion::= MENOS expresion: val                       {:RESULT = new Negativo(val, valleft, valright);:}%prec UMENOS
+        | expresion:val1 POTENCIA  expresion:val2       {:RESULT = new Aritmeticas(val1, "**", val2, val2left,val2right);:}
         | expresion:val1 POR expresion:val2             {:RESULT = new Aritmeticas(val1, "*", val2, val2left,val2right);:}
         | expresion:val1 DIVIDIR expresion:val2         {:RESULT = new Aritmeticas(val1, "/", val2, val2left,val2right);:}
-        | expresion:val1 POTENCIA  expresion:val2       {:RESULT = new Aritmeticas(val1, "**", val2, val2left,val2right);:}
         | expresion:val1 MODULO expresion:val2          {:RESULT = new Aritmeticas(val1, "%", val2, val2left,val2right);:}
+        | expresion:val1 MAS expresion:val2             {:RESULT = new Aritmeticas(val1, "+", val2, val2left,val2right);:}
+        | expresion:val1 MENOS expresion:val2           {:RESULT = new Aritmeticas(val1, "-", val2, val2left,val2right);:}
         | expresion:val1 IGUALACION expresion:val2      {::}
         | expresion:val1 DIFERENCIACION expresion:val2  {::}
         | expresion:val1 MENOR_Q expresion:val2         {::}
