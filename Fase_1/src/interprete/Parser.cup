@@ -13,6 +13,7 @@ import expresiones.Expresion;
 import expresiones.Negativo;
 import expresiones.Relacionales;
 import expresiones.Logicos;
+import funciones.DecVariables;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -74,8 +75,7 @@ non terminal LinkedList<Instruccion> inicio;
 non terminal LinkedList<Instruccion> instruccion;
 non terminal Instruccion expresiones;
 non terminal tipoExpresion;
-non terminal variableConstante;
-non terminal declararVariables;
+non terminal Instruccion declararVariables;
 non terminal asignarVariables;
 non terminal accVariables;
 non terminal casteos;
@@ -118,24 +118,20 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
 
 
 //Tipos de datos
-tipoExpresion ::= INT
-        | DOUBLE
-        | BOOL
-        | CHAR
-        | STRING
+tipoExpresion ::= INT:val     {:RESULT=val;:}
+        | DOUBLE:val          {:RESULT=val;:}
+        | BOOL:val            {:RESULT=val;:}
+        | CHAR:val            {:RESULT=val;:}
+        | STRING:val          {:RESULT=val;:}
 
-;
-
-
-//varibles y constantes
-variableConstante ::= VARIABLE
-                | CONSTANTE
 ;
 
 
 //Declarar variables
-declararVariables ::= variableConstante ID DOS_P tipoExpresion PYC
-                | variableConstante ID DOS_P tipoExpresion IGUAL expresion PYC
+declararVariables ::= VARIABLE:mut ID:id DOS_P tipoExpresion:tipo PYC //{:RESULT=new DecVariables(mut, id, tipo, null, tipoleft, tiporight);:}
+                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo PYC //{:RESULT=new DecVariables(mut, id, tipo, null, tipoleft, tiporight);:}
+                | VARIABLE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC //{:RESULT=new DecVariables(mut, id.toLowerCase(), TipoDato.tipo, exp, expleft, expright);:}
+                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC //{:RESULT=new DecVariables(mut, id.toLowerCase(), TipoDato.tipo, exp, expleft, expright);:}
 ;
 
 
@@ -150,7 +146,8 @@ accVariables ::= ID
 
 
 //Casteos
-casteos ::= variableConstante ID DOS_P tipoExpresion IGUAL A_PARENTESIS tipoExpresion C_PARENTESIS expresion PYC
+casteos ::= VARIABLE ID DOS_P tipoExpresion IGUAL A_PARENTESIS tipoExpresion C_PARENTESIS expresion PYC
+        | CONSTANTE ID DOS_P tipoExpresion IGUAL A_PARENTESIS tipoExpresion C_PARENTESIS expresion PYC
 ;
 
 
@@ -218,7 +215,7 @@ expresion::= MENOS expresion: val                       {:RESULT = new Negativo(
         | expresion:val1 MENOR_IGUAL expresion:val2     {:RESULT = new Relacionales(val1, val2, "<=", val2left, val2right);:}
         | expresion:val1 MAYOR_Q expresion:val2         {:RESULT = new Relacionales(val1, val2, ">", val2left, val2right);:}
         | expresion:val1 MAYOR_IGUAL expresion:val2     {:RESULT = new Relacionales(val1, val2, ">=", val2left, val2right);:}
-        | NOT expresion :val                            {:RESULT = new Logicos(val, null, "!", valleft, valright);:}%prec NOT
+        | NOT expresion :val                            {:RESULT = new Logicos(val, val, "!", valleft, valright);:}%prec NOT
         | expresion:val1 XOR expresion:val2             {:RESULT = new Logicos(val1, val2, "^", val2left, val2right);:}
         | expresion:val1 OR expresion:val2              {:RESULT = new Logicos(val1, val2, "||", val2left, val2right);:}
         | expresion:val1 AND expresion:val2             {:RESULT = new Logicos(val1, val2, "&&", val2left, val2right);:}

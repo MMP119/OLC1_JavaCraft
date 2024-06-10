@@ -24,7 +24,7 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-                        println(((4*2)-1)!=8);
+                        println("jo"<=2);
                         """;
         
         // Generar Analizadores

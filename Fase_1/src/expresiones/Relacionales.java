@@ -2,6 +2,7 @@ package expresiones;
 
 import AST.*;
 import entorno.*;
+import java.util.Arrays;
 
 public class Relacionales extends Expresion{
 
@@ -31,180 +32,679 @@ public class Relacionales extends Expresion{
         Expresion der = (Expresion) this.dererecha.interpretar(ent, ts);
 
         switch (this.operador) {
+
             case "==":
-                System.out.println("Comparando: "+izq.getValor().toString()+" == "+der.getValor().toString());
-                System.out.println("Tipo izq: "+izq.getTipo().toString()+" Tipo der: "+der.getTipo().toString());
-                // Comparar si son iguales
-                if (izq.getTipo() == der.getTipo()) {
+
+                if(this.TiposCompatibles(izq.getTipo(), der.getTipo())){
+                    this.setTipo(TipoDato.BOOLEAN);
+
+                    //verificar si el tipo derecha o izquierda es tipo de dato char
+                    if(izq.getTipo().equals(TipoDato.CHAR) || der.getTipo().equals(TipoDato.CHAR)){//verificar si el tipo derecha o izquierda es tipo de dato char
+                        
+                        //verificar si ambos son de tipo char
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.CHAR)){
+                            if ((izq.getValor().toString()).equals(der.getValor().toString())) {
+                                this.setValor(true);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y derecha es int
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii == (int)Integer.parseInt(der.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo derecha es char y izquierda es int
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if(ascii == (int)Integer.parseInt(izq.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y la derecha es double
+                        else if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii == (double)Double.parseDouble(der.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo derecha es char y la izquierda es double
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if(ascii == (double)Double.parseDouble(izq.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                    }
+
+                    //verificar si izq es int y der es double
+                    if(izq.getTipo().equals(TipoDato.INT) && der.getTipo().equals(TipoDato.DOUBLE)){
+                        //convertir el valor izq a double
+                        double izqDouble = (double)Integer.parseInt(izq.getValor().toString());
+                        if(izqDouble == (double)Double.parseDouble(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+                    //verificar si izq es double y der es int
+                    else if(izq.getTipo().equals(TipoDato.DOUBLE) && der.getTipo().equals(TipoDato.INT)){
+                        //convertir el valor der a double
+                        double derDouble = (double)Integer.parseInt(der.getValor().toString());
+                        if((double)Double.parseDouble(izq.getValor().toString()) == derDouble){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+                    
+                    
+                    //verificar si los valores son iguales
                     if ((izq.getValor().toString()).equals(der.getValor().toString())) {
                         this.setValor(true);
-                    } else {
+                        return this;
+                    }else{
                         this.setValor(false);
+                        return this;
                     }
-                } else {
-                    this.setValor(false);
                 }
                 break;
             
 
             case "!=":
-                // Comparar si son diferentes
-                if (izq.getTipo() == der.getTipo()) {
-                    if (!(izq.getValor().toString()).equals(der.getValor().toString())) {
-                        this.setValor(true);
-                    } else {
-                        this.setValor(false);
+                
+                if(this.TiposCompatibles(izq.getTipo(), der.getTipo())){
+                    this.setTipo(TipoDato.BOOLEAN);
+
+                    //verificar si el tipo derecha o izquierda es tipo de dato char
+                    if(izq.getTipo().equals(TipoDato.CHAR) || der.getTipo().equals(TipoDato.CHAR)){//verificar si el tipo derecha o izquierda es tipo de dato char
+                        
+                        //verificar si ambos son de tipo char
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.CHAR)){
+                            if ((izq.getValor().toString()).equals(der.getValor().toString())) {
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y derecha es int
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii == (int)Integer.parseInt(der.getValor().toString())){
+                                this.setValor(false);
+                                return this;
+                            }else{
+                                this.setValor(true);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo derecha es char y izquierda es int
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if(ascii == (int)Integer.parseInt(izq.getValor().toString())){
+                                this.setValor(false);
+                                return this;
+                            }else{
+                                this.setValor(true);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y la derecha es double
+                        else if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii == (double)Double.parseDouble(der.getValor().toString())){
+                                this.setValor(false);
+                                return this;
+                            }else{
+                                this.setValor(true);
+                                return this;
+                            }
+                        }
+                    
+                        //verificar si el tipo derecha es char y la izquierda es double
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if(ascii == (double)Double.parseDouble(izq.getValor().toString())){
+                                this.setValor(false);
+                                return this;
+                            }else{
+                                this.setValor(true);
+                                return this;
+                            }
+                        }
+
                     }
-                } else {
-                    this.setValor(true);//es verdadero si son de diferente tipo de dato
+
+                    //verificar si izq es int y der es double
+                    if(izq.getTipo().equals(TipoDato.INT) && der.getTipo().equals(TipoDato.DOUBLE)){
+                        //convertir el valor izq a double
+                        double izqDouble = (double)Integer.parseInt(izq.getValor().toString());
+                        if(izqDouble == (double)Double.parseDouble(der.getValor().toString())){
+                            this.setValor(false);
+                            return this;
+                        }else{
+                            this.setValor(true);
+                            return this;
+                        }
+                    }
+
+                    //verificar si izq es double y der es int
+                    else if(izq.getTipo().equals(TipoDato.DOUBLE) && der.getTipo().equals(TipoDato.INT)){
+                        //convertir el valor der a double
+                        double derDouble = (double)Integer.parseInt(der.getValor().toString());
+                        if((double)Double.parseDouble(izq.getValor().toString()) == derDouble){
+                            this.setValor(false);
+                            return this;
+                        }else{
+                            this.setValor(true);
+                            return this;
+                        }
+                    }
+
+                    //verificar si los valores son iguales
+                    if ((izq.getValor().toString()).equals(der.getValor().toString())) {
+                        this.setValor(false);
+                        return this;
+
+                    }else{
+                        this.setValor(true);
+                        return this;
+                    }
                 }
                 break;
 
+
             
             case "<":
-                // Comparar si es menor
-                if (izq.getTipo() == TipoDato.INT && der.getTipo() == TipoDato.INT) {
-                    if ((int)Integer.parseInt(izq.getValor().toString()) < (int)Integer.parseInt(der.getValor().toString())) {
-                        this.setValor(true);
-                    } else {
-                        this.setValor(false);
-                    }
-                }
-                else if(izq.getTipo() == TipoDato.DOUBLE && der.getTipo()==TipoDato.DOUBLE){
-                    if((double)Double.parseDouble(izq.getValor().toString()) < (double)Double.parseDouble(der.getValor().toString())){
-                        this.setValor(true);
-                    }else{
-                        this.setValor(false);
-                    }
-                }
-                else if(izq.getTipo() == TipoDato.INT && der.getTipo()==TipoDato.DOUBLE){
-                    if((int)Integer.parseInt(izq.getValor().toString()) < (double)Double.parseDouble(der.getValor().toString())){
-                        this.setValor(true);
-                    }else{
-                        this.setValor(false);
-                    }
-                }
-                else if(izq.getTipo() == TipoDato.DOUBLE && der.getTipo()==TipoDato.INT){
-                    if((double)Double.parseDouble(izq.getValor().toString()) < (int)Integer.parseInt(der.getValor().toString())){
-                        this.setValor(true);
-                    }else{
-                        this.setValor(false);
-                    }
-                }
-                else {
-                    this.setValor(false);
-                }
 
+                // Comparar si es menor
+
+                if(this.TiposCompatibles(izq.getTipo(), der.getTipo())){
+                    this.setTipo(TipoDato.BOOLEAN);
+
+                    //verificar si el tipo derecha o izquierda es tipo de dato char
+                    if(izq.getTipo().equals(TipoDato.CHAR) || der.getTipo().equals(TipoDato.CHAR)){//verificar si el tipo derecha o izquierda es tipo de dato char
+                        
+                        //verificar si ambos son de tipo char
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.CHAR)){
+                            if ((int)izq.getValor().toString().charAt(0) < (int)der.getValor().toString().charAt(0)) {
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y derecha es int
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii < (int)Integer.parseInt(der.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo derecha es char y izquierda es int
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if((int)Integer.parseInt(izq.getValor().toString()) < ascii){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y la derecha es double
+                        else if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii < (double)Double.parseDouble(der.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo derecha es char y la izquierda es double
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if((double)Double.parseDouble(izq.getValor().toString()) < ascii){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                    }
+
+                    //verificar si izq es int y der es double
+
+                    if(izq.getTipo().equals(TipoDato.INT) && der.getTipo().equals(TipoDato.DOUBLE)){
+                        //convertir el valor izq a double
+                        double izqDouble = (double)Integer.parseInt(izq.getValor().toString());
+                        if(izqDouble < (double)Double.parseDouble(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
+                    //verificar si izq es double y der es int
+                    else if(izq.getTipo().equals(TipoDato.DOUBLE) && der.getTipo().equals(TipoDato.INT)){
+                        //convertir el valor der a double
+                        double derDouble = (double)Integer.parseInt(der.getValor().toString());
+                        if((double)Double.parseDouble(izq.getValor().toString()) < derDouble){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
+                    //verificar si los valores son iguales
+
+                    if (izq.getValor().toString().equals(der.getValor().toString())) {
+                        this.setValor(false);
+                        return this;
+                    }else{
+                        this.setValor(true);
+                        return this;
+                    }
+                }
                 break;
 
 
             case "<=":
+                
                 // Comparar si es menor o igual
-                if (izq.getTipo() == TipoDato.INT && der.getTipo() == TipoDato.INT) {
-                    if ((int)Integer.parseInt(izq.getValor().toString()) <= (int)Integer.parseInt(der.getValor().toString())) {
-                        this.setValor(true);
-                    } else {
-                        this.setValor(false);
-                    }
-                }
-                else if(izq.getTipo() == TipoDato.DOUBLE && der.getTipo()==TipoDato.DOUBLE){
-                    if((double)Double.parseDouble(izq.getValor().toString()) <= (double)Double.parseDouble(der.getValor().toString())){
-                        this.setValor(true);
-                    }else{
-                        this.setValor(false);
-                    }
-                }
-                else if(izq.getTipo() == TipoDato.INT && der.getTipo()==TipoDato.DOUBLE){
-                    if((int)Integer.parseInt(izq.getValor().toString()) <= (double)Double.parseDouble(der.getValor().toString())){
-                        this.setValor(true);
-                    }else{
-                        this.setValor(false);
-                    }
-                }
-                else if(izq.getTipo() == TipoDato.DOUBLE && der.getTipo()==TipoDato.INT){
-                    if((double)Double.parseDouble(izq.getValor().toString()) <= (int)Integer.parseInt(der.getValor().toString())){
-                        this.setValor(true);
-                    }else{
-                        this.setValor(false);
-                    }
-                }
-                else {
-                    this.setValor(false);
-                }
 
+                if(this.TiposCompatibles(izq.getTipo(), der.getTipo())){
+                    this.setTipo(TipoDato.BOOLEAN);
+
+                    //verificar si el tipo derecha o izquierda es tipo de dato char
+                    if(izq.getTipo().equals(TipoDato.CHAR) || der.getTipo().equals(TipoDato.CHAR)){//verificar si el tipo derecha o izquierda es tipo de dato char
+                        
+                        //verificar si ambos son de tipo char
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.CHAR)){
+                            if ((int)izq.getValor().toString().charAt(0) <= (int)der.getValor().toString().charAt(0)) {
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y derecha es int
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii <= (int)Integer.parseInt(der.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo derecha es char y izquierda es int
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if((int)Integer.parseInt(izq.getValor().toString()) <= ascii){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y la derecha es double
+                        else if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii <= (double)Double.parseDouble(der.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo derecha es char y la izquierda es double
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if((double)Double.parseDouble(izq.getValor().toString()) <= ascii){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                    }
+
+                    //verificar si izq es int y der es double
+
+                    if(izq.getTipo().equals(TipoDato.INT) && der.getTipo().equals(TipoDato.DOUBLE)){
+                        //convertir el valor izq a double
+                        double izqDouble = (double)Integer.parseInt(izq.getValor().toString());
+                        if(izqDouble <= (double)Double.parseDouble(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
+                    //verificar si izq es double y der es int
+                    else if(izq.getTipo().equals(TipoDato.DOUBLE) && der.getTipo().equals(TipoDato.INT)){
+                        //convertir el valor der a double
+                        double derDouble = (double)Integer.parseInt(der.getValor().toString());
+                        if((double)Double.parseDouble(izq.getValor().toString()) <= derDouble){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
+                    //verificar si los valores son iguales
+
+                    if (izq.getValor().toString().equals(der.getValor().toString())) {
+                        this.setValor(true);
+                        return this;
+                    }else{
+                        this.setValor(false);
+                        return this;
+                    }
+                }
                 break;
             
 
             case ">":
                 // Comparar si es mayor
 
-                if (izq.getTipo() == TipoDato.INT && der.getTipo() == TipoDato.INT) {
-                    if ((int)Integer.parseInt(izq.getValor().toString()) > (int)Integer.parseInt(der.getValor().toString())) {
-                        this.setValor(true);
-                    } else {
-                        this.setValor(false);
+                if(this.TiposCompatibles(izq.getTipo(), der.getTipo())){
+                    this.setTipo(TipoDato.BOOLEAN);
+
+                    //verificar si el tipo derecha o izquierda es tipo de dato char
+                    if(izq.getTipo().equals(TipoDato.CHAR) || der.getTipo().equals(TipoDato.CHAR)){//verificar si el tipo derecha o izquierda es tipo de dato char
+                        
+                        //verificar si ambos son de tipo char
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.CHAR)){
+                            if ((int)izq.getValor().toString().charAt(0) > (int)der.getValor().toString().charAt(0)) {
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y derecha es int
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii > (int)Integer.parseInt(der.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo derecha es char y izquierda es int
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if((int)Integer.parseInt(izq.getValor().toString()) > ascii){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y la derecha es double
+                        else if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii > (double)Double.parseDouble(der.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo derecha es char y la izquierda es double
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if((double)Double.parseDouble(izq.getValor().toString()) > ascii){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
                     }
-                }
-                else if(izq.getTipo() == TipoDato.DOUBLE && der.getTipo()==TipoDato.DOUBLE){
-                    if((double)Double.parseDouble(izq.getValor().toString()) > (double)Double.parseDouble(der.getValor().toString())){
-                        this.setValor(true);
+
+                    //verificar si izq es int y der es double
+
+                    if(izq.getTipo().equals(TipoDato.INT) && der.getTipo().equals(TipoDato.DOUBLE)){
+                        //convertir el valor izq a double
+                        double izqDouble = (double)Integer.parseInt(izq.getValor().toString());
+                        if(izqDouble > (double)Double.parseDouble(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
+                    //verificar si izq es double y der es int
+                    else if(izq.getTipo().equals(TipoDato.DOUBLE) && der.getTipo().equals(TipoDato.INT)){
+                        //convertir el valor der a double
+                        double derDouble = (double)Integer.parseInt(der.getValor().toString());
+                        if((double)Double.parseDouble(izq.getValor().toString()) > derDouble){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
+                    //verificar si los valores son iguales
+
+                    if (izq.getValor().toString().equals(der.getValor().toString())) {
+                        this.setValor(false);
+                        return this;
                     }else{
-                        this.setValor(false);
-                    }
-                }
-                else if(izq.getTipo() == TipoDato.INT && der.getTipo()==TipoDato.DOUBLE){
-                    if((int)Integer.parseInt(izq.getValor().toString()) > (double)Double.parseDouble(der.getValor().toString())){
                         this.setValor(true);
-                    }else{
-                        this.setValor(false);
+                        return this;
                     }
                 }
-                else if(izq.getTipo() == TipoDato.DOUBLE && der.getTipo()==TipoDato.INT){
-                    if((double)Double.parseDouble(izq.getValor().toString()) > (int)Integer.parseInt(der.getValor().toString())){
-                        this.setValor(true);
-                    }else{
-                        this.setValor(false);
-                    }
-                }
-                else {
-                    this.setValor(false);
-                }
-                
                 break;
 
 
             case ">=":
                 // Comparar si es mayor o igual
-                if (izq.getTipo() == TipoDato.INT && der.getTipo() == TipoDato.INT) {
-                    if ((int)Integer.parseInt(izq.getValor().toString()) >= (int)Integer.parseInt(der.getValor().toString())){
-                        this.setValor(true);
-                    } else {
-                        this.setValor(false);
+                
+                if(this.TiposCompatibles(izq.getTipo(), der.getTipo())){
+                    this.setTipo(TipoDato.BOOLEAN);
+
+                    //verificar si el tipo derecha o izquierda es tipo de dato char
+                    if(izq.getTipo().equals(TipoDato.CHAR) || der.getTipo().equals(TipoDato.CHAR)){//verificar si el tipo derecha o izquierda es tipo de dato char
+                        
+                        //verificar si ambos son de tipo char
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.CHAR)){
+                            if ((int)izq.getValor().toString().charAt(0) >= (int)der.getValor().toString().charAt(0)) {
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y derecha es int
+                        if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii >= (int)Integer.parseInt(der.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo derecha es char y izquierda es int
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.INT)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if((int)Integer.parseInt(izq.getValor().toString()) >= ascii){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo izquierda es char y la derecha es double
+                        else if(izq.getTipo().equals(TipoDato.CHAR) && der.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)izq.getValor().toString().charAt(0);
+                            if(ascii >= (double)Double.parseDouble(der.getValor().toString())){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
+                        //verificar si el tipo derecha es char y la izquierda es double
+                        else if(der.getTipo().equals(TipoDato.CHAR) && izq.getTipo().equals(TipoDato.DOUBLE)){
+                            //convertir el valor a ascii
+                            int ascii = (int)der.getValor().toString().charAt(0);
+                            if((double)Double.parseDouble(izq.getValor().toString()) >= ascii){
+                                this.setValor(true);
+                                return this;
+                            }else{
+                                this.setValor(false);
+                                return this;
+                            }
+                        }
+
                     }
-                }
-                else if(izq.getTipo() == TipoDato.DOUBLE && der.getTipo()==TipoDato.DOUBLE){
-                    if((double)Double.parseDouble(izq.getValor().toString()) >= (double)Double.parseDouble(der.getValor().toString())){
+
+                    //verificar si izq es int y der es double
+
+                    if(izq.getTipo().equals(TipoDato.INT) && der.getTipo().equals(TipoDato.DOUBLE)){
+                        //convertir el valor izq a double
+                        double izqDouble = (double)Integer.parseInt(izq.getValor().toString());
+                        if(izqDouble >= (double)Double.parseDouble(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
+                    //verificar si izq es double y der es int
+                    else if(izq.getTipo().equals(TipoDato.DOUBLE) && der.getTipo().equals(TipoDato.INT)){
+                        //convertir el valor der a double
+                        double derDouble = (double)Integer.parseInt(der.getValor().toString());
+                        if((double)Double.parseDouble(izq.getValor().toString()) >= derDouble){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
+                    //verificar si los valores son iguales
+
+                    if (izq.getValor().toString().equals(der.getValor().toString())) {
                         this.setValor(true);
+                        return this;
                     }else{
                         this.setValor(false);
+                        return this;
                     }
-                }
-                else if(izq.getTipo() == TipoDato.INT && der.getTipo()==TipoDato.DOUBLE){
-                    if((int)Integer.parseInt(izq.getValor().toString()) >= (double)Double.parseDouble(der.getValor().toString())){
-                        this.setValor(true);
-                    }else{
-                        this.setValor(false);
-                    }
-                }
-                else if(izq.getTipo() == TipoDato.DOUBLE && der.getTipo()==TipoDato.INT){
-                    if((double)Double.parseDouble(izq.getValor().toString()) >= (int)Integer.parseInt(der.getValor().toString())){
-                        this.setValor(true);
-                    }else{
-                        this.setValor(false);
-                    }
-                }
-                else {
-                    this.setValor(false);
                 }
                 break;
         
@@ -212,9 +712,33 @@ public class Relacionales extends Expresion{
                 System.err.println("Error SEMANTICO en operador relacional");
                 break;
         }
-
+        System.out.println("ERROR SEMANTICO: Tipos incompatibles en operador relacional");
         return this;
     }
+
+
+    public boolean TiposCompatibles(TipoDato op1, TipoDato op2){
+        
+        //comprobar si ambos tipos son idénticos ( int == int, double == double, string == string, boolean == boolean)
+        if(op1 == op2){
+            return true;
+        }
+
+        //comprobar las combinaciones permitidas entre enteros, dobles y chars
+        TipoDato[] tiposCompatibles = {TipoDato.INT, TipoDato.DOUBLE, TipoDato.CHAR};
+
+        //verificar si los tipos de datos se encuentran en el arreglo de tipos compatibles
+        boolean izqCompatible = Arrays.stream (tiposCompatibles).anyMatch(tipo -> tipo == op1);
+        boolean derCompatible = Arrays.stream (tiposCompatibles).anyMatch(tipo -> tipo == op2);
+
+        if(izqCompatible && derCompatible){
+            return true;
+        }
+
+        return false;
+    }
+    
+
 
     @Override
     public String toString(){

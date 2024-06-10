@@ -44,7 +44,5 @@ public class tablaSimbolos {
         this.nombre = nombre;
     }
     
-    
-    
 
 }

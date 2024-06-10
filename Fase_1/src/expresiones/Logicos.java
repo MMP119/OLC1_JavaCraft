@@ -32,8 +32,54 @@ public class Logicos extends Expresion{
         Expresion izq = (Expresion) this.izquierda.interpretar(ent, ts);
         Expresion der = (Expresion) this.dererecha.interpretar(ent, ts);
 
+        switch (this.operador) {
+            case "&&":
+                // Comparar si son iguales
+                if (izq.getTipo() == TipoDato.BOOLEAN && der.getTipo() == TipoDato.BOOLEAN) {
+                    this.setValor(Boolean.parseBoolean(izq.getValor().toString()) && Boolean.parseBoolean(der.getValor().toString()));
+                } else {
+                    System.out.println("Error Semántico: Error en la operacion logica AND.");
+                }
+                break;
+            
+
+            case "||":
+                // Comparar si son diferentes
+                if (izq.getTipo() == TipoDato.BOOLEAN && der.getTipo() == TipoDato.BOOLEAN) {
+                    this.setValor(Boolean.parseBoolean(izq.getValor().toString()) || Boolean.parseBoolean(der.getValor().toString()));
+                } else {
+                    System.out.println("Error Semántico: Error en la operacion logica OR.");
+                }
+                break;
+
+            case "!":
+                // Comparar si son diferentes
+                if (izq.getTipo() == TipoDato.BOOLEAN) {
+                    this.setValor(!Boolean.parseBoolean(izq.getValor().toString()));
+                } else {
+                    System.out.println("Error Semántico: Error en la operacion logica NOT.");
+                }
+                break;
+            
+            case "^": //operador XOR
+                // Comparar si son diferentes
+                if (izq.getTipo() == TipoDato.BOOLEAN && der.getTipo() == TipoDato.BOOLEAN) {
+                    this.setValor(Boolean.parseBoolean(izq.getValor().toString()) ^ Boolean.parseBoolean(der.getValor().toString()));
+                } else {
+                    System.out.println("Error Semántico: Error en la operacion logica XOR.");
+                }
+                break;
+            
+            default:
+                System.out.println("Error Semántico: Operador logico no reconocido.");
+                break;
+        }
 
         return this;
     }
     
+    public String toString(){
+        return this.getValor().toString();
+    }
+
 }

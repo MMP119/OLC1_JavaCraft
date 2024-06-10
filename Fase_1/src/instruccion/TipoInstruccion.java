@@ -3,7 +3,7 @@ package instruccion;
 public enum TipoInstruccion {
     PRINT, 
     IF, 
-    DELCARAR,
+    DECLARAR,
     TERNARIO,
     FUNCION, 
     WHILE

@@ -10,5 +10,4 @@ public enum TipoDato {
     ERROR,
     VOID,
     LOGICO,
-    FUNCION,
 }

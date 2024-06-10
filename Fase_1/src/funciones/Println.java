@@ -3,7 +3,6 @@ package funciones;
 
 import entorno.*;
 import instruccion.*;
-import expresiones.TipoDato;
 import excepciones.Errores;
 import expresiones.Expresion;
 import AST.*;
@@ -13,7 +12,7 @@ public class Println extends Instruccion{
     private Expresion expresion;
 
     public Println(Expresion expresion, int fila, int columna){
-        super(new Tipo(TipoDato.VOID), fila, columna);
+        super(new Tipo(TipoInstruccion.PRINT), fila, columna);
         this.expresion = expresion;
     }
 

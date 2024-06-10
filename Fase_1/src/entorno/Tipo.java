@@ -1,19 +1,19 @@
 package entorno;
 
-import expresiones.TipoDato;
+import instruccion.TipoInstruccion;;
 
 public class Tipo {
-    private TipoDato tipo;
+    private TipoInstruccion tipo;
 
-    public Tipo(TipoDato tipo) {
+    public Tipo(TipoInstruccion tipo) {
         this.tipo = tipo;
     }
 
-    public TipoDato getTipo() {
+    public TipoInstruccion getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoDato tipo) {
+    public void setTipo(TipoInstruccion tipo) {
         this.tipo = tipo;
     }
 
