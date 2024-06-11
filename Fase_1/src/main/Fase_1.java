@@ -24,7 +24,9 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-                        println("jo"<=2);
+                        //esto es un comentario
+                        var num2:int = 8;
+                        println(num2**4);
                         """;
         
         // Generar Analizadores

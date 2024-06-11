@@ -4,6 +4,7 @@ public enum TipoInstruccion {
     PRINT, 
     IF, 
     DECLARAR,
+    RECUPERAR,
     TERNARIO,
     FUNCION, 
     WHILE

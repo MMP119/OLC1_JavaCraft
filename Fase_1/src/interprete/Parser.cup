@@ -14,6 +14,8 @@ import expresiones.Negativo;
 import expresiones.Relacionales;
 import expresiones.Logicos;
 import funciones.DecVariables;
+import entorno.tablaSimbolos;
+import expresiones.RecVariable;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -74,7 +76,7 @@ terminal String UMENOS;
 non terminal LinkedList<Instruccion> inicio;
 non terminal LinkedList<Instruccion> instruccion;
 non terminal Instruccion expresiones;
-non terminal tipoExpresion;
+non terminal TipoDato tipoExpresion;
 non terminal Instruccion declararVariables;
 non terminal asignarVariables;
 non terminal accVariables;
@@ -114,24 +116,25 @@ instruccion ::= expresiones:a                     {:RESULT = new LinkedList<>();
 ;
 
 expresiones ::= printConsole:a    {:RESULT=a;:}
+        | declararVariables:a     {:RESULT=a;:}
 ;
 
 
 //Tipos de datos
-tipoExpresion ::= INT:val     {:RESULT=val;:}
-        | DOUBLE:val          {:RESULT=val;:}
-        | BOOL:val            {:RESULT=val;:}
-        | CHAR:val            {:RESULT=val;:}
-        | STRING:val          {:RESULT=val;:}
+tipoExpresion ::= INT:val     {:RESULT=TipoDato.INT;:}
+        | DOUBLE:val          {:RESULT=TipoDato.DOUBLE;:}
+        | BOOL:val            {:RESULT=TipoDato.BOOLEAN;:}
+        | CHAR:val            {:RESULT=TipoDato.CHAR;:}
+        | STRING:val          {:RESULT=TipoDato.CADENA;:}
 
 ;
 
 
 //Declarar variables
-declararVariables ::= VARIABLE:mut ID:id DOS_P tipoExpresion:tipo PYC //{:RESULT=new DecVariables(mut, id, tipo, null, tipoleft, tiporight);:}
-                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo PYC //{:RESULT=new DecVariables(mut, id, tipo, null, tipoleft, tiporight);:}
-                | VARIABLE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC //{:RESULT=new DecVariables(mut, id.toLowerCase(), TipoDato.tipo, exp, expleft, expright);:}
-                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC //{:RESULT=new DecVariables(mut, id.toLowerCase(), TipoDato.tipo, exp, expleft, expright);:}
+declararVariables ::= VARIABLE:mut ID:id DOS_P tipoExpresion:tipo PYC {:RESULT=new DecVariables(mut, id, tipo, null, tipoleft, tiporight);:}
+                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo PYC {:RESULT=new DecVariables(mut, id, tipo, null, tipoleft, tiporight);:}
+                | VARIABLE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC {:RESULT=new DecVariables(mut, id.toLowerCase(), tipo, exp, expleft, expright);:}
+                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC {:RESULT=new DecVariables(mut, id.toLowerCase(), tipo, exp, expleft, expright);:}
 ;
 
 
@@ -200,6 +203,8 @@ sentFOR ::= FOR A_PARENTESIS
 printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:RESULT= new Println(val, valleft, valright);:}
 ;
 
+retornar ::= 
+;
 
 //expresiones 
 expresion::= MENOS expresion: val                       {:RESULT = new Negativo(val, valleft, valright);:}%prec UMENOS
@@ -221,8 +226,9 @@ expresion::= MENOS expresion: val                       {:RESULT = new Negativo(
         | expresion:val1 AND expresion:val2             {:RESULT = new Logicos(val1, val2, "&&", val2left, val2right);:}
         | A_PARENTESIS expresion:val C_PARENTESIS       {:RESULT = val;:}
         | ENTERO:val                                    {:RESULT = new Dato(val, TipoDato.INT, valleft, valright);:}
-        | DECIMAL:val                                   {: RESULT = new Dato(val, TipoDato.DOUBLE, valleft, valright);:} 
-        | BOOLEANO:val                                  {: RESULT = new Dato(val, TipoDato.BOOLEAN, valleft, valright);:}
-        | CADENA:val                                    {: RESULT = new Dato(val, TipoDato.CADENA, valleft, valright);:}
-        | CARACTER:val                                  {: RESULT = new Dato(val, TipoDato.CHAR, valleft, valright);:}
+        | DECIMAL:val                                   {:RESULT = new Dato(val, TipoDato.DOUBLE, valleft, valright);:} 
+        | BOOLEANO:val                                  {:RESULT = new Dato(val, TipoDato.BOOLEAN, valleft, valright);:}
+        | CADENA:val                                    {:RESULT = new Dato(val, TipoDato.CADENA, valleft, valright);:}
+        | CARACTER:val                                  {:RESULT = new Dato(val, TipoDato.CHAR, valleft, valright);:}
+        | ID:id                                         {:RESULT = new RecVariable(id.toLowerCase(), idleft, idright);:}
 ;

@@ -1,6 +1,7 @@
 package expresiones;
 
 import entorno.*;
+import excepciones.Errores;
 import AST.*;
 
 public class Aritmeticas extends Expresion{
@@ -33,13 +34,8 @@ public class Aritmeticas extends Expresion{
     @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts){
 
-        Expresion izq = (Expresion) this.izq;
-        Expresion der = (Expresion) this.der;
-
-        izq.interpretar(ent, ts);
-        der.interpretar(ent, ts);
-
-
+        Expresion izq = (Expresion) this.izq.interpretar(ent, ts);
+        Expresion der = (Expresion) this.der.interpretar(ent, ts);
 
         //Sumar
         if(this.operador.equals("+")){
@@ -67,13 +63,6 @@ public class Aritmeticas extends Expresion{
                 int valorIzq = izq.getValor() != null ? (int)Integer.valueOf(izq.getValor().toString()) : 0;
                 String valorDer = der.getValor() != null ? (String)der.getValor() : "0";
                 char valorDerChar = valorDer.charAt(0);
-                //verificar si el char es un numero
-                if(Character.isDigit(valorDerChar)){
-                    int valorDer1 = Integer.parseInt(String.valueOf(valorDerChar));
-                    int resultado = valorIzq + valorDer1;
-                    this.setValor(resultado);
-                    return this;
-                }
                 //pasar el char a ascii y sumar
                 int valorDerAscii = (int)valorDerChar;
                 int resultado = valorIzq + valorDerAscii;
@@ -115,12 +104,6 @@ public class Aritmeticas extends Expresion{
                 //pasar el char a ascii y sumar
                 char valorDerChar = valorDer.charAt(0);
                 //verificar si el char es un numero
-                if(Character.isDigit(valorDerChar)){
-                    int valorDer1 = Integer.parseInt(String.valueOf(valorDerChar));
-                    double resultado = valorIzq + valorDer1;
-                    this.setValor(resultado);
-                    return this;
-                }
                 double valorDerAscii = (double) valorDerChar;
                 double resultado = valorIzq + valorDerAscii;
                 this.setValor(resultado);
@@ -156,12 +139,6 @@ public class Aritmeticas extends Expresion{
                 int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 char valorIzqChar = valorIzq.charAt(0);
                 //verificar si el char es un numero
-                if(Character.isDigit(valorIzqChar)){
-                    int valorIzq1 = Integer.parseInt(String.valueOf(valorIzqChar));
-                    int resultado = valorIzq1 + valorDer;
-                    this.setValor(resultado);
-                    return this;
-                }
                 int valorIzqAscii = (int) valorIzqChar;
                 int resultado = valorIzqAscii + valorDer;
                 this.setValor(resultado);
@@ -173,12 +150,6 @@ public class Aritmeticas extends Expresion{
                 double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 char valorIzqChar = valorIzq.charAt(0);
                 //verificar si el char es un numero
-                if(Character.isDigit(valorIzqChar)){
-                    double valorIzq1 = Double.parseDouble(String.valueOf(valorIzqChar));
-                    double resultado = valorIzq1 + valorDer;
-                    this.setValor(resultado);
-                    return this;
-                }
                 int valorIzqAscii = (int) valorIzqChar;
                 double resultado = valorIzqAscii + valorDer;
                 this.setValor(resultado);
@@ -191,13 +162,6 @@ public class Aritmeticas extends Expresion{
                 char valorIzqChar = valorIzq.charAt(0);
                 char valorDerChar = valorDer.charAt(0);
                 //verificar si los char son numeros
-                if(Character.isDigit(valorIzqChar) && Character.isDigit(valorDerChar)){
-                    int valorIzq1 = Integer.parseInt(String.valueOf(valorIzqChar));
-                    int valorDer1 = Integer.parseInt(String.valueOf(valorDerChar));
-                    int resultado = valorIzq1 + valorDer1;
-                    this.setValor(resultado);
-                    return this;
-                }
                 String valorIzqString = String.valueOf(valorIzqChar);
                 String valorDerString = String.valueOf(valorDerChar);
                 String resultado = valorIzqString + valorDerString;
@@ -290,13 +254,6 @@ public class Aritmeticas extends Expresion{
                 int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
                 String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
                 char valorDerChar = valorDer.charAt(0);
-                //verificar si el char es un numero
-                if(Character.isDigit(valorDerChar)){
-                    int valorDer1 = Integer.parseInt(String.valueOf(valorDerChar));
-                    int resultado = valorIzq - valorDer1;
-                    this.setValor(resultado);
-                    return this;
-                }
                 //pasar el char a ascii y restar
                 int valorDerAscii = (int) valorDerChar;
                 int resultado = valorIzq - valorDerAscii;
@@ -326,13 +283,6 @@ public class Aritmeticas extends Expresion{
                 double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
                 String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
                 char valorDerChar = valorDer.charAt(0);
-                //verificar si el char es un numero
-                if(Character.isDigit(valorDerChar)){
-                    int valorDer1 = Integer.parseInt(String.valueOf(valorDerChar));
-                    double resultado = valorIzq - valorDer1;
-                    this.setValor(resultado);
-                    return this;
-                }
                 //pasar el char a ascii y restar
                 int valorDerAscii = (int) valorDerChar;
                 double resultado = valorIzq - valorDerAscii;
@@ -346,13 +296,6 @@ public class Aritmeticas extends Expresion{
                 String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
                 int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 char valorIzqChar = valorIzq.charAt(0);
-                //verificar si el char es un numero
-                if(Character.isDigit(valorIzqChar)){
-                    int valorIzq1 = Integer.parseInt(String.valueOf(valorIzqChar));
-                    int resultado = valorIzq1 - valorDer;
-                    this.setValor(resultado);
-                    return this;
-                }
                 int valorIzqAscii = (int) valorIzqChar;
                 int resultado = valorIzqAscii - valorDer;
                 this.setValor(resultado);
@@ -363,13 +306,6 @@ public class Aritmeticas extends Expresion{
                 String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
                 double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 char valorIzqChar = valorIzq.charAt(0);
-                //verificar si el char es un numero
-                if(Character.isDigit(valorIzqChar)){
-                    double valorIzq1 = Double.parseDouble(String.valueOf(valorIzqChar));
-                    double resultado = valorIzq1 - valorDer;
-                    this.setValor(resultado);
-                    return this;
-                }
                 int valorIzqAscii = (int) valorIzqChar;
                 double resultado = valorIzqAscii - valorDer;
                 this.setValor(resultado);
@@ -403,13 +339,6 @@ public class Aritmeticas extends Expresion{
                 this.setTipo(TipoDato.INT);
                 int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
                 String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
-                //verificar si el char es un numero
-                if(Character.isDigit(valorDer.charAt(0))){
-                    int valorDer1 = Integer.parseInt(valorDer);
-                    int resultado = valorIzq * valorDer1;
-                    this.setValor(resultado);
-                    return this;
-                }
                 //pasar el char a ascii y multiplicar
                 char valorDerChar = valorDer.charAt(0);
                 int valorDerAscii = (int) valorDerChar;
@@ -439,13 +368,6 @@ public class Aritmeticas extends Expresion{
                 this.setTipo(TipoDato.DOUBLE);
                 double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
                 String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
-                //verificar si el char es un numero
-                if(Character.isDigit(valorDer.charAt(0))){
-                    double valorDer1 = Double.parseDouble(valorDer);
-                    double resultado = valorIzq * valorDer1;
-                    this.setValor(resultado);
-                    return this;
-                }
                 //pasar el char a ascii y multiplicar
                 char valorDerChar = valorDer.charAt(0);
                 int valorDerAscii = (int) valorDerChar;
@@ -460,13 +382,6 @@ public class Aritmeticas extends Expresion{
                 String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
                 int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 char valorIzqChar = valorIzq.charAt(0);
-                //verificar si el char es un numero
-                if(Character.isDigit(valorIzqChar)){
-                    int valorIzq1 = Integer.parseInt(valorIzq);
-                    int resultado = valorIzq1 * valorDer;
-                    this.setValor(resultado);
-                    return this;
-                }
                 int valorIzqAscii = (int) valorIzqChar;
                 int resultado = valorIzqAscii * valorDer;
                 this.setValor(resultado);
@@ -477,13 +392,6 @@ public class Aritmeticas extends Expresion{
                 String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
                 double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 char valorIzqChar = valorIzq.charAt(0);
-                //verificar si el char es un numero
-                if(Character.isDigit(valorIzqChar)){
-                    double valorIzq1 = Double.parseDouble(valorIzq);
-                    double resultado = valorIzq1 * valorDer;
-                    this.setValor(resultado);
-                    return this;
-                }
                 int valorIzqAscii = (int) valorIzqChar;
                 double resultado = valorIzqAscii * valorDer;
                 this.setValor(resultado);
@@ -502,7 +410,7 @@ public class Aritmeticas extends Expresion{
                 //verificar si el denominador es 0
                 if(valorDer == 0){
                     System.out.println("Error Semantico: Division entre 0");
-                    return this;
+                    return new Errores("Semantico", "Division entre 0", fila, columna);
                 }
                 double resultado = valorIzq / valorDer;
                 this.setValor(resultado);
@@ -515,7 +423,7 @@ public class Aritmeticas extends Expresion{
                 //verificar si el denominador es 0
                 if(valorDer == 0){
                     System.out.println("Error Semantico: Division entre 0");
-                    return this;
+                    return new Errores("Semantico", "Division entre 0", fila, columna);
                 }
                 double resultado = valorIzq / valorDer;
                 this.setValor(resultado);
@@ -526,24 +434,12 @@ public class Aritmeticas extends Expresion{
                 int valorIzq = izq.getValor() != null ? (int) Integer.parseInt(izq.getValor().toString()) : 0;
                 String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
                 char valorDerChar = valorDer.charAt(0);
-                //verificar si el char es un numero
-                if(Character.isDigit(valorDerChar)){
-                    double valorDer1 = Double.parseDouble(valorDer);
-                    //verificar si el denominador es 0
-                    if(valorDer1 == 0){
-                        System.out.println("Error Semantico: Division entre 0");
-                        return this;
-                    }
-                    double resultado = valorIzq / valorDer1;
-                    this.setValor(resultado);
-                    return this;
-                }
                 //pasar el char a ascii y dividir
                 int valorDerAscii = (int) valorDerChar;
                 //verificar si el denominador es 0
                 if(valorDerAscii == 0){
                     System.out.println("Error Semantico: Division entre 0");
-                    return this;
+                    return new Errores("Semantico", "Division entre 0", fila, columna);
                 }
                 double resultado = valorIzq / valorDerAscii;
                 this.setValor(resultado);
@@ -558,7 +454,7 @@ public class Aritmeticas extends Expresion{
                 //verificar si el denominador es 0
                 if(valorDer == 0){
                     System.out.println("Error Semantico: Division entre 0");
-                    return this;
+                    return new Errores("Semantico", "Division entre 0", fila, columna);
                 }
                 double resultado = valorIzq / valorDer;
                 this.setValor(resultado);
@@ -571,7 +467,7 @@ public class Aritmeticas extends Expresion{
                 //verificar si el denominador es 0
                 if(valorDer == 0){
                     System.out.println("Error Semantico: Division entre 0");
-                    return this;
+                    return new Errores("Semantico", "Division entre 0", fila, columna);
                 }
                 double resultado = valorIzq / valorDer;
                 this.setValor(resultado);
@@ -582,24 +478,12 @@ public class Aritmeticas extends Expresion{
                 double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
                 String valorDer = der.getValor() != null ? (String) der.getValor().toString() : "0";
                 char valorDerChar = valorDer.charAt(0);
-                //verificar si el char es un numero
-                if(Character.isDigit(valorDerChar)){
-                    double valorDer1 = Double.parseDouble(valorDer);
-                    //verificar si el denominador es 0
-                    if(valorDer1 == 0){
-                        System.out.println("Error Semantico: Division entre 0");
-                        return this;
-                    }
-                    double resultado = valorIzq / valorDer1;
-                    this.setValor(resultado);
-                    return this;
-                }
                 //pasar el char a ascii y dividir
                 int valorDerAscii = (int) valorDerChar;
                 //verificar si el denominador es 0
                 if(valorDerAscii == 0){
                     System.out.println("Error Semantico: Division entre 0");
-                    return this;
+                    return new Errores("Semantico", "Division entre 0", fila, columna);
                 }
                 double resultado = valorIzq / valorDerAscii;
                 this.setValor(resultado);
@@ -612,23 +496,11 @@ public class Aritmeticas extends Expresion{
                 String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
                 int valorDer = der.getValor() != null ? (int) Integer.parseInt(der.getValor().toString()) : 0;
                 char valorIzqChar = valorIzq.charAt(0);
-                //verificar si el char es un numero
-                if(Character.isDigit(valorIzqChar)){
-                    double valorIzq1 = Double.parseDouble(valorIzq);
-                    //verificar si el denominador es 0
-                    if(valorDer == 0){
-                        System.out.println("Error Semantico: Division entre 0");
-                        return this;
-                    }
-                    double resultado = valorIzq1 / valorDer;
-                    this.setValor(resultado);
-                    return this;
-                }
                 int valorIzqAscii = (int) valorIzqChar;
                 //verificar si el denominador es 0
-                if(valorIzqAscii == 0){
+                if(valorDer == 0){
                     System.out.println("Error Semantico: Division entre 0");
-                    return this;
+                    return new Errores("Semantico", "Division entre 0", fila, columna);
                 }
                 double resultado = valorIzqAscii / valorDer;
                 this.setValor(resultado);
@@ -639,23 +511,11 @@ public class Aritmeticas extends Expresion{
                 String valorIzq = izq.getValor() != null ? (String) izq.getValor().toString() : "0";
                 double valorDer = der.getValor() != null ? (double) Double.parseDouble(der.getValor().toString()) : 0.0;
                 char valorIzqChar = valorIzq.charAt(0);
-                //verificar si el char es un numero
-                if(Character.isDigit(valorIzqChar)){
-                    double valorIzq1 = Double.parseDouble(valorIzq);
-                    //verificar si el denominador es 0
-                    if(valorDer == 0){
-                        System.out.println("Error Semantico: Division entre 0");
-                        return this;
-                    }
-                    double resultado = valorIzq1 / valorDer;
-                    this.setValor(resultado);
-                    return this;
-                }
                 int valorIzqAscii = (int) valorIzqChar;
                 //verificar si el denominador es 0
-                if(valorIzqAscii == 0){
+                if(valorDer == 0){
                     System.out.println("Error Semantico: Division entre 0");
-                    return this;
+                    return new Errores("Semantico", "Division entre 0", fila, columna);
                 }
                 double resultado = valorIzqAscii / valorDer;
                 this.setValor(resultado);
@@ -745,11 +605,11 @@ public class Aritmeticas extends Expresion{
         }
 
         else{
-            System.out.println("Error en la operacion aritmetica");
-            return this;
+            System.out.println("Error SEMANTICO: Operacion aritmetica no válida");
+            return new Errores("Semantico", "Operacion aritmetica no válida", fila, columna);
         }
-        System.out.println("Error SEMANTICO en la operacion aritmetica");
-        return this;
+        System.out.println("Error SEMANTICO: Operacion aritmetica no válida");
+        return new Errores("Semantico", "Error en la operacion Aritmetica", fila, columna);
     }
 
     // Getters y Setters
