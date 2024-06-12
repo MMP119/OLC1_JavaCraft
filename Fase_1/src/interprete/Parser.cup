@@ -17,6 +17,7 @@ import funciones.DecVariables;
 import entorno.tablaSimbolos;
 import expresiones.RecVariable;
 import funciones.AsignarVariables;
+import funciones.IncDec;
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
 
@@ -79,8 +80,6 @@ non terminal Instruccion expresiones;
 non terminal TipoDato tipoExpresion;
 non terminal Instruccion declararVariables;
 non terminal Instruccion asignarVariables;
-non terminal accVariables;
-non terminal incDec;
 non terminal sentIF;
 non terminal elseIF;
 non terminal sentWhile;
@@ -142,21 +141,10 @@ declararVariables ::= VARIABLE:mut ID:id DOS_P tipoExpresion:tipo PYC           
 
 
 //asignar variables, tambien casteos sin forma de declarar
-asignarVariables ::= ID:id IGUAL expresion:exp PYC                                              {:RESULT = new AsignarVariables(id.toLowerCase(), exp, null, idleft, idright);:}
-                | ID:id IGUAL A_PARENTESIS tipoExpresion:tipo C_PARENTESIS expresion:exp PYC    {:RESULT=new AsignarVariables(id.toLowerCase(), exp, tipo, idleft, idright);:}
-        
-
-;
-
-
-//Acc a variables
-accVariables ::= ID
-;
-
-
-//Incremento-Decremento
-incDec ::= ID MAS MAS PYC
-        | ID MENOS MENOS PYC
+asignarVariables ::= ID:id IGUAL expresion:exp PYC                                              {:RESULT = new AsignarVariables(id.toLowerCase(), exp, null,idleft, idright);:}
+                | ID:id IGUAL A_PARENTESIS tipoExpresion:tipo C_PARENTESIS expresion:exp PYC    {:RESULT = new AsignarVariables(id.toLowerCase(), exp, tipo, idleft, idright);:}
+                | ID:id MAS MAS PYC                                                             {:RESULT = new IncDec(id.toLowerCase(), "++", idleft, idright);:}
+                | ID:id MENOS MENOS PYC                                                         {:RESULT = new IncDec(id.toLowerCase(), "--", idleft, idright);:}
 ;
 
 

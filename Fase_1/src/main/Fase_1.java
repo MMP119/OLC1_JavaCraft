@@ -25,8 +25,9 @@ public class Fase_1 {
         
         String entrada = """
                         //esto es un comentario
-                        var edad : double = (double) 16;
+                        var edad : int = 136;
 
+                        edad++;
                         println(edad);
                         """;
         
