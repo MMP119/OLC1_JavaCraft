@@ -5,6 +5,7 @@ public enum TipoInstruccion {
     IF, 
     DECLARAR,
     ASIGNAR,
+    CASTEOS,
     TERNARIO,
     FUNCION, 
     WHILE

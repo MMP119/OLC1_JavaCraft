@@ -25,14 +25,9 @@ public class Fase_1 {
         
         String entrada = """
                         //esto es un comentario
-                        var num2:int=10;
-                        var num1:int = num2**2;
-                        const num3:int = 5;
-                        /*
-                        num1 = num2-3;
-                        */
-                        num1 = num2+num1;
-                        println(num1);
+                        var edad : double = (double) 16;
+
+                        println(edad);
                         """;
         
         // Generar Analizadores

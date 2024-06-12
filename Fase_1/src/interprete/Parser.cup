@@ -17,7 +17,6 @@ import funciones.DecVariables;
 import entorno.tablaSimbolos;
 import expresiones.RecVariable;
 import funciones.AsignarVariables;
-
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
 
@@ -81,7 +80,6 @@ non terminal TipoDato tipoExpresion;
 non terminal Instruccion declararVariables;
 non terminal Instruccion asignarVariables;
 non terminal accVariables;
-non terminal casteos;
 non terminal incDec;
 non terminal sentIF;
 non terminal elseIF;
@@ -119,7 +117,6 @@ instruccion ::= expresiones:a                     {:RESULT = new LinkedList<>();
 expresiones ::= printConsole:a    {:RESULT=a;:}
         | declararVariables:a     {:RESULT=a;:}
         | asignarVariables:a      {:RESULT=a;:}
-        | casteos:a               {:RESULT=a;:}
 ;
 
 
@@ -133,27 +130,27 @@ tipoExpresion ::= INT:val     {:RESULT=TipoDato.INT;:}
 ;
 
 
-//Declarar variables
-declararVariables ::= VARIABLE:mut ID:id DOS_P tipoExpresion:tipo PYC                   {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, null, tipoleft, tiporight);:}
-                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo PYC                      {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, null, tipoleft, tiporight);:}
-                | VARIABLE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC   {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, expleft, expright);:}
-                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC  {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, expleft, expright);:}
+//Declarar variables, tambien incluyo los casteos en este no terminal 
+declararVariables ::= VARIABLE:mut ID:id DOS_P tipoExpresion:tipo PYC                   {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, null, null, tipoleft, tiporight);:}
+                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo PYC                      {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, null, null,tipoleft, tiporight);:}
+                | VARIABLE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC   {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, null, expleft, expright);:}
+                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC  {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, null, expleft, expright);:}
+
+                | VARIABLE:mut ID:id DOS_P tipoExpresion:tipo IGUAL A_PARENTESIS tipoExpresion:tipo2 C_PARENTESIS expresion:exp PYC     {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, tipo2, expleft, expright);:}
+                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo IGUAL A_PARENTESIS tipoExpresion:tipo2 C_PARENTESIS expresion:exp PYC    {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, tipo2, expleft, expright);:}                
 ;
 
 
-//asignar variables
-asignarVariables ::= ID:id IGUAL expresion:exp PYC {:RESULT = new AsignarVariables(id.toLowerCase(), exp, idleft, idright);:}
+//asignar variables, tambien casteos sin forma de declarar
+asignarVariables ::= ID:id IGUAL expresion:exp PYC                                              {:RESULT = new AsignarVariables(id.toLowerCase(), exp, null, idleft, idright);:}
+                | ID:id IGUAL A_PARENTESIS tipoExpresion:tipo C_PARENTESIS expresion:exp PYC    {:RESULT=new AsignarVariables(id.toLowerCase(), exp, tipo, idleft, idright);:}
+        
+
 ;
 
 
 //Acc a variables
 accVariables ::= ID
-;
-
-
-//Casteos
-casteos ::= VARIABLE ID DOS_P tipoExpresion IGUAL A_PARENTESIS tipoExpresion C_PARENTESIS expresion PYC {:;:}
-        | CONSTANTE ID DOS_P tipoExpresion IGUAL A_PARENTESIS tipoExpresion C_PARENTESIS expresion PYC  {:;:}
 ;
 
 
