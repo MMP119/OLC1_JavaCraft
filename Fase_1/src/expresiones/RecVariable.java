@@ -33,30 +33,17 @@ public class RecVariable extends Expresion {
             return variable;
         }
         else{
-            if(ts.getTablaAnterior()!=null){
-                variable = (Expresion)ts.getTablaAnterior().getTablaActual().get(id);
-            }else{
-                System.out.println("ERROR SEMANTICO Variable NO DECLARADA:" + id);
-                return new Errores("Semantico", "Variable no declarada: " + id, fila, columna);
-            }
-            if (variable == null) {
-
-                //buscar en todas las tablas anteriores
-                tablaSimbolos tabla = ts.getTablaAnterior();
-                while (tabla != null) {
-                    variable = (Expresion)tabla.getTablaActual().get(id);
-                    if (variable != null) {
-                        break;
-                    }
-                    tabla = tabla.getTablaAnterior();
+            //si no se encuentra en la tabla actual, se busca en la anterior, y así sucesivamente
+            tablaSimbolos tsAux = ts;
+            while (tsAux != null) {
+                variable = (Expresion)tsAux.getTablaActual().get(id);
+                if (variable != null) {
+                    return variable;
                 }
-                
-                System.out.println("Variable NO DECLARADA:" + id + " en tabla actual ni en tabla anterior");
-                return new Errores("Semantico", "Variable no declarada: " + id, fila, columna);
-            }else{
-                System.out.println("Variable recuperada anterior: " + variable);
-                return variable;
+                tsAux = tsAux.getTablaAnterior();
             }
+            System.out.println("ERROR SEMANTICO, Variable " + id+" no ha sido declarada");
+            return new Errores("ERROR SEMANTICO","La variable " + id + " no ha sido declarada", this.fila, this.columna);
         }
     }
     

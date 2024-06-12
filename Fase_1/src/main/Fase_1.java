@@ -24,15 +24,16 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
+                        var g:int = 54*12;
                         var a:int = 1;
                         println(a);
                         const b:int = 2;
                         println(b);
                         if(2==2){
-                        //var a:int = 20;
+                        var a:int = 20;
                             if(true){
-                            //var a:int = 10;
-                            println(a);
+                            const a:int = 10;
+                            println(g);
                             }
                         println(a);
                         }

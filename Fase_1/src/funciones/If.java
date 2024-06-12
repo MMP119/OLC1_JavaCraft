@@ -51,8 +51,8 @@ public class If extends Instruccion{
         
         Entorno EntornoIf = new Entorno(inst_if);
         tablaSimbolos tsIf = new tablaSimbolos();
-        tsIf.setTablaAnterior(ts);
         tsIf.setNombre("If");
+        tsIf.setTablaAnterior(ts);
         this.condicion = (Expresion)this.condicion.interpretar(EntornoIf, tsIf);
         
 
