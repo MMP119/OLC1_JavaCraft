@@ -53,6 +53,9 @@ public class DecVariables extends Instruccion{
                 case DOUBLE:
                     this.expresion = new Dato(0.0, TipoDato.DOUBLE, this.fila, this.columna);
                     break;
+                case BOOLEAN:
+                    this.expresion = new Dato(true, TipoDato.BOOLEAN, this.fila, this.columna);
+                    break;
                 case CHAR:
                     this.expresion = new Dato('0', TipoDato.CHAR, this.fila, this.columna);
                     break;
@@ -65,41 +68,19 @@ public class DecVariables extends Instruccion{
             }
         }
 
-
         if(this.expresion != null){
 
-            var valor = expresion.interpretar(ent, ts);
-
-            if(valor instanceof Errores) {
-                return valor;
-            }
+            Expresion valor = (Expresion)this.expresion.interpretar(ent, ts);
 
             if(ts.getTablaActual().containsKey(id)){
                 System.out.println("Variable "+this.id+" ya existe");
                 return new Errores("Semantico","Variable "+this.id+" ya existe", this.fila, this.columna);
             }
             
-            //pasar el id de la variable a minusculas
-            id = id.toLowerCase();
-
-            if(this.mutabilidad.equals("const")){
-                ts.getTablaActual().put(id, valor);
-            }else{
-                ts.getTablaActual().put(id, this.expresion);
-            }
+            valor.setMutabilidad(this.mutabilidad);
+            ts.getTablaActual().put(id, this.expresion);
         }
         return this;
     }
-
-
-    //obtener el valor de una variable/constante asignada en la tabla de simbolos
-    public Object getValor(tablaSimbolos ts){
-        if(ts.getTablaActual().containsKey(id)){
-            return ts.getTablaActual().get(id);
-        }else{
-            return new Errores("Semantico","Variable "+this.id+" no existe", this.fila, this.columna);
-        }
-    }
-
     
 }

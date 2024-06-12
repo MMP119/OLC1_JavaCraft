@@ -13,7 +13,7 @@ public class RecVariable extends Expresion {
     private int columna;
 
     public RecVariable(String id, int fila, int columna) {
-        super("ERROR", TipoDato.RECUPERAR, fila, columna);
+        super("ERROR", TipoDato.ERROR, fila, columna);
         this.id = id;
         this.fila = fila;
         this.columna = columna;
@@ -27,18 +27,18 @@ public class RecVariable extends Expresion {
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
-        var variable = ts.getTablaActual().get(id.toLowerCase());
+        Expresion variable = (Expresion)ts.getTablaActual().get(id);
 
         if (variable != null) {
-            System.out.println("Variable recuperada tabla actual: " + variable);
             return variable;
         }
         else{
             if(ts.getTablaAnterior()!=null){
-                variable = ts.getTablaAnterior().getTablaActual().get(id.toLowerCase());
+                variable = (Expresion)ts.getTablaAnterior().getTablaActual().get(id);
             }else{
                 System.out.println("ERROR SEMANTICO Variable NO DECLARADA:" + id);
-                return new Errores("Semantico", "Variable no declarada: " + id, fila, columna);}
+                return new Errores("Semantico", "Variable no declarada: " + id, fila, columna);
+            }
             if (variable == null) {
                 System.out.println("Variable NO DECLARADA:" + id + " en tabla actual ni en tabla anterior");
                 return new Errores("Semantico", "Variable no declarada: " + id, fila, columna);

@@ -10,6 +10,7 @@ import AST.*;
 public abstract class Expresion {
     private Object valor;
     private TipoDato tipo;
+    private String mutabilidad;
     private int fila;
     private int columna;
 
@@ -41,6 +42,14 @@ public abstract class Expresion {
 
     public void setTipo(TipoDato tipo) {
         this.tipo = tipo;
+    }
+
+    public String getMutabilidad() {
+        return mutabilidad;
+    }
+
+    public void setMutabilidad(String mutabilidad) {
+        this.mutabilidad = mutabilidad;
     }
 
     public int getFila() {
