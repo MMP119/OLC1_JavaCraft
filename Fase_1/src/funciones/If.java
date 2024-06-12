@@ -64,10 +64,18 @@ public class If extends Instruccion{
         }
 
         if(this.condicion.getValor().toString().toLowerCase().equals("true")){
+
+            EntornoIf.setConsola("");
+
             for (var a: EntornoIf.getInstrucciones()){
+
                 a.interpretar(EntornoIf, tsIf);
+                EntornoIf.getConsola();
             }
-            System.out.println(EntornoIf.getConsola());
+
+            //agregamos la consola del if al entorno principal
+            ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
+
         }else{
             if(instr_else != null){
                 for (var a: instr_else){
