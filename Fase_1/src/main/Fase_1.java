@@ -24,11 +24,18 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-                        //esto es un comentario
-                        var edad : int = 136;
-
-                        edad++;
-                        println(edad);
+                        var a:int = 1;
+                        println(a);
+                        const b:int = 2;
+                        println(b);
+                        if(2==2){
+                        //var a:int = 20;
+                            if(true){
+                            //var a:int = 10;
+                            println(a);
+                            }
+                        println(a);
+                        }
                         """;
         
         // Generar Analizadores
@@ -59,6 +66,7 @@ public class Fase_1 {
             interprete.Parser parser = new Parser(lexer);
             var resultado = parser.parse();
             @SuppressWarnings("unchecked")
+
             var ast = new Entorno((LinkedList<Instruccion>)resultado.value);
             var ts = new tablaSimbolos();
             ts.setNombre("Global");
@@ -68,6 +76,7 @@ public class Fase_1 {
             for (var a: ast.getInstrucciones()){
                 a.interpretar(ast, ts);
                 instruc.agregarHijoAST(a.getNodo());
+                ast.getConsola();
             }
             System.out.println(ast.getConsola());
             init.agregarHijoAST(instruc);

@@ -40,6 +40,17 @@ public class RecVariable extends Expresion {
                 return new Errores("Semantico", "Variable no declarada: " + id, fila, columna);
             }
             if (variable == null) {
+
+                //buscar en todas las tablas anteriores
+                tablaSimbolos tabla = ts.getTablaAnterior();
+                while (tabla != null) {
+                    variable = (Expresion)tabla.getTablaActual().get(id);
+                    if (variable != null) {
+                        break;
+                    }
+                    tabla = tabla.getTablaAnterior();
+                }
+                
                 System.out.println("Variable NO DECLARADA:" + id + " en tabla actual ni en tabla anterior");
                 return new Errores("Semantico", "Variable no declarada: " + id, fila, columna);
             }else{

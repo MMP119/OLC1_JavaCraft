@@ -1,10 +1,12 @@
 package instruccion;
 
-import funciones.IncDec;
 
 public enum TipoInstruccion {
     PRINT, 
-    IF, 
+    IF,
+    ELSE,
+    ELSEIF,
+    MATCH, 
     DECLARAR,
     ASIGNAR,
     CASTEOS,

@@ -5,7 +5,6 @@ import java_cup.runtime.*;
 import expresiones.Dato;
 import expresiones.Aritmeticas;
 import expresiones.TipoDato;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import instruccion.Instruccion;
 import funciones.Println;
@@ -14,10 +13,11 @@ import expresiones.Negativo;
 import expresiones.Relacionales;
 import expresiones.Logicos;
 import funciones.DecVariables;
-import entorno.tablaSimbolos;
 import expresiones.RecVariable;
 import funciones.AsignarVariables;
 import funciones.IncDec;
+import funciones.If;
+import funciones.Else;
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
 
@@ -80,10 +80,10 @@ non terminal Instruccion expresiones;
 non terminal TipoDato tipoExpresion;
 non terminal Instruccion declararVariables;
 non terminal Instruccion asignarVariables;
-non terminal sentIF;
-non terminal elseIF;
-non terminal sentWhile;
-non terminal sentFOR;
+non terminal Instruccion sentIF;
+non terminal Instruccion elseIF;
+non terminal Instruccion sentWhile;
+non terminal Instruccion sentFOR;
 non terminal Instruccion printConsole;
 non terminal Expresion expresion;
 
@@ -116,6 +116,7 @@ instruccion ::= expresiones:a                     {:RESULT = new LinkedList<>();
 expresiones ::= printConsole:a    {:RESULT=a;:}
         | declararVariables:a     {:RESULT=a;:}
         | asignarVariables:a      {:RESULT=a;:}
+        | sentIF:a                {:RESULT=a;:}
 ;
 
 
@@ -151,13 +152,12 @@ asignarVariables ::= ID:id IGUAL expresion:exp PYC                              
 //Sentencia de control
 
         //Sentencia if
-sentIF ::= IF A_PARENTESIS expresion C_PARENTESIS A_LLAVE instruccion C_LLAVE 
-        | IF A_PARENTESIS expresion C_PARENTESIS A_LLAVE instruccion C_LLAVE elseIF
+sentIF ::= IF A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE                  {:RESULT = new If(exp, inst, null, expleft, expright);:}
 ;
 
-elseIF ::= ELSE A_LLAVE instruccion C_LLAVE
-        | ELSE sentIF
-;
+// elseIF ::= ELSE A_LLAVE instruccion:inst C_LLAVE        {:RESULT= new Else(inst, instleft, instright);:}
+//         | ELSE sentIF:a                                 {:RESULT=a;:}
+// ;
 
         //Sentencia MATCH
 //sentMATCH ::=
@@ -189,9 +189,6 @@ sentFOR ::= FOR A_PARENTESIS
 
 //imprimir en consola
 printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:RESULT= new Println(val, valleft, valright);:}
-;
-
-retornar ::= 
 ;
 
 //expresiones 
