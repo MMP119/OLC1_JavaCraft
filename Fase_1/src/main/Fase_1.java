@@ -31,8 +31,8 @@ public class Fase_1 {
                         /*
                         num1 = num2-3;
                         */
-                        num3 = num2+num1;
-                        println(num3);
+                        num1 = num2+num1;
+                        println(num1);
                         """;
         
         // Generar Analizadores

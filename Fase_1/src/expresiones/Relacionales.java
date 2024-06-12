@@ -353,6 +353,30 @@ public class Relacionales extends Expresion{
                         }
                     }
 
+                    //verificar si son booleanos los valores, asigna 1 para true y 0 para false
+                    if(izq.getTipo().equals(TipoDato.BOOLEAN) && der.getTipo().equals(TipoDato.BOOLEAN)){
+                        //asignar 1 a true y 0 a false
+                        if(izq.getValor().equals("true")){
+                            izq.setValor(1);
+                        }else{
+                            izq.setValor(0);
+                        }
+
+                        if(der.getValor().equals("true")){
+                            der.setValor(1);
+                        }else{
+                            der.setValor(0);
+                        }
+
+                        if ((int)izq.getValor() < (int)der.getValor()) {
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
                     //verificar si los valores son iguales
 
                     if (izq.getValor().toString().equals(der.getValor().toString())) {
@@ -460,6 +484,30 @@ public class Relacionales extends Expresion{
                         //convertir el valor der a double
                         double derDouble = (double)Integer.parseInt(der.getValor().toString());
                         if((double)Double.parseDouble(izq.getValor().toString()) <= derDouble){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
+                    //verificar si son booleanos los valores, asigna 1 para true y 0 para false
+                    if(izq.getTipo().equals(TipoDato.BOOLEAN) && der.getTipo().equals(TipoDato.BOOLEAN)){
+                        //asignar 1 a true y 0 a false
+                        if(izq.getValor().equals("true")){
+                            izq.setValor(1);
+                        }else{
+                            izq.setValor(0);
+                        }
+
+                        if(der.getValor().equals("true")){
+                            der.setValor(1);
+                        }else{
+                            der.setValor(0);
+                        }
+
+                        if ((int)izq.getValor() <= (int)der.getValor()) {
                             this.setValor(true);
                             return this;
                         }else{
@@ -582,6 +630,31 @@ public class Relacionales extends Expresion{
                         }
                     }
 
+                    //verificar si son booleanos los valores, asigna 1 para true y 0 para false
+                    if(izq.getTipo().equals(TipoDato.BOOLEAN) && der.getTipo().equals(TipoDato.BOOLEAN)){
+                        //asignar 1 a true y 0 a false
+                        if(izq.getValor().equals("true")){
+                            izq.setValor(1);
+                        }else{
+                            izq.setValor(0);
+                        }
+
+                        if(der.getValor().equals("true")){
+                            der.setValor(1);
+                        }else{
+                            der.setValor(0);
+                        }
+
+                        if ((int)izq.getValor() > (int)der.getValor()) {
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
+
                     //verificar si los valores son iguales
 
                     if (izq.getValor().toString().equals(der.getValor().toString())) {
@@ -695,6 +768,31 @@ public class Relacionales extends Expresion{
                             return this;
                         }
                     }
+
+                    //verificar si son booleanos los valores, asigna 1 para true y 0 para false
+                    if(izq.getTipo().equals(TipoDato.BOOLEAN) && der.getTipo().equals(TipoDato.BOOLEAN)){
+                        //asignar 1 a true y 0 a false
+                        if(izq.getValor().equals("true")){
+                            izq.setValor(1);
+                        }else{
+                            izq.setValor(0);
+                        }
+
+                        if(der.getValor().equals("true")){
+                            der.setValor(1);
+                        }else{
+                            der.setValor(0);
+                        }
+
+                        if ((int)izq.getValor() >= (int)der.getValor()) {
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
 
                     //verificar si los valores son iguales
 
