@@ -24,34 +24,29 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-                        var a:int = 1;
-
-                        println(a);
-                        
-                        const b:int = 2;
-
-                        println(b);
-
-                        var c:double = 3.1;
-                        println(c);
-
-                        if(64!='@'){
-
-                            const d:int = (int)'@';
-                            println(d);
-                            
-                        }else if(2<2){
-
-                            println("else if");
-
-                        }else if(200<100){
-                        
-                            println("else if 2");
-
-                        }else{
-
-                            println("else");
-
+                        var j: int = 6;
+                        var k: int = 10;
+                        if (j <= k) {
+                            match j {
+                                1 => { println("j es 1"); }
+                                2 => { println("j es 2"); }
+                                3 => { println("j es 3"); }
+                                4 => { println("j es 4"); }
+                                5 => { println("j es 5"); }
+                                6 => { 
+                                        
+                                        //const j: int = 10;
+                                        println("j es: "+j); 
+                                    
+                                    }
+                                7 => { println("j es 7"); }
+                                8 => { println("j es 8"); }
+                                9 => { println("j es 9"); }
+                                10 => { println("j es 10"); }
+                                _ => { println("j es otro valor"); }
+                            }
+                            j++;
+                            println(j);
                         }
 
                         """;

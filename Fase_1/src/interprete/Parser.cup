@@ -121,6 +121,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | declararVariables:a     {:RESULT=a;:}
         | asignarVariables:a      {:RESULT=a;:}
         | sentIF:a                {:RESULT=a;:}
+        | sentMATCH:a             {:RESULT=a;:}
 ;
 
 

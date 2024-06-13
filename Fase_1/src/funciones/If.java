@@ -80,7 +80,7 @@ public class If extends Instruccion{
 
                 if(instr_else instanceof Else){
                     instr_else.interpretar(EntornoIf, tsIf);
-                    var else_ = new NodoAst("ELSE");
+                    NodoAst else_ = new NodoAst("ELSE");
                     else_.agregarHijoAST(instr_else.getNodo());
                     ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
                 }
@@ -88,12 +88,10 @@ public class If extends Instruccion{
                 
                 if(instr_else instanceof If){
                     instr_else.interpretar(EntornoIf, tsIf);
-                    var else_if = new NodoAst("ELSE IF");
+                    NodoAst else_if = new NodoAst("ELSE IF");
                     else_if.agregarHijoAST(instr_else.getNodo());
                     ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
                 }
-                
-                //ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
 
             }else{
 
