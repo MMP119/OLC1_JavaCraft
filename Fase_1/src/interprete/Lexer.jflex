@@ -70,6 +70,7 @@ Id = (\_)*[a-zA-Z][a-zA-Z0-9\_]*
 "]"                 {return new Symbol(sym.C_CORCHETE, yycolumn, yyline, yytext());}
 ","                 {return new Symbol(sym.COMA, yycolumn, yyline, yytext());}
 "."                 {return new Symbol(sym.PUNTO, yycolumn, yyline, yytext());}
+"_"                 {return new Symbol(sym.GUION_BAJO, yycolumn, yyline, yytext());}
 
 
 //palabras reservadas

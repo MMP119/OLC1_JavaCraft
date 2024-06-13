@@ -2,22 +2,24 @@
 package interprete;
 
 import java_cup.runtime.*;
+import java.util.LinkedList;
+import instruccion.Instruccion;
 import expresiones.Dato;
 import expresiones.Aritmeticas;
 import expresiones.TipoDato;
-import java.util.LinkedList;
-import instruccion.Instruccion;
-import funciones.Println;
 import expresiones.Expresion;
 import expresiones.Negativo;
 import expresiones.Relacionales;
 import expresiones.Logicos;
-import funciones.DecVariables;
 import expresiones.RecVariable;
+import funciones.DecVariables;
+import funciones.Println;
 import funciones.AsignarVariables;
 import funciones.IncDec;
 import funciones.If;
 import funciones.Else;
+import funciones.Match;
+import funciones.Casos;
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
 
@@ -56,7 +58,7 @@ terminal String INT, DOUBLE, BOOL, CHAR, STRING;
 
 //simbolos
 terminal String PYC, DOS_P, MAS, MENOS, POR, DIVIDIR, MODULO, IGUALACION, DIFERENCIACION, MENOR_IGUAL, MAYOR_IGUAL, IGUAL, NOT, MENOR_Q, MAYOR_Q;
-terminal String OR, AND, XOR, A_PARENTESIS, C_PARENTESIS, A_LLAVE, C_LLAVE, A_CORCHETE, C_CORCHETE, COMA, PUNTO;
+terminal String OR, AND, XOR, A_PARENTESIS, C_PARENTESIS, A_LLAVE, C_LLAVE, A_CORCHETE, C_CORCHETE, COMA, PUNTO, GUION_BAJO;
 terminal String POTENCIA;
 
 //reservadas
@@ -82,6 +84,8 @@ non terminal Instruccion declararVariables;
 non terminal Instruccion asignarVariables;
 non terminal Instruccion sentIF;
 non terminal Instruccion elseIF;
+non terminal Instruccion sentMATCH;
+non terminal Instruccion casos;
 non terminal Instruccion sentWhile;
 non terminal Instruccion sentFOR;
 non terminal Instruccion printConsole;
@@ -156,17 +160,20 @@ sentIF ::= IF A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:inst C
         | IF A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE elseIF:elseIf     {:RESULT = new If(exp, inst, elseIf, expleft, expright);;:}
 ;
 
-
+        //else y else if
 elseIF ::= ELSE A_LLAVE instruccion:inst C_LLAVE        {:RESULT= new Else(inst, instleft, instright);:}
         | ELSE sentIF:a                                 {:RESULT=a;:}
 ;
 
 
-
-
         //Sentencia MATCH
-//sentMATCH ::=
-//;
+sentMATCH ::= MATCH expresion:exp A_LLAVE  casos:c  C_LLAVE                     {:RESULT = new Match(exp, c, expleft, expright);:}
+;
+
+casos ::=  expresion:exp IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE         {:RESULT = new Casos(exp, inst, null, expleft, expright);:}
+        | expresion:exp IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE casos:c  {:RESULT = new Casos(exp, inst, c, expleft, expright);:}
+        | GUION_BAJO IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE             {:RESULT = new Casos(null, inst, null, instleft, instright);:}
+;
 
 
 //Sentencia ciclicas
