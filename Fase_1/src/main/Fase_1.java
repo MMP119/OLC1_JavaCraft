@@ -40,9 +40,13 @@ public class Fase_1 {
                             const d:int = (int)'@';
                             println(d);
                             
-                        }else if(2==2){
+                        }else if(2<2){
 
                             println("else if");
+
+                        }else if(200<100){
+                        
+                            println("else if 2");
 
                         }else{
 

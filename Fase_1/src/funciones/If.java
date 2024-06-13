@@ -83,6 +83,12 @@ public class If extends Instruccion{
                     ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
                 }
                 
+                if(instr_else instanceof If){
+                    instr_else.interpretar(EntornoIf, tsIf);
+                    ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
+                }
+                
+                //ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
 
             }else{
 
