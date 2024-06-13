@@ -35,10 +35,21 @@ public class Fase_1 {
                         var c:double = 3.1;
                         println(c);
 
-                        if(2==2){
+                        if(64!='@'){
+
                             const d:int = (int)'@';
                             println(d);
+                            
+                        }else if(2==2){
+
+                            println("else if");
+
+                        }else{
+
+                            println("else");
+
                         }
+
                         """;
         
         // Generar Analizadores

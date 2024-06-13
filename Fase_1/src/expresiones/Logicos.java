@@ -30,6 +30,23 @@ public class Logicos extends Expresion{
     public Object interpretar(Entorno ent, tablaSimbolos ts){
 
         Expresion izq = (Expresion) this.izquierda.interpretar(ent, ts);
+
+        //verificar si derecha es nula
+        if(this.dererecha == null){
+            if(this.operador.equals("!")){
+                if(izq.getTipo() == TipoDato.BOOLEAN){
+                    this.setValor(!Boolean.parseBoolean(izq.getValor().toString()));
+                    this.setTipo(TipoDato.BOOLEAN);
+                }else{
+                    System.out.println("Error Semántico: Error en la operacion logica NOT.");
+                }
+                return this;
+            }else{
+                System.out.println("Error Semántico: Error en la operacion logica.");
+                return this;
+            }
+        }
+
         Expresion der = (Expresion) this.dererecha.interpretar(ent, ts);
 
         switch (this.operador) {
@@ -37,6 +54,7 @@ public class Logicos extends Expresion{
                 // Comparar si son iguales
                 if (izq.getTipo() == TipoDato.BOOLEAN && der.getTipo() == TipoDato.BOOLEAN) {
                     this.setValor(Boolean.parseBoolean(izq.getValor().toString()) && Boolean.parseBoolean(der.getValor().toString()));
+                    this.setTipo(TipoDato.BOOLEAN);
                 } else {
                     System.out.println("Error Semántico: Error en la operacion logica AND.");
                 }
@@ -47,17 +65,9 @@ public class Logicos extends Expresion{
                 // Comparar si son diferentes
                 if (izq.getTipo() == TipoDato.BOOLEAN && der.getTipo() == TipoDato.BOOLEAN) {
                     this.setValor(Boolean.parseBoolean(izq.getValor().toString()) || Boolean.parseBoolean(der.getValor().toString()));
+                    this.setTipo(TipoDato.BOOLEAN);
                 } else {
                     System.out.println("Error Semántico: Error en la operacion logica OR.");
-                }
-                break;
-
-            case "!":
-                // Comparar si son diferentes
-                if (izq.getTipo() == TipoDato.BOOLEAN) {
-                    this.setValor(!Boolean.parseBoolean(izq.getValor().toString()));
-                } else {
-                    System.out.println("Error Semántico: Error en la operacion logica NOT.");
                 }
                 break;
             
@@ -65,6 +75,7 @@ public class Logicos extends Expresion{
                 // Comparar si son diferentes
                 if (izq.getTipo() == TipoDato.BOOLEAN && der.getTipo() == TipoDato.BOOLEAN) {
                     this.setValor(Boolean.parseBoolean(izq.getValor().toString()) ^ Boolean.parseBoolean(der.getValor().toString()));
+                    this.setTipo(TipoDato.BOOLEAN);
                 } else {
                     System.out.println("Error Semántico: Error en la operacion logica XOR.");
                 }

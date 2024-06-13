@@ -16,12 +16,12 @@ public class If extends Instruccion{
 
     private Expresion condicion;
     private LinkedList<Instruccion> inst_if;
-    private LinkedList<Instruccion> instr_else;
+    private Instruccion instr_else;
     private int fila;
     private int columna;
 
 
-    public If(Expresion condicion, LinkedList<Instruccion> inst_if, LinkedList<Instruccion> instr_else, int fila, int columna) {
+    public If(Expresion condicion, LinkedList<Instruccion> inst_if, Instruccion instr_else, int fila, int columna) {
         super(new Tipo(TipoInstruccion.IF), fila, columna);
         this.condicion = condicion;
         this.inst_if = inst_if;
@@ -53,6 +53,7 @@ public class If extends Instruccion{
         tablaSimbolos tsIf = new tablaSimbolos();
         tsIf.setNombre("If");
         tsIf.setTablaAnterior(ts);
+        EntornoIf.setConsola("");
         this.condicion = (Expresion)this.condicion.interpretar(EntornoIf, tsIf);
         
 
@@ -65,10 +66,7 @@ public class If extends Instruccion{
 
         if(this.condicion.getValor().toString().toLowerCase().equals("true")){
 
-            EntornoIf.setConsola("");
-
             for (var a: EntornoIf.getInstrucciones()){
-
                 a.interpretar(EntornoIf, tsIf);
                 EntornoIf.getConsola();
             }
@@ -77,13 +75,20 @@ public class If extends Instruccion{
             ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
 
         }else{
+
             if(instr_else != null){
-                for (var a: instr_else){
-                    a.interpretar(EntornoIf, tsIf);
+
+                if(instr_else instanceof Else){
+                    instr_else.interpretar(EntornoIf, tsIf);
+                    ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
                 }
+                
+
             }else{
+
                 System.out.println("No se cumple la condicion del if y no hay un else para ejecutar");
                 return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del if", fila, columna);
+
             }
         }
     return this;   

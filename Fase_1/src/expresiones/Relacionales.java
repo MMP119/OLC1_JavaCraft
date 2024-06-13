@@ -246,6 +246,8 @@ public class Relacionales extends Expresion{
                         this.setValor(true);
                         return this;
                     }
+
+                    
                 }
                 break;
 
@@ -377,15 +379,29 @@ public class Relacionales extends Expresion{
                         }
                     }
 
-                    //verificar si los valores son iguales
-
-                    if (izq.getValor().toString().equals(der.getValor().toString())) {
-                        this.setValor(false);
-                        return this;
-                    }else{
-                        this.setValor(true);
-                        return this;
+                    
+                    //izq es int y der es int
+                    if(izq.getTipo().equals(TipoDato.INT) && der.getTipo().equals(TipoDato.INT)){
+                        if((int)Integer.parseInt(izq.getValor().toString()) < (int)Integer.parseInt(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
                     }
+
+                    //izq es double y der es double
+                    if(izq.getTipo().equals(TipoDato.DOUBLE) && der.getTipo().equals(TipoDato.DOUBLE)){
+                        if((double)Double.parseDouble(izq.getValor().toString()) < (double)Double.parseDouble(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
                 }
                 break;
 
@@ -516,14 +532,26 @@ public class Relacionales extends Expresion{
                         }
                     }
 
-                    //verificar si los valores son iguales
+                    //izq es int y der es int
+                    if(izq.getTipo().equals(TipoDato.INT) && der.getTipo().equals(TipoDato.INT)){
+                        if((int)Integer.parseInt(izq.getValor().toString()) <= (int)Integer.parseInt(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
 
-                    if (izq.getValor().toString().equals(der.getValor().toString())) {
-                        this.setValor(true);
-                        return this;
-                    }else{
-                        this.setValor(false);
-                        return this;
+                    //izq es double y der es double
+                    if(izq.getTipo().equals(TipoDato.DOUBLE) && der.getTipo().equals(TipoDato.DOUBLE)){
+                        if((double)Double.parseDouble(izq.getValor().toString()) <= (double)Double.parseDouble(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
                     }
                 }
                 break;
@@ -655,14 +683,26 @@ public class Relacionales extends Expresion{
                     }
 
 
-                    //verificar si los valores son iguales
+                    //izq es int y der es int
+                    if(izq.getTipo().equals(TipoDato.INT) && der.getTipo().equals(TipoDato.INT)){
+                        if((int)Integer.parseInt(izq.getValor().toString()) > (int)Integer.parseInt(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
 
-                    if (izq.getValor().toString().equals(der.getValor().toString())) {
-                        this.setValor(false);
-                        return this;
-                    }else{
-                        this.setValor(true);
-                        return this;
+                    //izq es double y der es double
+                    if(izq.getTipo().equals(TipoDato.DOUBLE) && der.getTipo().equals(TipoDato.DOUBLE)){
+                        if((double)Double.parseDouble(izq.getValor().toString()) > (double)Double.parseDouble(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
                     }
                 }
                 break;
@@ -793,16 +833,28 @@ public class Relacionales extends Expresion{
                         }
                     }
 
-
-                    //verificar si los valores son iguales
-
-                    if (izq.getValor().toString().equals(der.getValor().toString())) {
-                        this.setValor(true);
-                        return this;
-                    }else{
-                        this.setValor(false);
-                        return this;
+                    //izq es int y der es int
+                    if(izq.getTipo().equals(TipoDato.INT) && der.getTipo().equals(TipoDato.INT)){
+                        if((int)Integer.parseInt(izq.getValor().toString()) >= (int)Integer.parseInt(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
                     }
+
+                    //izq es double y der es double
+                    if(izq.getTipo().equals(TipoDato.DOUBLE) && der.getTipo().equals(TipoDato.DOUBLE)){
+                        if((double)Double.parseDouble(izq.getValor().toString()) >= (double)Double.parseDouble(der.getValor().toString())){
+                            this.setValor(true);
+                            return this;
+                        }else{
+                            this.setValor(false);
+                            return this;
+                        }
+                    }
+
                 }
                 break;
         

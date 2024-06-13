@@ -29,9 +29,18 @@ public class Else extends Instruccion{
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
         
         Entorno EntornoElse = new Entorno(inst_else);
+        tablaSimbolos tsElse = new tablaSimbolos();
+        tsElse.setNombre("Else");
+        tsElse.setTablaAnterior(ts);
+        EntornoElse.setConsola("");
+
         for (var a: EntornoElse.getInstrucciones()){
-            a.interpretar(EntornoElse, ts);
+            a.interpretar(EntornoElse, tsElse);
+            EntornoElse.getConsola();
         }
+
+        ent.setConsola(ent.getConsola() + EntornoElse.getConsola());
+
         return this;
     }
     

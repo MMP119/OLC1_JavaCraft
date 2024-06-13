@@ -17,6 +17,7 @@ public class sym {
   public static final int XOR = 24;
   public static final int DOUBLE = 3;
   public static final int CONTINUE = 44;
+  public static final int UNOT = 65;
   public static final int INT = 2;
   public static final int PRINTLN = 52;
   public static final int FOR = 41;
@@ -138,7 +139,8 @@ public class sym {
   "CADENA",
   "CARACTER",
   "ID",
-  "UMENOS"
+  "UMENOS",
+  "UNOT"
   };
 }
 

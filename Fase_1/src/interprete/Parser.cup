@@ -70,7 +70,7 @@ terminal String PRINTLN, ROUND, LENGTH, TOSTRING, FIND, START_WITH;
 terminal String ENTERO, DECIMAL, BOOLEANO, CADENA, CARACTER, ID;
 
 
-terminal String UMENOS;
+terminal String UMENOS, UNOT;
 
 
 //------> Declaración de no terminales
@@ -93,7 +93,7 @@ non terminal Expresion expresion;
 precedence left OR;
 precedence left AND;
 precedence left XOR;
-precedence right NOT;
+precedence right UNOT;
 precedence left IGUALACION, DIFERENCIACION, MENOR_Q, MENOR_IGUAL, MAYOR_Q, MAYOR_IGUAL;
 precedence left MAS, MENOS;
 precedence left POR, DIVIDIR, MODULO;
@@ -153,11 +153,15 @@ asignarVariables ::= ID:id IGUAL expresion:exp PYC                              
 
         //Sentencia if
 sentIF ::= IF A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE                  {:RESULT = new If(exp, inst, null, expleft, expright);:}
+        | IF A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE elseIF:elseIf     {:RESULT = new If(exp, inst, elseIf, expleft, expright);;:}
 ;
 
-// elseIF ::= ELSE A_LLAVE instruccion:inst C_LLAVE        {:RESULT= new Else(inst, instleft, instright);:}
-//         | ELSE sentIF:a                                 {:RESULT=a;:}
-// ;
+
+elseIF ::= ELSE A_LLAVE instruccion:inst C_LLAVE        {:RESULT= new Else(inst, instleft, instright);:}
+        | ELSE sentIF:a                                 {:RESULT=a;:}
+;
+
+
 
         //Sentencia MATCH
 //sentMATCH ::=
@@ -205,7 +209,7 @@ expresion::= MENOS expresion: val                       {:RESULT = new Negativo(
         | expresion:val1 MENOR_IGUAL expresion:val2     {:RESULT = new Relacionales(val1, val2, "<=", val2left, val2right);:}
         | expresion:val1 MAYOR_Q expresion:val2         {:RESULT = new Relacionales(val1, val2, ">", val2left, val2right);:}
         | expresion:val1 MAYOR_IGUAL expresion:val2     {:RESULT = new Relacionales(val1, val2, ">=", val2left, val2right);:}
-        | NOT expresion :val                            {:RESULT = new Logicos(val, val, "!", valleft, valright);:}%prec NOT
+        | NOT expresion :val                            {:RESULT = new Logicos(val, null, "!", valleft, valright);:}%prec UNOT
         | expresion:val1 XOR expresion:val2             {:RESULT = new Logicos(val1, val2, "^", val2left, val2right);:}
         | expresion:val1 OR expresion:val2              {:RESULT = new Logicos(val1, val2, "||", val2left, val2right);:}
         | expresion:val1 AND expresion:val2             {:RESULT = new Logicos(val1, val2, "&&", val2left, val2right);:}
