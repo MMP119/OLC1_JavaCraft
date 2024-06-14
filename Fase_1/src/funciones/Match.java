@@ -4,7 +4,6 @@ import AST.NodoAst;
 import entorno.Entorno;
 import entorno.Tipo;
 import entorno.tablaSimbolos;
-import excepciones.Errores;
 import expresiones.Expresion;
 import instruccion.Instruccion;
 import instruccion.TipoInstruccion;
@@ -33,12 +32,13 @@ public class Match extends Instruccion {
 
         Expresion valorExp = (Expresion) this.exp.interpretar(ent, ts);
         
-
         for(Casos caso: this.casos){
             caso.setMatch(valorExp);
-            caso.interpretar(ent, ts);
+            Object resultado = caso.interpretar(ent, ts);
+            if(resultado != null){
+                return resultado;
+            }
         }
-        
         return this;
     }
 }

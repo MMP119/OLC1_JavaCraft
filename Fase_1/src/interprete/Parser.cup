@@ -182,7 +182,7 @@ casos::= caso:a                 {:RESULT= new LinkedList<>(); RESULT.add((Casos)
 ;
 
 caso ::=  expresion:exp IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE         {:RESULT = new Casos(exp, inst, expleft, expright);:}
-        | GUION_BAJO IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE            {:RESULT = new Casos(null, inst, instleft, instright);:}
+        | GUION_BAJO IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE            {:RESULT = new Casos(new Dato("_", TipoDato.CADENA, instleft, instright), inst, instleft, instright);:}
 ;
 
 

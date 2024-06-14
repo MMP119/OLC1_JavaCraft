@@ -1021,7 +1021,7 @@ class CUP$Parser$actions {
 		int instleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int instright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		LinkedList<Instruccion> inst = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		RESULT = new Casos(null, inst, instleft, instright);
+		RESULT = new Casos(new Dato("_", TipoDato.CADENA, instleft, instright), inst, instleft, instright);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("caso",10, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

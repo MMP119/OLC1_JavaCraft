@@ -6,6 +6,7 @@ import AST.NodoAst;
 import entorno.Entorno;
 import entorno.Tipo;
 import entorno.tablaSimbolos;
+import excepciones.Errores;
 import expresiones.Expresion;
 import instruccion.Instruccion;
 import instruccion.TipoInstruccion;
@@ -14,7 +15,6 @@ public class Casos extends Instruccion {
 
     private Expresion exp;
     private LinkedList<Instruccion> inst;
-    @SuppressWarnings("unused")
     private int fila, columna;
     private Expresion match;
 
@@ -44,27 +44,25 @@ public class Casos extends Instruccion {
             this.exp = (Expresion) this.exp.interpretar(ent, ts);
         }
         
-        this.match = (Expresion) this.match.interpretar(ent, ts);
+        if(this.exp != null && this.exp.getValor().toString().equals("_")){
+            this.match = (Expresion) this.match.interpretar(ent, ts);
+        }
 
         if(this.exp != null){
-            if (this.exp.getValor().toString().equals(this.match.getValor().toString())) {
+            if (this.exp.getValor().toString().equals(this.match.getValor().toString()) || this.exp.getValor().toString().equals("_")) {
                 for(var a: EntornoCasos.getInstrucciones()){
                     a.interpretar(EntornoCasos, tsCasos);
                     EntornoCasos.getConsola();
                 }
                 ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
+                return this;
             }
         }else{
-            for (var a: EntornoCasos.getInstrucciones()) {
-                a.interpretar(EntornoCasos, tsCasos);
-                EntornoCasos.getConsola();
-            }
-            ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
-        }         
-        return this;
+            return new Errores("Semantico", "expresion nula", fila, columna);
+        }
+        return null;
     }
 
-    // Getters y Setters
     public Expresion getMatch() {
         return match;
     }
@@ -73,4 +71,3 @@ public class Casos extends Instruccion {
         this.match = match;
     }
 }
-
