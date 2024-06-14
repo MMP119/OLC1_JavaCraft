@@ -20,6 +20,7 @@ import funciones.If;
 import funciones.Else;
 import funciones.Match;
 import funciones.Casos;
+import funciones.While;
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
 
@@ -122,6 +123,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | asignarVariables:a      {:RESULT=a;:}
         | sentIF:a                {:RESULT=a;:}
         | sentMATCH:a             {:RESULT=a;:}
+        | sentWhile:a             {:RESULT=a;:}
 ;
 
 
@@ -180,7 +182,7 @@ casos ::=  expresion:exp IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE         
 //Sentencia ciclicas
 
         //while
-sentWhile ::= A_PARENTESIS expresion C_PARENTESIS A_LLAVE instruccion C_LLAVE
+sentWhile ::= WHILE A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE  {:RESULT =  new While(exp, inst, expleft, expright);:}
 ;
 
         //FOR

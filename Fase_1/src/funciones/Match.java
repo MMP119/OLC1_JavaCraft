@@ -32,11 +32,6 @@ public class Match extends Instruccion {
 
         Expresion valorExp = (Expresion) this.exp.interpretar(ent, ts);
 
-        // if (valorExp == null || valorExp.getClass() != expresiones.Expresion.class) {
-        //     System.out.println("Error Semantico: la expresion no tiene valor o no está asignada");
-        //     return new Errores("Semantico", "la expresion no tiene valor", this.fila, this.columna);
-        // }
-
         if (casos instanceof Casos) {
             ((Casos) casos).setMatch(valorExp);
             Object resultado = casos.interpretar(ent, ts);

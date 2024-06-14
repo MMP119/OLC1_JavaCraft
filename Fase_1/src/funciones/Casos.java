@@ -15,6 +15,7 @@ public class Casos extends Instruccion {
     private Expresion exp;
     private LinkedList<Instruccion> inst;
     private Instruccion casos; // Anidado
+    @SuppressWarnings("unused")
     private int fila, columna;
     private Expresion match;
 
