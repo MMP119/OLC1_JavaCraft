@@ -14,18 +14,17 @@ public class Casos extends Instruccion {
 
     private Expresion exp;
     private LinkedList<Instruccion> inst;
-    private Instruccion casos; // Anidado
     @SuppressWarnings("unused")
     private int fila, columna;
     private Expresion match;
 
-    public Casos(Expresion exp, LinkedList<Instruccion> inst, Instruccion casos, int fila, int columna) {
+    public Casos(Expresion exp, LinkedList<Instruccion> inst, int fila, int columna) {
         super(new Tipo(TipoInstruccion.CASOS), fila, columna);
         this.exp = exp;
         this.inst = inst;
-        this.casos = casos;
         this.fila = fila;
         this.columna = columna;
+        this.match = match;
     }
 
     public NodoAst getNodo() {
@@ -41,41 +40,27 @@ public class Casos extends Instruccion {
         tsCasos.setTablaAnterior(ts);
         EntornoCasos.setConsola("");
 
-        if (this.exp != null) {
-            this.exp = (Expresion) this.exp.interpretar(EntornoCasos, tsCasos);
+        if(this.exp != null){
+            this.exp = (Expresion) this.exp.interpretar(ent, ts);
         }
+        
+        this.match = (Expresion) this.match.interpretar(ent, ts);
 
-        // Caso por defecto
-        if (this.exp == null && this.match != null && this.casos == null) {
-            for (Instruccion inst : inst) {
-                inst.interpretar(EntornoCasos, tsCasos);
+        if(this.exp != null){
+            if (this.exp.getValor().toString().equals(this.match.getValor().toString())) {
+                for(var a: EntornoCasos.getInstrucciones()){
+                    a.interpretar(EntornoCasos, tsCasos);
+                    EntornoCasos.getConsola();
+                }
+                ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
+            }
+        }else{
+            for (var a: EntornoCasos.getInstrucciones()) {
+                a.interpretar(EntornoCasos, tsCasos);
                 EntornoCasos.getConsola();
             }
             ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
-        } 
-        // Un solo caso
-        else if (this.exp != null && this.match != null && this.casos == null) {
-            if (this.exp.getValor().equals(this.match.getValor())) {
-                for (Instruccion inst : inst) {
-                    inst.interpretar(EntornoCasos, tsCasos);
-                    EntornoCasos.getConsola();
-                }
-                ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
-            }
-        } 
-        // Casos anidados
-        else if (this.exp != null && this.match != null && this.casos != null) {
-            if (this.exp.getValor().equals(this.match.getValor())) {
-                for (Instruccion inst : inst) {
-                    inst.interpretar(EntornoCasos, tsCasos);
-                    EntornoCasos.getConsola();
-                }
-                ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
-            } else {
-                this.casos.interpretar(ent, ts);
-            }
-        }
-
+        }         
         return this;
     }
 
@@ -86,9 +71,6 @@ public class Casos extends Instruccion {
 
     public void setMatch(Expresion match) {
         this.match = match;
-        if (this.casos != null && this.casos instanceof Casos) {
-            ((Casos) this.casos).setMatch(match);
-        }
     }
 }
 

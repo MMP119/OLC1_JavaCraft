@@ -43,6 +43,30 @@ public class tablaSimbolos {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public boolean setVariable(Simbolo simbolo) {
+        Simbolo busqueda
+                = (Simbolo) this.tablaActual.get(
+                        simbolo.getId().
+                                toLowerCase());
+        if (busqueda == null) {
+            this.tablaActual.put(simbolo.getId().toLowerCase(),
+                    simbolo);
+            return true;
+        }
+        return false;
+    }
+
+    public Simbolo getVariable(String id) {
+        for (tablaSimbolos i = this; i != null; i = i.getTablaAnterior()) {
+            Simbolo busqueda = (Simbolo) i.tablaActual.
+                    get(id.toLowerCase());
+            if (busqueda != null) {
+                return busqueda;
+            }
+        }
+        return null;
+    }
     
 
 }

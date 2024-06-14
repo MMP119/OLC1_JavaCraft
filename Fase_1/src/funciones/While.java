@@ -57,8 +57,9 @@ public class While extends Instruccion {
             }
 
             if(condicion.getValor().toString().equals("true")){
-                for(Instruccion i : inst){
-                    i.interpretar(EntWhile, tsWhile);
+                for(var a:EntWhile.getInstrucciones()){
+                    a.interpretar(EntWhile, tsWhile);
+                    EntWhile.getConsola();
                 }
                 ent.setConsola(ent.getConsola() + EntWhile.getConsola());
                 EntWhile.setConsola(""); // Limpiar consola para la siguiente iteracion
@@ -69,4 +70,3 @@ public class While extends Instruccion {
         return this;
     }  
 }
-

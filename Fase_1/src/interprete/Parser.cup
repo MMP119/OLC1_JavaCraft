@@ -86,7 +86,8 @@ non terminal Instruccion asignarVariables;
 non terminal Instruccion sentIF;
 non terminal Instruccion elseIF;
 non terminal Instruccion sentMATCH;
-non terminal Instruccion casos;
+non terminal LinkedList<Casos> casos;
+non terminal Instruccion caso;
 non terminal Instruccion sentWhile;
 non terminal Instruccion sentFOR;
 non terminal Instruccion printConsole;
@@ -173,9 +174,12 @@ elseIF ::= ELSE A_LLAVE instruccion:inst C_LLAVE        {:RESULT= new Else(inst,
 sentMATCH ::= MATCH expresion:exp A_LLAVE  casos:c  C_LLAVE                     {:RESULT = new Match(exp, c, expleft, expright);:}
 ;
 
-casos ::=  expresion:exp IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE         {:RESULT = new Casos(exp, inst, null, expleft, expright);:}
-        | expresion:exp IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE casos:c  {:RESULT = new Casos(exp, inst, c, expleft, expright);:}
-        | GUION_BAJO IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE             {:RESULT = new Casos(null, inst, null, instleft, instright);:}
+casos::= caso:a                 {:RESULT= new LinkedList<>(); RESULT.add((Casos)a);:}
+        | casos:b caso:a        {:RESULT = b; RESULT.add((Casos)a);:}
+;
+
+caso ::=  expresion:exp IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE         {:RESULT = new Casos(exp, inst, expleft, expright);:}
+        | GUION_BAJO IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE             {:RESULT = new Casos(null, inst, instleft, instright);:}
 ;
 
 

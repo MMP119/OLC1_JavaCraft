@@ -42,9 +42,7 @@ public class AsignarVariables extends Instruccion{
         
         //verificar si la variable existe
         Expresion variable = (Expresion)new RecVariable(this.id, this.fila, this.columna);
-
-        //interpretar la variable y la expresion 
-        variable = (Expresion)variable.interpretar(ent, ts);
+        variable =  (Expresion)variable.interpretar(ent, ts);
         this.expresion = (Expresion)this.expresion.interpretar(ent, ts);
 
         
@@ -53,10 +51,11 @@ public class AsignarVariables extends Instruccion{
 
             if(this.tipo == null){
 
-                if(variable.getMutabilidad().equals("const")){
+                if(variable.getMutabilidad() != null){
+                    if(variable.getMutabilidad().equals("const")){
                     System.out.println("ERROR SEMANTICO ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id);
                     return new Errores("Semantico", "ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id, fila, columna);
-                }else{
+                }}else{
 
                     //verificar si la expresion es del mismo tipo que la variable
                     if(variable.getTipo() == this.expresion.getTipo()){
@@ -64,6 +63,9 @@ public class AsignarVariables extends Instruccion{
                         //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                         if(ts.getTablaActual().containsKey(this.id)){
                             ts.getTablaActual().replace(id, this.expresion);
+                        }else{
+                            //si no existe, se agrega a la tabla de simbolos
+                            ts.getTablaActual().put(this.id, this.expresion);
                         }   
 
                     }else{
@@ -73,11 +75,12 @@ public class AsignarVariables extends Instruccion{
                 }
 
             }else{
-
+                
+                if(variable.getMutabilidad() != null){
                 if(variable.getMutabilidad().equals("const")){
                     System.out.println("ERROR SEMANTICO ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id);
                     return new Errores("Semantico", "ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id, fila, columna);
-                }else{
+                }}else{
 
                     //casteo de int a double
                     if(variable.getTipo() == TipoDato.DOUBLE && this.tipo == TipoDato.DOUBLE && this.expresion.getTipo() == TipoDato.INT){
@@ -91,7 +94,10 @@ public class AsignarVariables extends Instruccion{
                             //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                             if(ts.getTablaActual().containsKey(this.id)){
                                 ts.getTablaActual().replace(id, this.expresion);
-                            }   
+                            }else{
+                                //si no existe, se agrega a la tabla de simbolos
+                                ts.getTablaActual().put(this.id, this.expresion);
+                            } 
 
                         }else{
                             System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
@@ -111,6 +117,9 @@ public class AsignarVariables extends Instruccion{
                             //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                             if(ts.getTablaActual().containsKey(this.id)){
                                 ts.getTablaActual().replace(id, this.expresion);
+                            }else{
+                                //si no existe, se agrega a la tabla de simbolos
+                                ts.getTablaActual().put(this.id, this.expresion);
                             }   
 
                         }else{
@@ -131,7 +140,10 @@ public class AsignarVariables extends Instruccion{
                             //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                             if(ts.getTablaActual().containsKey(this.id)){
                                 ts.getTablaActual().replace(id, this.expresion);
-                            }   
+                            } else{
+                                //si no existe, se agrega a la tabla de simbolos
+                                ts.getTablaActual().put(this.id, this.expresion);
+                            }  
 
                         }else{
                             System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
@@ -151,6 +163,9 @@ public class AsignarVariables extends Instruccion{
                             //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                             if(ts.getTablaActual().containsKey(this.id)){
                                 ts.getTablaActual().replace(id, this.expresion);
+                            }else{
+                                //si no existe, se agrega a la tabla de simbolos
+                                ts.getTablaActual().put(this.id, this.expresion);
                             }   
 
                         }else{
@@ -171,6 +186,9 @@ public class AsignarVariables extends Instruccion{
                             //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                             if(ts.getTablaActual().containsKey(this.id)){
                                 ts.getTablaActual().replace(id, this.expresion);
+                            }else{
+                                //si no existe, se agrega a la tabla de simbolos
+                                ts.getTablaActual().put(this.id, this.expresion);
                             }   
 
                         }else{

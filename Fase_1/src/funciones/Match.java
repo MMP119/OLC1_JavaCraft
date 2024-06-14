@@ -8,14 +8,15 @@ import excepciones.Errores;
 import expresiones.Expresion;
 import instruccion.Instruccion;
 import instruccion.TipoInstruccion;
+import java.util.LinkedList;
 
 public class Match extends Instruccion {
 
     private Expresion exp;
-    private Instruccion casos; // Cambiamos a un solo objeto Instruccion que representa todos los casos
+    private LinkedList<Casos> casos; // Cambiamos a un solo objeto Instruccion que representa todos los casos
     private int fila, columna;
 
-    public Match(Expresion exp, Instruccion casos, int fila, int columna) {
+    public Match(Expresion exp, LinkedList<Casos> casos, int fila, int columna) {
         super(new Tipo(TipoInstruccion.MATCH), fila, columna);
         this.exp = exp;
         this.casos = casos;
@@ -31,19 +32,13 @@ public class Match extends Instruccion {
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
         Expresion valorExp = (Expresion) this.exp.interpretar(ent, ts);
+        
 
-        if (casos instanceof Casos) {
-            ((Casos) casos).setMatch(valorExp);
-            Object resultado = casos.interpretar(ent, ts);
-            if (resultado instanceof Errores) {
-                return resultado;
-            }
-        } else {
-            System.out.println("Error: La instrucción de casos no es una instancia de Casos");
-            return new Errores("Semantico", "La instrucción de casos no es válida", this.fila, this.columna);
+        for(Casos caso: this.casos){
+            caso.setMatch(valorExp);
+            caso.interpretar(ent, ts);
         }
-
-        ent.setConsola(ent.getConsola());
+        
         return this;
     }
 }

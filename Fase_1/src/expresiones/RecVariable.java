@@ -28,8 +28,10 @@ public class RecVariable extends Expresion {
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
         Expresion variable = (Expresion)ts.getTablaActual().get(id);
+        
 
-        if (variable != null) {
+        if (variable != null && variable.getValor() != "ERROR"){
+            //System.out.println("Variable Recuperada: "+variable.getValor());
             return variable;
         }
         else{
@@ -37,7 +39,8 @@ public class RecVariable extends Expresion {
             tablaSimbolos tsAux = ts;
             while (tsAux != null) {
                 variable = (Expresion)tsAux.getTablaActual().get(id);
-                if (variable != null) {
+                if (variable != null && variable.getValor() != "ERROR"){
+                    //System.out.println("Variable Recuperada anterior: "+variable.getValor());
                     return variable;
                 }
                 tsAux = tsAux.getTablaAnterior();
@@ -45,6 +48,33 @@ public class RecVariable extends Expresion {
             System.out.println("ERROR SEMANTICO, Variable " + id+" no ha sido declarada");
             return new Errores("ERROR SEMANTICO","La variable " + id + " no ha sido declarada", this.fila, this.columna);
         }
+    }
+
+
+    // Getters y Setters
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getFila() {
+        return fila;
+    }
+
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
     }
     
 }
