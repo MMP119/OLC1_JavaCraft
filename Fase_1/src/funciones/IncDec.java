@@ -2,6 +2,7 @@ package funciones;
 
 import AST.NodoAst;
 import entorno.Entorno;
+import entorno.Simbolo;
 import entorno.Tipo;
 import entorno.tablaSimbolos;
 import excepciones.Errores;
@@ -36,7 +37,9 @@ public class IncDec extends Instruccion {
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
         //verificar si la variable existe
-        Expresion variable = (Expresion)new RecVariable(this.id, this.fila, this.columna);
+        //Expresion variable = (Expresion)new RecVariable(this.id, this.fila, this.columna);
+        Simbolo sim = (Simbolo)ts.getVariable(this.id);
+        Expresion variable = (Expresion)sim.getValor();
         variable = (Expresion)variable.interpretar(ent, ts);
         
         if(variable.getValor() != "ERROR"){
@@ -52,7 +55,7 @@ public class IncDec extends Instruccion {
                             variable.setValor(valor + 1);
 
                             if(ts.getTablaActual().containsKey(this.id)){
-                                ts.getTablaActual().replace(id, variable);
+                                ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.IncDec), this.id, variable));
                             }  
 
                         }else{
@@ -60,7 +63,7 @@ public class IncDec extends Instruccion {
                             variable.setValor(valor + 1.0);
 
                             if(ts.getTablaActual().containsKey(this.id)){
-                                ts.getTablaActual().replace(id, variable);
+                                ts.getTablaActual().replace(id, new Simbolo(new Tipo(TipoInstruccion.IncDec), this.id, variable));
                             }  
                         }
                     }else{
@@ -76,7 +79,7 @@ public class IncDec extends Instruccion {
                             variable.setValor(valor - 1);
 
                             if(ts.getTablaActual().containsKey(this.id)){
-                                ts.getTablaActual().replace(id, variable);
+                                ts.getTablaActual().replace(id, new Simbolo(new Tipo(TipoInstruccion.IncDec), this.id, variable));
                             }  
 
                         }else{
@@ -84,7 +87,7 @@ public class IncDec extends Instruccion {
                             variable.setValor(valor - 1.0);
 
                             if(ts.getTablaActual().containsKey(this.id)){
-                                ts.getTablaActual().replace(id, variable);
+                                ts.getTablaActual().replace(id, new Simbolo(new Tipo(TipoInstruccion.IncDec), this.id, variable));
                             }  
 
                         }

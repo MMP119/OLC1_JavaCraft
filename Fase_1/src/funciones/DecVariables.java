@@ -78,10 +78,12 @@ public class DecVariables extends Instruccion{
                 if(ts.getTablaActual().containsKey(id)){
                     System.out.println("Variable "+this.id+" ya existe");
                     return new Errores("Semantico","Variable "+this.id+" ya existe", this.fila, this.columna);
+                }else{
+                    valor.setId(this.id);
+                    valor.setMutabilidad(this.mutabilidad);
+                    ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
                 }
                 
-                valor.setMutabilidad(this.mutabilidad);
-                ts.getTablaActual().put(id, this.expresion);
             }
 
         }else{
@@ -95,9 +97,9 @@ public class DecVariables extends Instruccion{
                 double valor = (double) val;
                 exp.setValor(valor);
                 exp.setTipo(TipoDato.DOUBLE);
-
                 exp.setMutabilidad(this.mutabilidad);
-                ts.getTablaActual().put(id, exp);
+                exp.setId(id);
+                ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
             }
 
             //castear de double a int
@@ -107,9 +109,9 @@ public class DecVariables extends Instruccion{
                 int valor = (int) dou;
                 exp.setValor(valor);
                 exp.setTipo(TipoDato.INT);
-
+                exp.setId(id);
                 exp.setMutabilidad(this.mutabilidad);
-                ts.getTablaActual().put(id, exp);
+                ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
             }
 
             //castear int a char
@@ -118,9 +120,9 @@ public class DecVariables extends Instruccion{
                 char valor = (char) val;
                 exp.setValor(valor);
                 exp.setTipo(TipoDato.CHAR);
-
+                exp.setId(id);
                 exp.setMutabilidad(this.mutabilidad);
-                ts.getTablaActual().put(id, exp);
+                ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
             }
 
             //castear de char a int
@@ -129,9 +131,9 @@ public class DecVariables extends Instruccion{
                 int valor = (int) val;
                 exp.setValor(valor);
                 exp.setTipo(TipoDato.INT);
-
+                exp.setId(id);
                 exp.setMutabilidad(this.mutabilidad);
-                ts.getTablaActual().put(id, exp);
+                ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
             }
 
             //castear de char a double
@@ -140,9 +142,9 @@ public class DecVariables extends Instruccion{
                 double valor = (double) val;
                 exp.setValor(valor);
                 exp.setTipo(TipoDato.DOUBLE);
-
+                exp.setId(id);
                 exp.setMutabilidad(this.mutabilidad);
-                ts.getTablaActual().put(id, exp);
+                ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
             }
 
             else{

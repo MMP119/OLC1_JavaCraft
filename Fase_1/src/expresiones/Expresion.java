@@ -9,6 +9,7 @@ import AST.*;
 // Clase Expresion
 public abstract class Expresion {
     private Object valor;
+    private String id;
     private TipoDato tipo;
     private String mutabilidad;
     private int fila;
@@ -67,4 +68,12 @@ public abstract class Expresion {
     public void setColumna(int columna) {
         this.columna = columna;
     }
+
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    } 
 }

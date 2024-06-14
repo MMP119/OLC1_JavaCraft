@@ -27,24 +27,15 @@ public class RecVariable extends Expresion {
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
-        Expresion variable = (Expresion)ts.getTablaActual().get(id);
-        
+        //Expresion variable = (Expresion)ts.getTablaActual().get(id);
+        Simbolo variable = (Simbolo)ts.getVariable(this.id);
 
         if (variable != null && variable.getValor() != "ERROR"){
-            //System.out.println("Variable Recuperada: "+variable.getValor());
-            return variable;
+            Expresion var = (Expresion)variable.getValor();
+            //System.out.println("Variable Recuperada: "+var.getId()+" "+ var.getTipo()+" "+ var.getValor());
+            return var;
         }
         else{
-            //si no se encuentra en la tabla actual, se busca en la anterior, y así sucesivamente
-            tablaSimbolos tsAux = ts;
-            while (tsAux != null) {
-                variable = (Expresion)tsAux.getTablaActual().get(id);
-                if (variable != null && variable.getValor() != "ERROR"){
-                    //System.out.println("Variable Recuperada anterior: "+variable.getValor());
-                    return variable;
-                }
-                tsAux = tsAux.getTablaAnterior();
-            }
             System.out.println("ERROR SEMANTICO, Variable " + id+" no ha sido declarada");
             return new Errores("ERROR SEMANTICO","La variable " + id + " no ha sido declarada", this.fila, this.columna);
         }

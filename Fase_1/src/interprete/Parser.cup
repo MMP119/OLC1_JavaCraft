@@ -21,6 +21,7 @@ import funciones.Else;
 import funciones.Match;
 import funciones.Casos;
 import funciones.While;
+import funciones.DoWhile;
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
 
@@ -90,6 +91,7 @@ non terminal LinkedList<Casos> casos;
 non terminal Instruccion caso;
 non terminal Instruccion sentWhile;
 non terminal Instruccion sentFOR;
+non terminal Instruccion sentDO;
 non terminal Instruccion printConsole;
 non terminal Expresion expresion;
 
@@ -125,6 +127,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | sentIF:a                {:RESULT=a;:}
         | sentMATCH:a             {:RESULT=a;:}
         | sentWhile:a             {:RESULT=a;:}
+        | sentDO:a                {:RESULT=a;:}
 ;
 
 
@@ -179,7 +182,7 @@ casos::= caso:a                 {:RESULT= new LinkedList<>(); RESULT.add((Casos)
 ;
 
 caso ::=  expresion:exp IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE         {:RESULT = new Casos(exp, inst, expleft, expright);:}
-        | GUION_BAJO IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE             {:RESULT = new Casos(null, inst, instleft, instright);:}
+        | GUION_BAJO IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE            {:RESULT = new Casos(null, inst, instleft, instright);:}
 ;
 
 
@@ -193,9 +196,10 @@ sentWhile ::= WHILE A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:
 sentFOR ::= FOR A_PARENTESIS 
 ;
 
+
         // DO-WHILE
-//sentDO ::= 
-//;
+sentDO ::= DO A_LLAVE instruccion:inst C_LLAVE WHILE A_PARENTESIS expresion:exp C_PARENTESIS PYC {:RESULT = new DoWhile(exp, inst, instleft, instright);:}
+;
 
 //sentencias de transferencia
 

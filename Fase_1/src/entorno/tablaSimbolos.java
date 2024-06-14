@@ -59,10 +59,14 @@ public class tablaSimbolos {
 
     public Simbolo getVariable(String id) {
         for (tablaSimbolos i = this; i != null; i = i.getTablaAnterior()) {
-            Simbolo busqueda = (Simbolo) i.tablaActual.
-                    get(id.toLowerCase());
-            if (busqueda != null) {
-                return busqueda;
+            Object valor = i.tablaActual.get(id.toLowerCase());
+            if (valor != null) {
+                if (valor instanceof Simbolo) {
+                    return (Simbolo) valor;
+                } else {
+                    // Manejar el caso donde el tipo no es el esperado
+                    throw new ClassCastException("El valor encontrado para la clave '" + id + "' no es de tipo Simbolo");
+                }
             }
         }
         return null;

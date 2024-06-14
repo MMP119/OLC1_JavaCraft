@@ -14,5 +14,6 @@ public enum TipoInstruccion {
     IncDec,
     TERNARIO,
     FUNCION, 
-    WHILE
+    WHILE,
+    DOWHILE,
 }
