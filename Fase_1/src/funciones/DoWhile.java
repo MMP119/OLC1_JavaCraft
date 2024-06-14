@@ -47,6 +47,7 @@ public class DoWhile extends Instruccion{
             }
 
             ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
+            entornoDoWhile.setConsola("");
             this.exp = (Expresion) this.exp.interpretar(entornoDoWhile, tsDoWhile);
 
         } while (Boolean.parseBoolean(this.exp.getValor().toString()));

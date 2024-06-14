@@ -62,13 +62,11 @@ public class AsignarVariables extends Instruccion{
                     //verificar si la expresion es del mismo tipo que la variable
                     if(variable.getTipo() == this.expresion.getTipo()){
 
+                        variable.setValor(this.expresion.getValor());
+
                         //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                         if(ts.getTablaActual().containsKey(this.id)){
-                            
-                            ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
-                            //ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.expresion.getId(), this.expresion));
-                        }else{
-                            ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
+                            ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
                         }   
 
                     }else{
@@ -98,13 +96,9 @@ public class AsignarVariables extends Instruccion{
     
                                 //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                                 if(ts.getTablaActual().containsKey(this.id)){
-
-                                    ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
-
-                                }else{
-                                    //si no existe, se agrega a la tabla de simbolos
-                                    ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
-                                } 
+                                    variable.setValor(this.expresion.getValor());
+                                    ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
+                                }
     
                             }else{
                                 System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
@@ -123,11 +117,9 @@ public class AsignarVariables extends Instruccion{
     
                                 //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                                 if(ts.getTablaActual().containsKey(this.id)){
-                                    ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
-                                }else{
-                                    //si no existe, se agrega a la tabla de simbolos
-                                    ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
-                                }   
+                                    variable.setValor(this.expresion.getValor());
+                                    ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
+                                }
     
                             }else{
                                 System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
@@ -146,10 +138,8 @@ public class AsignarVariables extends Instruccion{
     
                                 //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                                 if(ts.getTablaActual().containsKey(this.id)){
-                                    ts.getTablaActual().replace(id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
-                                } else{
-                                    //si no existe, se agrega a la tabla de simbolos
-                                    ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
+                                    variable.setValor(this.expresion.getValor());
+                                    ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
                                 }  
     
                             }else{
@@ -169,11 +159,9 @@ public class AsignarVariables extends Instruccion{
     
                                 //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                                 if(ts.getTablaActual().containsKey(this.id)){
-                                    ts.getTablaActual().replace(id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
-                                }else{
-                                    //si no existe, se agrega a la tabla de simbolos
-                                    ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
-                                }   
+                                    variable.setValor(this.expresion.getValor());
+                                    ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
+                                }  
     
                             }else{
                                 System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
@@ -192,11 +180,9 @@ public class AsignarVariables extends Instruccion{
     
                                 //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
                                 if(ts.getTablaActual().containsKey(this.id)){
-                                    ts.getTablaActual().replace(id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
-                                }else{
-                                    //si no existe, se agrega a la tabla de simbolos
-                                    ts.setVariable(new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion));
-                                }   
+                                    variable.setValor(this.expresion.getValor());
+                                    ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
+                                }  
     
                             }else{
                                 System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
