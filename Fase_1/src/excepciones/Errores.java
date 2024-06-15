@@ -1,25 +1,28 @@
 package excepciones;
 
+import java.util.ArrayList;
+
 
 public class Errores {
-    private String tipo;
+    private String nombre;
     private String desc;
     private int linea;
     private int columna;
+    public static ArrayList<Errores> errores = new ArrayList<>();
 
-    public Errores(String tipo, String desc, int linea, int columna) {
-        this.tipo = tipo;
+    public Errores(String nombre, String desc, int linea, int columna) {
+        this.nombre = nombre;
         this.desc = desc;
         this.linea = linea;
         this.columna = columna;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setNombre(String Nombre) {
+        this.nombre = Nombre;
     }
 
     public String getDesc() {
@@ -46,8 +49,12 @@ public class Errores {
         this.columna = columna;
     }
 
+    public static ArrayList<Errores> getErrores() {
+        return errores;
+    }
+
     @Override
     public String toString() {
-        return "Errores{" + "tipo=" + tipo + ", desc=" + desc + ", linea=" + linea + ", columna=" + columna + '}';
+        return "Errores{" + "tipo=" + nombre + ", desc=" + desc + ", linea=" + linea + ", columna=" + columna + '}';
     }
 }

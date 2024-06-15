@@ -2,13 +2,40 @@
 package interprete;
 
 import java_cup.runtime.*;
-
-
+import java.util.LinkedList;
+import instruccion.Instruccion;
+import expresiones.Dato;
+import expresiones.Aritmeticas;
+import expresiones.TipoDato;
+import expresiones.Expresion;
+import expresiones.Negativo;
+import expresiones.Relacionales;
+import expresiones.Logicos;
+import expresiones.RecVariable;
+import funciones.DecVariables;
+import funciones.Println;
+import funciones.AsignarVariables;
+import funciones.IncDec;
+import funciones.If;
+import funciones.Else;
+import funciones.Match;
+import funciones.Casos;
+import funciones.While;
+import funciones.For;
+import funciones.DoWhile;
+import funciones.Break;
+import funciones.Continue;
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
 
 parser code 
 {:
+
+        //instancias de las clases
+
+
+        //arreglo para las instrucciones
+
     public String resultado = ""; 
 
     public void syntax_error(Symbol s)
@@ -30,18 +57,201 @@ action code
 
 
 //------> Declaración de terminales
-terminal String ENTERO;
+
+//tipos de datos
+terminal String INT, DOUBLE, BOOL, CHAR, STRING;
+
+//simbolos
+terminal String PYC, DOS_P, MAS, MENOS, POR, DIVIDIR, MODULO, IGUALACION, DIFERENCIACION, MENOR_IGUAL, MAYOR_IGUAL, IGUAL, NOT, MENOR_Q, MAYOR_Q;
+terminal String OR, AND, XOR, A_PARENTESIS, C_PARENTESIS, A_LLAVE, C_LLAVE, A_CORCHETE, C_CORCHETE, COMA, PUNTO, GUION_BAJO;
+terminal String POTENCIA;
+
+//reservadas
+terminal String CONSTANTE, VARIABLE, IF, ELSE, MATCH, DEFAULT, WHILE, FOR, DO, BREAK, CONTINUE, RETURN;
+terminal String LIST, NEW, APPEND, REMOVE, STRUCT, VOID;
+
+//funciones
+terminal String PRINTLN, ROUND, LENGTH, TOSTRING, FIND, START_WITH;
+
+//expresiones
+terminal String ENTERO, DECIMAL, BOOLEANO, CADENA, CARACTER, ID;
+
+
+terminal String UMENOS, UNOT;
 
 
 //------> Declaración de no terminales
-non terminal inicio;
+non terminal LinkedList<Instruccion> inicio;
+non terminal LinkedList<Instruccion> instruccion;
+non terminal Instruccion expresiones;
+non terminal TipoDato tipoExpresion;
+non terminal Instruccion declararVariables;
+non terminal Instruccion asignarVariables;
+non terminal Instruccion sentIF;
+non terminal Instruccion elseIF;
+non terminal Instruccion sentMATCH;
+non terminal LinkedList<Casos> casos;
+non terminal Instruccion caso;
+non terminal Instruccion sentWhile;
+non terminal Instruccion sentFOR;
+non terminal Instruccion updateFOR;
+non terminal Instruccion sentDO;
+non terminal Instruccion break;
+non terminal Instruccion continue;
+non terminal Instruccion printConsole;
+non terminal Expresion expresion;
+
+
+//-------> Precedencias
+
+precedence left OR;
+precedence left AND;
+precedence left XOR;
+precedence right UNOT;
+precedence left IGUALACION, DIFERENCIACION, MENOR_Q, MENOR_IGUAL, MAYOR_Q, MAYOR_IGUAL;
+precedence left MAS, MENOS;
+precedence left POR, DIVIDIR, MODULO;
+precedence nonassoc POTENCIA;
+precedence right UMENOS;
 
 
 //------> Definir Simbolo Inicial
 start with inicio; 
 
-
 // ------------>  Producciones  <------------
 
-inicio ::= ENTERO
+inicio ::= instruccion:val {: RESULT=val; :}
+;
+
+instruccion ::= expresiones:a                     {:RESULT = new LinkedList<>(); RESULT.add(a);:}
+                | instruccion:a expresiones:b     {:RESULT = a; RESULT.add(b);:}
+;
+
+expresiones ::= printConsole:a    {:RESULT=a;:}
+        | declararVariables:a     {:RESULT=a;:}
+        | asignarVariables:a      {:RESULT=a;:}
+        | sentIF:a                {:RESULT=a;:}
+        | sentMATCH:a             {:RESULT=a;:}
+        | sentWhile:a             {:RESULT=a;:}
+        | sentFOR:a               {:RESULT=a;:}
+        | sentDO:a                {:RESULT=a;:}
+        | break:a                 {:RESULT=a;:}
+        | continue:a              {:RESULT=a;:}
+        | error PYC
+;
+
+
+//Tipos de datos
+tipoExpresion ::= INT:val     {:RESULT=TipoDato.INT;:}
+        | DOUBLE:val          {:RESULT=TipoDato.DOUBLE;:}
+        | BOOL:val            {:RESULT=TipoDato.BOOLEAN;:}
+        | CHAR:val            {:RESULT=TipoDato.CHAR;:}
+        | STRING:val          {:RESULT=TipoDato.CADENA;:}
+
+;
+
+
+//Declarar variables, tambien incluyo los casteos en este no terminal 
+declararVariables ::= VARIABLE:mut ID:id DOS_P tipoExpresion:tipo PYC                   {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, null, null, tipoleft, tiporight);:}
+                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo PYC                      {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, null, null,tipoleft, tiporight);:}
+                | VARIABLE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC   {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, null, expleft, expright);:}
+                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC  {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, null, expleft, expright);:}
+
+                | VARIABLE:mut ID:id DOS_P tipoExpresion:tipo IGUAL A_PARENTESIS tipoExpresion:tipo2 C_PARENTESIS expresion:exp PYC     {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, tipo2, expleft, expright);:}
+                | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo IGUAL A_PARENTESIS tipoExpresion:tipo2 C_PARENTESIS expresion:exp PYC    {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, tipo2, expleft, expright);:}                
+;
+
+
+//asignar variables, tambien casteos sin forma de declarar
+asignarVariables ::= ID:id IGUAL expresion:exp PYC                                              {:RESULT = new AsignarVariables(id.toLowerCase(), exp, null,idleft, idright);:}
+                | ID:id IGUAL A_PARENTESIS tipoExpresion:tipo C_PARENTESIS expresion:exp PYC    {:RESULT = new AsignarVariables(id.toLowerCase(), exp, tipo, idleft, idright);:}
+                | ID:id MAS MAS PYC                                                             {:RESULT = new IncDec(id.toLowerCase(), "++", idleft, idright);:}
+                | ID:id MENOS MENOS PYC                                                         {:RESULT = new IncDec(id.toLowerCase(), "--", idleft, idright);:}
+;
+
+
+//Sentencia de control
+
+        //Sentencia if
+sentIF ::= IF A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE                  {:RESULT = new If(exp, inst, null, expleft, expright);:}
+        | IF A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE elseIF:elseIf     {:RESULT = new If(exp, inst, elseIf, expleft, expright);;:}
+;
+
+        //else y else if
+elseIF ::= ELSE A_LLAVE instruccion:inst C_LLAVE        {:RESULT= new Else(inst, instleft, instright);:}
+        | ELSE sentIF:a                                 {:RESULT=a;:}
+;
+
+
+        //Sentencia MATCH
+sentMATCH ::= MATCH expresion:exp A_LLAVE  casos:c  C_LLAVE     {:RESULT = new Match(exp, c, expleft, expright);:}
+;
+
+casos::= caso:a                 {:RESULT= new LinkedList<>(); RESULT.add((Casos)a);:}
+        | casos:b caso:a        {:RESULT = b; RESULT.add((Casos)a);:}
+;
+
+caso ::=  expresion:exp IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE         {:RESULT = new Casos(exp, inst, expleft, expright);:}
+        | GUION_BAJO IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE            {:RESULT = new Casos(new Dato("_", TipoDato.CADENA, instleft, instright), inst, instleft, instright);:}
+;
+
+
+//Sentencia ciclicas
+
+        //while
+sentWhile ::= WHILE A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE            {:RESULT =  new While(exp, inst, expleft, expright);:}
+;
+
+        //FOR
+sentFOR ::= FOR A_PARENTESIS asignarVariables:a expresion:exp PYC updateFOR:b C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE {:RESULT= new For(a, exp, b, inst,aleft, aright);:}
+;
+
+updateFOR ::= ID:id IGUAL expresion:exp     {:RESULT = new AsignarVariables(id.toLowerCase(), exp, null,idleft, idright);:}
+        | ID:id MAS MAS                     {:RESULT = new IncDec(id.toLowerCase(), "++", idleft, idright);:}
+        | ID:id MENOS MENOS                 {:RESULT = new IncDec(id.toLowerCase(), "--", idleft, idright);:}
+;
+
+        // DO-WHILE
+sentDO ::= DO A_LLAVE instruccion:inst C_LLAVE WHILE A_PARENTESIS expresion:exp C_PARENTESIS PYC        {:RESULT = new DoWhile(exp, inst, instleft, instright);:}
+;
+
+//sentencias de transferencia
+
+        //beak
+break ::= BREAK:a PYC {:RESULT = new Break(aleft, aright);:}
+;
+        //continue
+continue ::= CONTINUE:a PYC {:RESULT = new Continue(aleft, aright);:}
+;
+
+
+//imprimir en consola
+printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:RESULT= new Println(val, valleft, valright);:}
+;
+
+//expresiones 
+expresion::= MENOS expresion: val                       {:RESULT = new Negativo(val, valleft, valright);:}%prec UMENOS
+        | expresion:val1 POTENCIA  expresion:val2       {:RESULT = new Aritmeticas(val1, "**", val2, val2left,val2right);:}
+        | expresion:val1 POR expresion:val2             {:RESULT = new Aritmeticas(val1, "*", val2, val2left,val2right);:}
+        | expresion:val1 DIVIDIR expresion:val2         {:RESULT = new Aritmeticas(val1, "/", val2, val2left,val2right);:}
+        | expresion:val1 MODULO expresion:val2          {:RESULT = new Aritmeticas(val1, "%", val2, val2left,val2right);:}
+        | expresion:val1 MAS expresion:val2             {:RESULT = new Aritmeticas(val1, "+", val2, val2left,val2right);:}
+        | expresion:val1 MENOS expresion:val2           {:RESULT = new Aritmeticas(val1, "-", val2, val2left,val2right);:}
+        | expresion:val1 IGUALACION expresion:val2      {:RESULT = new Relacionales(val1, val2, "==", val2left, val2right);:}
+        | expresion:val1 DIFERENCIACION expresion:val2  {:RESULT = new Relacionales(val1, val2, "!=", val2left, val2right);:}
+        | expresion:val1 MENOR_Q expresion:val2         {:RESULT = new Relacionales(val1, val2, "<", val2left, val2right);:}
+        | expresion:val1 MENOR_IGUAL expresion:val2     {:RESULT = new Relacionales(val1, val2, "<=", val2left, val2right);:}
+        | expresion:val1 MAYOR_Q expresion:val2         {:RESULT = new Relacionales(val1, val2, ">", val2left, val2right);:}
+        | expresion:val1 MAYOR_IGUAL expresion:val2     {:RESULT = new Relacionales(val1, val2, ">=", val2left, val2right);:}
+        | NOT expresion :val                            {:RESULT = new Logicos(val, null, "!", valleft, valright);:}%prec UNOT
+        | expresion:val1 XOR expresion:val2             {:RESULT = new Logicos(val1, val2, "^", val2left, val2right);:}
+        | expresion:val1 OR expresion:val2              {:RESULT = new Logicos(val1, val2, "||", val2left, val2right);:}
+        | expresion:val1 AND expresion:val2             {:RESULT = new Logicos(val1, val2, "&&", val2left, val2right);:}
+        | A_PARENTESIS expresion:val C_PARENTESIS       {:RESULT = val;:}
+        | ENTERO:val                                    {:RESULT = new Dato(val, TipoDato.INT, valleft, valright);:}
+        | DECIMAL:val                                   {:RESULT = new Dato(val, TipoDato.DOUBLE, valleft, valright);:} 
+        | BOOLEANO:val                                  {:RESULT = new Dato(val, TipoDato.BOOLEAN, valleft, valright);:}
+        | CADENA:val                                    {:RESULT = new Dato(val, TipoDato.CADENA, valleft, valright);:}
+        | CARACTER:val                                  {:RESULT = new Dato(val, TipoDato.CHAR, valleft, valright);:}
+        | ID:id                                         {:RESULT = new RecVariable(id.toLowerCase(), idleft, idright);:}
 ;

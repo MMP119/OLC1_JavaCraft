@@ -2,6 +2,7 @@ package expresiones;
 
 import entorno.*;
 import AST.*;
+import excepciones.Errores;
 
 public class Negativo extends Expresion {
 
@@ -22,26 +23,45 @@ public class Negativo extends Expresion {
 
     @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
-        Expresion valor = (Expresion) this.expresion.interpretar(ent, ts);
+        try{
+            Expresion valor = (Expresion) this.expresion.interpretar(ent, ts);
+        //System.out.println(valor.getValor()+" "+valor.getTipo());
 
-        if (valor.getTipo() == TipoDato.DOUBLE) {
-            this.setTipo(valor.getTipo());
-            this.setValor(-1 * Double.parseDouble(valor.getValor().toString()));
-            return this;
-        }
-        else if(valor.getTipo() == TipoDato.INT){
-            this.setTipo(valor.getTipo());
-            this.setValor(-1 * Integer.parseInt(valor.getValor().toString()));
-            return this;
-        }
+            if (valor.getTipo() == TipoDato.DOUBLE) {
+                valor.setValor(-1 * Double.parseDouble(valor.getValor().toString()));
+                valor.setTipo(TipoDato.DOUBLE);
+                //System.out.println(this.expresion.getValor()+" "+this.expresion.getTipo());
+                return valor;
+            }
+            else if(valor.getTipo() == TipoDato.INT){
+                valor.setValor(-1 * Integer.parseInt(valor.getValor().toString()));
+                valor.setTipo(TipoDato.INT);
+                //System.out.println(this.expresion.getValor()+" "+this.expresion.getTipo());
+                return valor;
+            }
 
-        System.out.println("Error Semántico: Error en la operacion negativo.");
-        return this;
+            System.out.println("Error Semántico: Error en la operacion negativo.");
+            return this;
+
+        }catch(Exception e){
+            return new Errores("Semantico", "Error al interpretar Negativo", this.getFila(), this.getColumna());
+        }
     }
 
     @Override
     public String toString() {
         return "-" + this.expresion.toString();
     }
+
+    // Getters y Setters
+    public Expresion getExpresion() {
+        return expresion;
+    }
+
+    public void setExpresion(Expresion expresion) {
+        this.expresion = expresion;
+    }
+
+    
 
 }

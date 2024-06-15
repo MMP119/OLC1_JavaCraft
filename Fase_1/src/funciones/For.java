@@ -36,57 +36,65 @@ public class For extends Instruccion{
     }
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
-        Instruccion.cicloProfundida++;
 
-        Entorno entFor = new Entorno(local);
-        tablaSimbolos tsFor = new tablaSimbolos();
-        tsFor.setNombre("For");
-        tsFor.setTablaAnterior(ts);
-        entFor.setConsola("");
+        try{
+            Instruccion.cicloProfundida++;
 
-        var asig = asigVariable.interpretar(entFor, tsFor);
-        if(asig instanceof Break){
-            return null;
-        }
-        while(true){
-            Expresion condicion = (Expresion)this.condicion.interpretar(entFor, tsFor);
-
-            if(condicion.getTipo() != TipoDato.BOOLEAN){
-                System.out.println("ERROR SEMANTICO: Se esperaba una expresion booleana en la condicion del for");
-                return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del for", fila, columna);
+            Entorno entFor = new Entorno(local);
+            tablaSimbolos tsFor = new tablaSimbolos();
+            tsFor.setNombre("For");
+            tsFor.setTablaAnterior(ts);
+            entFor.setConsola("");
+    
+            var asig = asigVariable.interpretar(entFor, tsFor);
+            if(asig instanceof Break){
+                return null;
             }
-
-            if(condicion.getValor().toString().equals("true")){
-                for(int i = 0; i< local.size(); i++){
-                    Instruccion a = local.get(i);
-                    Object res = a.interpretar(entFor, tsFor);
-                    ent.setConsola(ent.getConsola()+entFor.getConsola());
-                    entFor.setConsola("");
-
-                    // Break
-                    if(res instanceof Break || a instanceof Break){
-                        Instruccion.cicloProfundida--;
-                        return null;
-                    }
-
-                    // Continue
-                    if(res instanceof Continue || a instanceof Continue){
+            while(true){
+                Expresion condicion = (Expresion)this.condicion.interpretar(entFor, tsFor);
+    
+                if(condicion.getTipo() != TipoDato.BOOLEAN){
+                    System.out.println("ERROR SEMANTICO: Se esperaba una expresion booleana en la condicion del for");
+                    return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del for", fila, columna);
+                }
+    
+                if(condicion.getValor().toString().equals("true")){
+                    for(int i = 0; i< local.size(); i++){
+                        Instruccion a = local.get(i);
+                        Object res = a.interpretar(entFor, tsFor);
                         ent.setConsola(ent.getConsola()+entFor.getConsola());
                         entFor.setConsola("");
-                        break;
+    
+                        // Break
+                        if(res instanceof Break || a instanceof Break){
+                            Instruccion.cicloProfundida--;
+                            return null;
+                        }
+    
+                        // Continue
+                        if(res instanceof Continue || a instanceof Continue){
+                            ent.setConsola(ent.getConsola()+entFor.getConsola());
+                            entFor.setConsola("");
+                            break;
+                        }
+    
                     }
-
+                    update.interpretar(entFor, tsFor);
+                    ent.setConsola(ent.getConsola() + entFor.getConsola());
+                    entFor.setConsola("");
+                }else{
+                    break;
                 }
-                update.interpretar(entFor, tsFor);
-                ent.setConsola(ent.getConsola() + entFor.getConsola());
-                entFor.setConsola("");
-            }else{
-                break;
             }
+            
+            Instruccion.cicloProfundida--;
+            return this;
+        }catch(Exception e){
+            System.out.println("ERROR SEMANTICO: "+e.getMessage());
+            return new Errores("Semantico", "Error en el for"+e.getMessage(), fila, columna);
         }
+
         
-        Instruccion.cicloProfundida--;
-        return this;
     }
     
 }

@@ -24,11 +24,15 @@ public class Continue extends Instruccion{
     }
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
-        if(Instruccion.cicloProfundida == 0){
-            //System.out.println("ERROR SEMANTICO: Continue fuera de ciclo");
-            return new Errores("Semantico", "Continue fuera de ciclo", this.fila, this.columna);
+        try{
+            if(Instruccion.cicloProfundida == 0){
+                //System.out.println("ERROR SEMANTICO: Continue fuera de ciclo");
+                return new Errores("Semantico", "Continue fuera de ciclo", this.fila, this.columna);
+            }
+            return this;
+        }catch(Exception e){
+            return new Errores("Semantico", "Error al interpretar Continue", this.fila, this.columna);
         }
-        return this;
     }
     
 }

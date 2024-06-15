@@ -6,6 +6,8 @@
 package interprete; 
 
 import java_cup.runtime.*;
+import java.util.ArrayList;
+import excepciones.Errores;
 
 
 @SuppressWarnings("fallthrough")
@@ -493,6 +495,13 @@ public class Lexer implements java_cup.runtime.Scanner {
 
   /* user code: */
 
+    public ArrayList<Errores> errores = new ArrayList<>();
+
+    public ArrayList<Errores> getErrores() {
+        return errores;
+    }
+
+
 
   /**
    * Creates a new scanner
@@ -920,7 +929,8 @@ public class Lexer implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { System.out.println("Error Lexico: " + yytext() + " | Fila:" + yyline + " | Columna: " + yycolumn);
+            { System.out.println("Error Lexico: " + yytext() + " | Fila:" + yyline + " | Columna: " + yycolumn); 
+                errores.add(new Errores("Error Lexico", "El caracter"+ yytext() + " no pertenece al lenguaje", yyline, yycolumn));
             }
           // fall through
           case 67: break;

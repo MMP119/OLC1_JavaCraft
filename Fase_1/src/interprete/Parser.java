@@ -7,6 +7,7 @@ package interprete;
 
 import java_cup.runtime.*;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import instruccion.Instruccion;
 import expresiones.Dato;
 import expresiones.Aritmeticas;
@@ -29,6 +30,7 @@ import funciones.For;
 import funciones.DoWhile;
 import funciones.Break;
 import funciones.Continue;
+import excepciones.Errores;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -566,22 +568,27 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
 
-        //instancias de las clases
+        //errores
+        public ArrayList<Errores> errores = new ArrayList<>();
 
 
-        //arreglo para las instrucciones
+        public String resultado = ""; 
 
-    public String resultado = ""; 
+        public void syntax_error(Symbol s)
+        {
+                System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Recuperado" );
+                errores.add(new Errores("Error Sintactico", "   \""+ s.value +"\"   "+" Recuperado", s.left, s.right));
+        }
 
-    public void syntax_error(Symbol s)
-    {
-            System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Recuperado" );
-    }
+        public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+        {
+                System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Sin recuperacion." );
+        }
 
-    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
-    {
-            System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Sin recuperacion." );
-    }
+        public ArrayList<Errores> getErrores(){
+                return errores;
+        }
+
 
 
 
@@ -788,7 +795,7 @@ class CUP$Parser$actions {
           case 14: // expresiones ::= error PYC 
             {
               Instruccion RESULT =null;
-
+		RESULT=null;
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("expresiones",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

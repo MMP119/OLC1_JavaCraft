@@ -5,9 +5,13 @@
 package main;
 
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.io.*;
 
 import interprete.*;
 import entorno.*;
+import excepciones.Errores;
+
 import java.util.LinkedList;
 import instruccion.*;
 import AST.*;
@@ -24,79 +28,11 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-const nota: int = 100;
-println("Operaciones aritmeticas");
-var cadena: string = "Vamos " + "por " + "ese " + nota;
-println(cadena);
-var operaciones: double = 1 + 9 - 8 * 2 / 4 % 2 + (5 ** 2);
-println("El resultado de las operaciones es " + operaciones);
-
-println("");
-
-println("Operaciones Relacionales");
-var a: bool = 1 < 2;
-println("El valor de a es " + a);
-
-var b: bool = 1 == 2;
-println("El valor de b es " + b);
-
-println("");
-
-println("Operaciones Logicas");
-var c: bool = !!true;
-println("El valor de c es " + c);
-
-var d: bool = (true && false) || (false || false);
-println("El valor de d es " + d);
-
-println("");
-
-println("Operaciones combinadas");
-var e: bool = (1 == 2) || (10 < 5) || (!false);
-println("El valor de e es " + e);
-
-println("");
-println("Ciclos, condicionales y saltos de control");
-var i: int = 0;
-while (i < 11) {
-    if (i == 10) {
-        println("Terminamos con break");
-        break;
-    }
-    println("Iteracion " + i);
-    i = i + 1;
-}
-println("");
-for (i = 0; i <= 5; i++) {
-    println("" + 2 + " * " + i + " = " + 2 * i);
-    if (i >= 2) {
-        continue;
-    }
-    println("Solo se imprime 2 veces");
-}
-
-println("");
-
-var j: int = 0;
-var k: int = 10;
-while (j <= k) {
-    match j {
-        1 => { println("j es 1"); }
-        2 => { println("j es 2"); }
-        3 => { println("j es 3"); }
-        4 => { println("j es 4"); }
-        5 => { println("j es 5"); }
-        6 => { println("j es 6"); }
-        7 => { println("j es 7"); }
-        8 => { println("j es 8"); }
-        9 => { println("j es 9"); }
-        10 => { println("j es 10"); }
-        _ => { println("j es otro valor"); }
-    }
-    j++;
-}
-
-                        """;
+                    var z : int = -5;
+                    #####
+                    println(z<5);
+                    println("hola mundo");
+                """;
         
         // Generar Analizadores
         //analizadores("Fase_1/src/interprete/", "Lexer.jflex", "Parser.cup");
@@ -120,12 +56,25 @@ while (j <= k) {
 
     // Realizar Analisis
     public static void analizar (String entrada){
+
+        ArrayList<Errores> errores = new ArrayList<>();
+
+
         try {
+
+            
+
             interprete.Lexer lexer = new interprete.Lexer(new StringReader(entrada)); 
             @SuppressWarnings("deprecation")
             interprete.Parser parser = new Parser(lexer);
             var resultado = parser.parse();
             @SuppressWarnings("unchecked")
+            
+            var erroresLexicos = lexer.getErrores();
+            errores.addAll(erroresLexicos);
+
+            var erroresSintacticos = parser.getErrores();
+            errores.addAll(erroresSintacticos);
 
             var ast = new Entorno((LinkedList<Instruccion>)resultado.value);
             var ts = new tablaSimbolos();
@@ -134,11 +83,27 @@ while (j <= k) {
             var init = new NodoAst("INICIO");
             var instruc = new NodoAst("INSTRUCCIONES");
             for (var a: ast.getInstrucciones()){
-                a.interpretar(ast, ts);
-                instruc.agregarHijoAST(a.getNodo());
-                ast.getConsola();
+                try{
+                    a.interpretar(ast, ts);
+                    instruc.agregarHijoAST(a.getNodo());
+                    ast.getConsola();
+                    var erroresSemanticos = Errores.getErrores();
+                    errores.addAll(erroresSemanticos);
+                }catch(Exception e){
+
+                    System.out.println("Error en la instruccion: "+a);
+                    e.printStackTrace();
+                }
+
+                
             }
             System.out.println(ast.getConsola());
+
+            //insertar ast.getConsola en la consola de la interfaz
+            //consola.appendConsola(ast.getConsola());
+            
+            FailsGenerateHTML(errores);
+            
             init.agregarHijoAST(instruc);
 
             ArbolAST arbol = new ArbolAST();
@@ -158,5 +123,75 @@ while (j <= k) {
             }
     } 
 
+
+    public static void FailsGenerateHTML(ArrayList<Errores> errores) {
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+
+        try {
+            String path = "Fase_1/Reports/Fails.html";
+            fichero = new FileWriter(path);
+            pw = new PrintWriter(fichero);
+
+            pw.println("<!DOCTYPE html>");
+            pw.println("<html lang=\"es\">");
+            pw.println("<head>");
+            pw.println("<meta charset=\"UTF-8\">");
+            pw.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+            pw.println("<title>Errores</title>");
+            pw.println("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">");
+            pw.println("<style>");
+            pw.println("body { background-color: #343a40; color: white; }");
+            pw.println("h1 { text-align: center; color: white; }");
+            pw.println("table { background-color: #343a40; }");
+            pw.println("th, td { border: 1px solid #dee2e6; }");
+            pw.println("th { background-color: #6c757d; }");
+            pw.println("tr:nth-child(even) { background-color: #495057; }");
+            pw.println("</style>");
+            pw.println("</head>");
+            pw.println("<body>");
+            pw.println("<div class=\"container mt-5\">");
+            pw.println("<h1>Reporte de Errores</h1>");
+            pw.println("<table class=\"table table-dark table-striped mt-3\">");
+            pw.println("<thead>");
+            pw.println("<tr>");
+            pw.println("<th>#</th>");
+            pw.println("<th>Tipo</th>");
+            pw.println("<th>Descripción</th>");
+            pw.println("<th>Fila</th>");
+            pw.println("<th>Columna</th>");
+            pw.println("</tr>");
+            pw.println("</thead>");
+            pw.println("<tbody>");
+
+            int numError = 1;
+            for (Errores err : errores) {
+                pw.println("<tr>");
+                pw.println("<td>" + numError++ + "</td>");
+                pw.println("<td>" + err.getNombre() + "</td>");
+                pw.println("<td>" + err.getDesc() + "</td>");
+                pw.println("<td>" + err.getLinea() + "</td>");
+                pw.println("<td>" + err.getColumna() + "</td>");
+                pw.println("</tr>");
+            }
+
+            pw.println("</tbody>");
+            pw.println("</table>");
+            pw.println("</div>");
+            pw.println("</body>");
+            pw.println("</html>");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fichero != null) {
+                    fichero.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
     
 }

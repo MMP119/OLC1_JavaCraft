@@ -30,16 +30,23 @@ public class Match extends Instruccion {
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
-        Expresion valorExp = (Expresion) this.exp.interpretar(ent, ts);
+        try{
+            Expresion valorExp = (Expresion) this.exp.interpretar(ent, ts);
 
-        for (int i = 0; i < casos.size(); i++) {
-            Casos caso = casos.get(i);
-            caso.setMatch(valorExp);
-            Object resultado = caso.interpretar(ent, ts);
-            if (resultado != null) {
-                return resultado;
+            for (int i = 0; i < casos.size(); i++) {
+                Casos caso = casos.get(i);
+                caso.setMatch(valorExp);
+                Object resultado = caso.interpretar(ent, ts);
+                if (resultado != null) {
+                    return resultado;
+                }
             }
+            return this;
+        }catch(Exception e){
+            System.out.println("Error en Match: "+e.getMessage());
+            return null;
         }
-        return this;
+
+        
     }
 }

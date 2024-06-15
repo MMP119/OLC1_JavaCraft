@@ -37,7 +37,8 @@ public class IncDec extends Instruccion {
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
         //verificar si la variable existe
         //Expresion variable = (Expresion)new RecVariable(this.id, this.fila, this.columna);
-        Simbolo sim = (Simbolo)ts.getVariable(this.id);
+        try{
+            Simbolo sim = (Simbolo)ts.getVariable(this.id);
         Expresion variable = (Expresion)sim.getValor();
         variable = (Expresion)variable.interpretar(ent, ts);
         
@@ -99,6 +100,9 @@ public class IncDec extends Instruccion {
             }
         }
         return null;
+        }catch(Exception e){
+            return new Errores("Semantico", "NO SE PUEDE DECREMENTAR UNA VARIABLE", this.fila, this.columna);
+        }
     }
     
 }

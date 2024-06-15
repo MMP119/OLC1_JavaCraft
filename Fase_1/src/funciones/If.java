@@ -48,94 +48,99 @@ public class If extends Instruccion{
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
-        
-        Entorno EntornoIf = new Entorno(inst_if);
-        tablaSimbolos tsIf = new tablaSimbolos();
-        tsIf.setNombre("If");
-        tsIf.setTablaAnterior(ts);
-        EntornoIf.setConsola("");
-        this.condicion = (Expresion)this.condicion.interpretar(EntornoIf, tsIf);
-        
+        try{
+            Entorno EntornoIf = new Entorno(inst_if);
+            tablaSimbolos tsIf = new tablaSimbolos();
+            tsIf.setNombre("If");
+            tsIf.setTablaAnterior(ts);
+            EntornoIf.setConsola("");
+            this.condicion = (Expresion)this.condicion.interpretar(EntornoIf, tsIf);
+            
 
-        if(this.condicion.getTipo()!= TipoDato.BOOLEAN){
-            System.out.println("ERROR SEMANTICO: Se esperaba una expresion booleana en la condicion del if");
-            return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del if", fila, columna);
-        }else{
-            //System.out.println("La condicion del if es: " + this.condicion.getValor());
-        }
-
-        if(this.condicion.getValor().toString().toLowerCase().equals("true")){
-
-            for (var a: EntornoIf.getInstrucciones()){
-                
-                //break
-                if(a instanceof Break){
-                    return new Break(fila, columna);
-                }
-
-                //continue
-                if(a instanceof Continue){
-                    return new Continue(fila, columna);
-                }
-
-                a.interpretar(EntornoIf, tsIf);
-                EntornoIf.getConsola();
-                ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
-                EntornoIf.setConsola("");
+            if(this.condicion.getTipo()!= TipoDato.BOOLEAN){
+                System.out.println("ERROR SEMANTICO: Se esperaba una expresion booleana en la condicion del if");
+                return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del if", fila, columna);
+            }else{
+                //System.out.println("La condicion del if es: " + this.condicion.getValor());
             }
 
-            //agregamos la consola del if al entorno principal
-            ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
+            if(this.condicion.getValor().toString().toLowerCase().equals("true")){
 
-        }else{
-
-            if(instr_else != null){
-
-                if(instr_else instanceof Else){
-                    Object a = instr_else.interpretar(EntornoIf, tsIf);
-                    NodoAst else_ = new NodoAst("ELSE");
-                    else_.agregarHijoAST(instr_else.getNodo());
-                    ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
-
-                    //break
-                    if(a instanceof Break){
-                        return new Break(fila, columna);
-                    }
-
-                    //continue
-                    if(a instanceof Continue){
-                        return new Continue(fila, columna);
-                    }
-
-
-                }
-                
-                if(instr_else instanceof If){
-                    Object a = instr_else.interpretar(EntornoIf, tsIf);
-                    NodoAst else_if = new NodoAst("ELSE IF");
-                    else_if.agregarHijoAST(instr_else.getNodo());
-                    ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
-
-                    //break
-                    if(a instanceof Break){
-                        return new Break(fila, columna);
-                    }
-
-                    //continue
-                    if(a instanceof Continue){
-                        return new Continue(fila, columna);
-                    }
+                for (var a: EntornoIf.getInstrucciones()){
                     
+                    //break
+                    if(a instanceof Break){
+                        return new Break(fila, columna);
+                    }
+
+                    //continue
+                    if(a instanceof Continue){
+                        return new Continue(fila, columna);
+                    }
+
+                    a.interpretar(EntornoIf, tsIf);
+                    EntornoIf.getConsola();
+                    ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
+                    EntornoIf.setConsola("");
                 }
+
+                //agregamos la consola del if al entorno principal
+                ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
 
             }else{
 
-                //System.out.println("No se cumple la condicion del if y no hay un else para ejecutar");
-                return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del if", fila, columna);
+                if(instr_else != null){
 
+                    if(instr_else instanceof Else){
+                        Object a = instr_else.interpretar(EntornoIf, tsIf);
+                        NodoAst else_ = new NodoAst("ELSE");
+                        else_.agregarHijoAST(instr_else.getNodo());
+                        ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
+
+                        //break
+                        if(a instanceof Break){
+                            return new Break(fila, columna);
+                        }
+
+                        //continue
+                        if(a instanceof Continue){
+                            return new Continue(fila, columna);
+                        }
+
+
+                    }
+                    
+                    if(instr_else instanceof If){
+                        Object a = instr_else.interpretar(EntornoIf, tsIf);
+                        NodoAst else_if = new NodoAst("ELSE IF");
+                        else_if.agregarHijoAST(instr_else.getNodo());
+                        ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
+
+                        //break
+                        if(a instanceof Break){
+                            return new Break(fila, columna);
+                        }
+
+                        //continue
+                        if(a instanceof Continue){
+                            return new Continue(fila, columna);
+                        }
+                        
+                    }
+
+                }else{
+
+                    //System.out.println("No se cumple la condicion del if y no hay un else para ejecutar");
+                    return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del if", fila, columna);
+
+                }
             }
+        return this;  
+
+        }catch(Exception e){
+            return new Errores("Semantico", "Error al interpretar el if", this.fila, this.columna);
         }
-    return this;   
+    
     }
 
 }

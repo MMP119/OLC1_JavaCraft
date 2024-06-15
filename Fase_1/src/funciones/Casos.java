@@ -34,48 +34,53 @@ public class Casos extends Instruccion {
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
-        Entorno EntornoCasos = new Entorno(inst);
-        tablaSimbolos tsCasos = new tablaSimbolos();
-        tsCasos.setNombre("Casos");
-        tsCasos.setTablaAnterior(ts);
-        EntornoCasos.setConsola("");
+        try{
+            Entorno EntornoCasos = new Entorno(inst);
+            tablaSimbolos tsCasos = new tablaSimbolos();
+            tsCasos.setNombre("Casos");
+            tsCasos.setTablaAnterior(ts);
+            EntornoCasos.setConsola("");
 
-        if(this.exp != null){
-            this.exp = (Expresion) this.exp.interpretar(ent, ts);
-        }
-        
-        if(this.exp != null && this.exp.getValor().toString().equals("_")){
-            this.match = (Expresion) this.match.interpretar(ent, ts);
-        }
+            if(this.exp != null){
+                this.exp = (Expresion) this.exp.interpretar(ent, ts);
+            }
+            
+            if(this.exp != null && this.exp.getValor().toString().equals("_")){
+                this.match = (Expresion) this.match.interpretar(ent, ts);
+            }
 
-        if(this.exp != null){
-            if (this.exp.getValor().toString().equals(this.match.getValor().toString()) || this.exp.getValor().toString().equals("_")) {
-                
-                for (int i = 0; i < inst.size(); i++) {
-                    Instruccion a = inst.get(i);
-                    Object res = a.interpretar(EntornoCasos, tsCasos);
+            if(this.exp != null){
+                if (this.exp.getValor().toString().equals(this.match.getValor().toString()) || this.exp.getValor().toString().equals("_")) {
+                    
+                    for (int i = 0; i < inst.size(); i++) {
+                        Instruccion a = inst.get(i);
+                        Object res = a.interpretar(EntornoCasos, tsCasos);
+                        ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
+                        EntornoCasos.setConsola("");
+
+                        // Break
+                        if (a instanceof Break || res instanceof Break) {
+                            return new Break(fila, columna);
+                        }
+
+                        // Continue
+                        if (a instanceof Continue || res instanceof Continue) {
+                            return new Continue(fila, columna);
+                        }
+
+                    }
                     ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
                     EntornoCasos.setConsola("");
-
-                    // Break
-                    if (a instanceof Break || res instanceof Break) {
-                        return new Break(fila, columna);
-                    }
-
-                    // Continue
-                    if (a instanceof Continue || res instanceof Continue) {
-                        return new Continue(fila, columna);
-                    }
-
+                    return this;
                 }
-                ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
-                EntornoCasos.setConsola("");
-                return this;
+            }else{
+                return new Errores("Semantico", "expresion nula", fila, columna);
             }
-        }else{
-            return new Errores("Semantico", "expresion nula", fila, columna);
+            return null;
+
+        }catch(Exception e){
+            return new Errores("Semantico", "Error en la interpretacion de los casos", this.fila, this.columna);
         }
-        return null;
     }
 
     public Expresion getMatch() {

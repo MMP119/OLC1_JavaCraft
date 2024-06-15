@@ -3,6 +3,7 @@ package interprete;
 
 import java_cup.runtime.*;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import instruccion.Instruccion;
 import expresiones.Dato;
 import expresiones.Aritmeticas;
@@ -25,28 +26,35 @@ import funciones.For;
 import funciones.DoWhile;
 import funciones.Break;
 import funciones.Continue;
+import excepciones.Errores;
+
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
 
 parser code 
 {:
 
-        //instancias de las clases
+        //errores
+        public ArrayList<Errores> errores = new ArrayList<>();
 
 
-        //arreglo para las instrucciones
+        public String resultado = ""; 
 
-    public String resultado = ""; 
+        public void syntax_error(Symbol s)
+        {
+                System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Recuperado" );
+                errores.add(new Errores("Error Sintactico", "   \""+ s.value +"\"   "+" Recuperado", s.left, s.right));
+        }
 
-    public void syntax_error(Symbol s)
-    {
-            System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Recuperado" );
-    }
+        public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+        {
+                System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Sin recuperacion." );
+        }
 
-    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
-    {
-            System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Sin recuperacion." );
-    }
+        public ArrayList<Errores> getErrores(){
+                return errores;
+        }
+
 
 :}
 
@@ -137,7 +145,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | sentDO:a                {:RESULT=a;:}
         | break:a                 {:RESULT=a;:}
         | continue:a              {:RESULT=a;:}
-        | error PYC
+        | error PYC               {:RESULT=null;:}
 ;
 
 

@@ -25,11 +25,18 @@ public class Break extends Instruccion {
 
     @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
-        if(Instruccion.cicloProfundida == 0){
-            //System.out.println("ERROR SEMANTICO: Break fuera de ciclo");
-            return new Errores("Semantico", "Break fuera de ciclo", this.fila, this.columna);
+        
+        try {
+            if(Instruccion.cicloProfundida == 0){
+                //System.out.println("ERROR SEMANTICO: Break fuera de ciclo");
+                return new Errores("Semantico", "Break fuera de ciclo", this.fila, this.columna);
+            }
+            return null;
+        } catch (Exception e) {
+            System.out.println("ERROR: Break");
+            return null;
         }
-        return null;
+        
     }
 
 }

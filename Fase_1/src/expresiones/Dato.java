@@ -2,6 +2,7 @@ package expresiones;
 
 import entorno.*;
 import AST.*;
+import excepciones.Errores;
 
 public class Dato extends Expresion{
 
@@ -28,7 +29,11 @@ public class Dato extends Expresion{
 
     @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
-        return this;
+        try{
+            return this;
+        }catch(Exception e){
+            return new Errores("Semantico", "Error al interpretar Dato", this.fila, this.columna);
+        }
     }
 
 

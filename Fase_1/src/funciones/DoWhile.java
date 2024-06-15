@@ -6,6 +6,7 @@ import instruccion.TipoInstruccion;
 import entorno.Entorno;
 import entorno.Tipo;
 import entorno.tablaSimbolos;
+import excepciones.Errores;
 
 import java.util.LinkedList;
 
@@ -32,43 +33,48 @@ public class DoWhile extends Instruccion{
     }
 
     public Object interpretar(Entorno ent, entorno.tablaSimbolos ts) {
-        Instruccion.cicloProfundida++;
+        try{
+            Instruccion.cicloProfundida++;
 
-        Entorno entornoDoWhile = new Entorno(inst);
-        tablaSimbolos tsDoWhile = new tablaSimbolos();
-        tsDoWhile.setNombre("DoWhile");
-        tsDoWhile.setTablaAnterior(ts);
-        entornoDoWhile.setConsola("");
+            Entorno entornoDoWhile = new Entorno(inst);
+            tablaSimbolos tsDoWhile = new tablaSimbolos();
+            tsDoWhile.setNombre("DoWhile");
+            tsDoWhile.setTablaAnterior(ts);
+            entornoDoWhile.setConsola("");
 
-        do {
+            do {
 
-            for(int i = 0; i < inst.size(); i++){
-                Instruccion a = inst.get(i);
-                Object res = a.interpretar(entornoDoWhile, tsDoWhile);
+                for(int i = 0; i < inst.size(); i++){
+                    Instruccion a = inst.get(i);
+                    Object res = a.interpretar(entornoDoWhile, tsDoWhile);
+                    ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
+                    entornoDoWhile.setConsola("");
+
+                    // Break
+                    if (a instanceof Break || res instanceof Break) {
+                        Instruccion.cicloProfundida--;
+                        return null;
+                    }
+
+                    // Continue
+                    if (a instanceof Continue || res instanceof Continue) {
+                        break;
+                    }
+
+
+                }
                 ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
                 entornoDoWhile.setConsola("");
+                this.exp = (Expresion) this.exp.interpretar(entornoDoWhile, tsDoWhile);
 
-                // Break
-                if (a instanceof Break || res instanceof Break) {
-                    Instruccion.cicloProfundida--;
-                    return null;
-                }
-
-                // Continue
-                if (a instanceof Continue || res instanceof Continue) {
-                    break;
-                }
-
-
-            }
-            ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
-            entornoDoWhile.setConsola("");
-            this.exp = (Expresion) this.exp.interpretar(entornoDoWhile, tsDoWhile);
-
-        } while (Boolean.parseBoolean(this.exp.getValor().toString()));
-        
-        Instruccion.cicloProfundida--;
-        return this;
+            } while (Boolean.parseBoolean(this.exp.getValor().toString()));
+            
+            Instruccion.cicloProfundida--;
+            return this;
+            
+        }catch(Exception e){
+            return new Errores("Semantico", "Error en el DoWhile", fila, columna);
+        }
     }
     
 }

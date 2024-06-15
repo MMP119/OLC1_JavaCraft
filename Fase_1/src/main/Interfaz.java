@@ -4,8 +4,10 @@
  */
 package main;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,7 +15,16 @@ import java.nio.file.Paths;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
+import java.util.ArrayList;
+import excepciones.Errores;
+
 import com.formdev.flatlaf.FlatDarculaLaf;
+
+
+import interprete.*;
 
 /**
  *
@@ -232,8 +243,29 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_SymbolsTable_buttonActionPerformed
 
     private void Go_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Go_buttonActionPerformed
-        // TODO add your handling code here:
+        
+        Salida.setText("");
+        interprete.Parser parser;
+        interprete.Lexer lexer;
+        
+
+
+        try{
+            Fase_1.analizar(Entrada.getText(), Interfaz.this);
+            
+        }catch(Exception e){
+            e.printStackTrace();
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            if (stackTrace.length > 0) {
+                StackTraceElement element = stackTrace[0];
+                Salida.setText("Error en la clase: " + element.getClassName());
+                Salida.setText("Error en el método: " + element.getMethodName());
+                Salida.setText("Error en la línea: " + element.getLineNumber());
+            } 
+        }
     }//GEN-LAST:event_Go_buttonActionPerformed
+
+    
 
     private void NewPestania_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewPestania_buttonActionPerformed
         // TODO add your handling code here:
@@ -274,6 +306,10 @@ public class Interfaz extends javax.swing.JFrame {
                 new Interfaz().setVisible(true);
             }
         });
+    }
+
+    public void appendConsola(String text){
+        Salida.append(text);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

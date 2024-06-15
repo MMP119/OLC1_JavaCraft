@@ -2,6 +2,8 @@
 package interprete; 
 
 import java_cup.runtime.*;
+import java.util.ArrayList;
+import excepciones.Errores;
 
 %%	
 //-------> Directivas (No tocar)
@@ -16,6 +18,13 @@ import java_cup.runtime.*;
 %ignorecase
 
 %{ 
+
+    public ArrayList<Errores> errores = new ArrayList<>();
+
+    public ArrayList<Errores> getErrores() {
+        return errores;
+    }
+
 %} 
 
 // ------> Expresiones Regulares 
@@ -119,4 +128,5 @@ Id = (\_)*[a-zA-Z][a-zA-Z0-9\_]*
 [ \t\r\n\f]     {/* Espacios en blanco se ignoran */}
 
 //------> Errores Léxicos 
-.           	{ System.out.println("Error Lexico: " + yytext() + " | Fila:" + yyline + " | Columna: " + yycolumn); }
+.           	{ System.out.println("Error Lexico: " + yytext() + " | Fila:" + yyline + " | Columna: " + yycolumn); 
+                errores.add(new Errores("Error Lexico", "El caracter"+ yytext() + " no pertenece al lenguaje", yyline, yycolumn));}
