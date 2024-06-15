@@ -1,0 +1,89 @@
+<inicio> ::= <instruccion>
+
+<instruccion> ::= <expresiones>
+                | <instruccion> <expresiones>
+
+<expresiones> ::= <printConsole>
+               | <declararVariables>
+               | <asignarVariables>
+               | <sentIF>
+               | <sentMATCH>
+               | <sentWhile>
+               | <sentFOR>
+               | <sentDO>
+               | <break>
+               | <continue>
+               | error PYC
+
+<tipoExpresion> ::= INT
+                 | DOUBLE
+                 | BOOL
+                 | CHAR
+                 | STRING
+
+<declararVariables> ::= VARIABLE ID DOS_P <tipoExpresion> PYC
+                     | CONSTANTE ID DOS_P <tipoExpresion> PYC
+                     | VARIABLE ID DOS_P <tipoExpresion> IGUAL <expresion> PYC
+                     | CONSTANTE ID DOS_P <tipoExpresion> IGUAL <expresion> PYC
+                     | VARIABLE ID DOS_P <tipoExpresion> IGUAL A_PARENTESIS <tipoExpresion> C_PARENTESIS <expresion> PYC
+                     | CONSTANTE ID DOS_P <tipoExpresion> IGUAL A_PARENTESIS <tipoExpresion> C_PARENTESIS <expresion> PYC
+
+<asignarVariables> ::= ID IGUAL <expresion> PYC
+                     | ID IGUAL A_PARENTESIS <tipoExpresion> C_PARENTESIS <expresion> PYC
+                     | ID MAS MAS PYC
+                     | ID MENOS MENOS PYC
+
+<sentIF> ::= IF A_PARENTESIS <expresion> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE
+           | IF A_PARENTESIS <expresion> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE <elseIF>
+
+<elseIF> ::= ELSE A_LLAVE <instruccion> C_LLAVE
+           | ELSE <sentIF>
+
+<sentMATCH> ::= MATCH <expresion> A_LLAVE <casos> C_LLAVE
+
+<casos> ::= <caso>
+          | <casos> <caso>
+
+<caso> ::= <expresion> IGUAL MAYOR_Q A_LLAVE <instruccion> C_LLAVE
+         | GUION_BAJO IGUAL MAYOR_Q A_LLAVE <instruccion> C_LLAVE
+
+<sentWhile> ::= WHILE A_PARENTESIS <expresion> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE
+
+<sentFOR> ::= FOR A_PARENTESIS <asignarVariables> <expresion> PYC <updateFOR> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE
+
+<updateFOR> ::= ID IGUAL <expresion>
+              | ID MAS MAS
+              | ID MENOS MENOS
+
+<sentDO> ::= DO A_LLAVE <instruccion> C_LLAVE WHILE A_PARENTESIS <expresion> C_PARENTESIS PYC
+
+<break> ::= BREAK PYC
+
+<continue> ::= CONTINUE PYC
+
+<printConsole> ::= PRINTLN A_PARENTESIS <expresion> C_PARENTESIS PYC
+
+<expresion> ::= MENOS <expresion>
+              | <expresion> POTENCIA <expresion>
+              | <expresion> POR <expresion>
+              | <expresion> DIVIDIR <expresion>
+              | <expresion> MODULO <expresion>
+              | <expresion> MAS <expresion>
+              | <expresion> MENOS <expresion>
+              | <expresion> IGUALACION <expresion>
+              | <expresion> DIFERENCIACION <expresion>
+              | <expresion> MENOR_Q <expresion>
+              | <expresion> MENOR_IGUAL <expresion>
+              | <expresion> MAYOR_Q <expresion>
+              | <expresion> MAYOR_IGUAL <expresion>
+              | NOT <expresion>
+              | <expresion> XOR <expresion>
+              | <expresion> OR <expresion>
+              | <expresion> AND <expresion>
+              | A_PARENTESIS <expresion> C_PARENTESIS
+              | ENTERO
+              | DECIMAL
+              | BOOLEANO
+              | CADENA
+              | CARACTER
+              | ID
