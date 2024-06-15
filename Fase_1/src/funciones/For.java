@@ -56,9 +56,14 @@ public class For extends Instruccion{
             }
 
             if(condicion.getValor().toString().equals("true")){
-                for(var a: entFor.getInstrucciones()){
-                    a.interpretar(entFor, tsFor);
-                    entFor.getConsola();
+                for(int i = 0; i< local.size(); i++){
+                    Instruccion a = local.get(i);
+                    Object res = a.interpretar(entFor, tsFor);
+                    ent.setConsola(ent.getConsola()+entFor.getConsola());
+                    entFor.setConsola("");
+                    if(res instanceof Break || a instanceof Break){
+                        return null;
+                    }
                 }
                 update.interpretar(entFor, tsFor);
                 ent.setConsola(ent.getConsola() + entFor.getConsola());

@@ -67,8 +67,13 @@ public class If extends Instruccion{
         if(this.condicion.getValor().toString().toLowerCase().equals("true")){
 
             for (var a: EntornoIf.getInstrucciones()){
+                if(a instanceof Break){
+                    return new Break(fila, columna);
+                }
                 a.interpretar(EntornoIf, tsIf);
                 EntornoIf.getConsola();
+                ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
+                EntornoIf.setConsola("");
             }
 
             //agregamos la consola del if al entorno principal
@@ -79,18 +84,23 @@ public class If extends Instruccion{
             if(instr_else != null){
 
                 if(instr_else instanceof Else){
-                    instr_else.interpretar(EntornoIf, tsIf);
+                    Object a = instr_else.interpretar(EntornoIf, tsIf);
                     NodoAst else_ = new NodoAst("ELSE");
                     else_.agregarHijoAST(instr_else.getNodo());
                     ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
+                    if(a instanceof Break){
+                        return new Break(fila, columna);
+                    }
                 }
                 
-                
                 if(instr_else instanceof If){
-                    instr_else.interpretar(EntornoIf, tsIf);
+                    Object a = instr_else.interpretar(EntornoIf, tsIf);
                     NodoAst else_if = new NodoAst("ELSE IF");
                     else_if.agregarHijoAST(instr_else.getNodo());
                     ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
+                    if(a instanceof Break){
+                        return new Break(fila, columna);
+                    }
                 }
 
             }else{

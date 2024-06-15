@@ -12,9 +12,13 @@ public class Else extends Instruccion{
 
     private LinkedList<Instruccion> inst_else;
 
+    private int fila, columna;
+
     public Else(LinkedList<Instruccion> inst_else, int fila, int columna) {
         super(new Tipo(TipoInstruccion.ELSE), fila, columna);
         this.inst_else = inst_else;
+        this.fila = fila;
+        this.columna = columna;
     }
 
     public NodoAst getNodo(){
@@ -34,11 +38,15 @@ public class Else extends Instruccion{
         tsElse.setTablaAnterior(ts);
         EntornoElse.setConsola("");
 
-        for (var a: EntornoElse.getInstrucciones()){
-            a.interpretar(EntornoElse, tsElse);
-            EntornoElse.getConsola();
+        for(int i = 0; i< inst_else.size(); i++){
+            Instruccion a = inst_else.get(i);
+            Object res = a.interpretar(EntornoElse, tsElse);
+            ent.setConsola(ent.getConsola() + EntornoElse.getConsola());
+            EntornoElse.setConsola("");
+            if (a instanceof Break || res instanceof Break) {
+                return new Break(fila, columna);
+            }
         }
-
         ent.setConsola(ent.getConsola() + EntornoElse.getConsola());
 
         return this;

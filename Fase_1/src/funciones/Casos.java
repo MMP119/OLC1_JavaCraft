@@ -50,11 +50,18 @@ public class Casos extends Instruccion {
 
         if(this.exp != null){
             if (this.exp.getValor().toString().equals(this.match.getValor().toString()) || this.exp.getValor().toString().equals("_")) {
-                for(var a: EntornoCasos.getInstrucciones()){
-                    a.interpretar(EntornoCasos, tsCasos);
-                    EntornoCasos.getConsola();
+                
+                for (int i = 0; i < inst.size(); i++) {
+                    Instruccion a = inst.get(i);
+                    Object res = a.interpretar(EntornoCasos, tsCasos);
+                    ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
+                    EntornoCasos.setConsola("");
+                    if (a instanceof Break || res instanceof Break) {
+                        return new Break(fila, columna);
+                    }
                 }
                 ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
+                EntornoCasos.setConsola("");
                 return this;
             }
         }else{

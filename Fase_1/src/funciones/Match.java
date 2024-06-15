@@ -31,11 +31,12 @@ public class Match extends Instruccion {
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
         Expresion valorExp = (Expresion) this.exp.interpretar(ent, ts);
-        
-        for(Casos caso: this.casos){
+
+        for (int i = 0; i < casos.size(); i++) {
+            Casos caso = casos.get(i);
             caso.setMatch(valorExp);
             Object resultado = caso.interpretar(ent, ts);
-            if(resultado != null){
+            if (resultado != null) {
                 return resultado;
             }
         }

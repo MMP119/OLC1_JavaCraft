@@ -1,6 +1,7 @@
 package funciones;
 
 import expresiones.Expresion;
+import expresiones.TipoDato;
 import instruccion.Instruccion;
 import instruccion.TipoInstruccion;
 import entorno.Entorno;
@@ -41,11 +42,15 @@ public class DoWhile extends Instruccion{
 
         do {
 
-            for (var a: entornoDoWhile.getInstrucciones()) {
-                a.interpretar(entornoDoWhile, tsDoWhile);
-                entornoDoWhile.getConsola();
+            for(int i = 0; i < inst.size(); i++){
+                Instruccion a = inst.get(i);
+                Object res = a.interpretar(entornoDoWhile, tsDoWhile);
+                ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
+                entornoDoWhile.setConsola("");
+                if (a instanceof Break || res instanceof Break) {
+                    return null;
+                }
             }
-
             ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
             entornoDoWhile.setConsola("");
             this.exp = (Expresion) this.exp.interpretar(entornoDoWhile, tsDoWhile);

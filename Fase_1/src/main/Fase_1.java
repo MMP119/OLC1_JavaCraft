@@ -24,15 +24,22 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-        var i:int = 0;
-        var j:int = 5;
-        for (i= 1; i < 10; i=i+2){
-            if(5<i){
-                println("I es mayor a 5");
+        var j:int = 0;
+        do{
+            println(j);
+            j = j + 1;
+            if(j == 11){
+                break;
+            }else if(j == 5){
+                println("Cinco");
+                break;
             }
-            println(i);
-        }
-        
+            else{
+                println("No es cinco");
+                break;
+            }
+
+        }while(j<10);
                         """;
         
         // Generar Analizadores

@@ -22,4 +22,8 @@ public abstract class Instruccion {
 
     public abstract Object interpretar(Entorno ent ,tablaSimbolos ts);
 
+    public Tipo getTipo(){
+        return tipo;
+    }
+
 }

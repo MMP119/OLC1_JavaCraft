@@ -19,7 +19,8 @@ public class Break extends Instruccion {
     }
 
     @Override
-    public Object interpretar(Entorno arbol, tablaSimbolos ts) {
+    public Object interpretar(Entorno ent, tablaSimbolos ts) {
+        //System.out.println("Break");
         return null;
     }
 

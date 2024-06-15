@@ -57,12 +57,17 @@ public class While extends Instruccion {
             }
 
             if(condicion.getValor().toString().equals("true")){
-                for(var a:EntWhile.getInstrucciones()){
-                    a.interpretar(EntWhile, tsWhile);
-                    EntWhile.getConsola();
+                for(int i = 0; i< inst.size(); i++){
+                    Instruccion a = inst.get(i);
+                    Object res = a.interpretar(EntWhile, tsWhile);
+                    ent.setConsola(ent.getConsola() + EntWhile.getConsola());
+                    EntWhile.setConsola("");
+                    if(res instanceof Break || a instanceof Break){
+                        return null;
+                    }
                 }
                 ent.setConsola(ent.getConsola() + EntWhile.getConsola());
-                EntWhile.setConsola(""); // Limpiar consola para la siguiente iteracion
+                EntWhile.setConsola("");
             } else {
                 break;
             }
