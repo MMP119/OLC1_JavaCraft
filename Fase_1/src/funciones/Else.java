@@ -62,6 +62,7 @@ public class Else extends Instruccion{
             return this;
             
         }catch(Exception e){
+            Errores.errores.add(new Errores("Semantico", "Error en la instruccion Else", fila, columna));
             return new Errores("Semantico", "Error en la instruccion Else", fila, columna);
         }
     }

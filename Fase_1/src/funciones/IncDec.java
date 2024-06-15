@@ -45,6 +45,7 @@ public class IncDec extends Instruccion {
         if(variable.getValor() != "ERROR"){
             if(variable.getMutabilidad().equals("const")){
                 System.out.println("ERROR SEMANTICO ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id);
+                Errores.errores.add(new Errores("Semantico", "ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id, fila, columna));
                 return new Errores("Semantico", "ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id, fila, columna);
             }else{
 
@@ -68,6 +69,7 @@ public class IncDec extends Instruccion {
                         }
                     }else{
                         System.out.println("ERROR SEMANTICO NO SE PUEDE INCREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo());
+                        Errores.errores.add(new Errores("Semantico", "NO SE PUEDE INCREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo(), fila, columna));
                         return new Errores("Semantico", "NO SE PUEDE INCREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo(), fila, columna);
                     }
                     
@@ -93,6 +95,7 @@ public class IncDec extends Instruccion {
                         }
                     }else{
                         System.out.println("ERROR SEMANTICO NO SE PUEDE DECREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo());
+                        Errores.errores.add(new Errores("Semantico", "NO SE PUEDE DECREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo(), fila, columna));
                         return new Errores("Semantico", "NO SE PUEDE DECREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo(), fila, columna);
                     }
                 }
@@ -101,6 +104,7 @@ public class IncDec extends Instruccion {
         }
         return null;
         }catch(Exception e){
+            Errores.errores.add(new Errores("Semantico", "NO SE PUEDE DECREMENTAR UNA VARIABLE", this.fila, this.columna));
             return new Errores("Semantico", "NO SE PUEDE DECREMENTAR UNA VARIABLE", this.fila, this.columna);
         }
     }

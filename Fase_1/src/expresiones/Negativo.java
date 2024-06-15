@@ -41,9 +41,11 @@ public class Negativo extends Expresion {
             }
 
             System.out.println("Error Semántico: Error en la operacion negativo.");
+            Errores.errores.add(new Errores("Semantico", "Error en la operacion negativo.", this.getFila(), this.getColumna()));
             return this;
 
         }catch(Exception e){
+            Errores.errores.add(new Errores("Semantico", "Error al interpretar Negativo", this.getFila(), this.getColumna()));
             return new Errores("Semantico", "Error al interpretar Negativo", this.getFila(), this.getColumna());
         }
     }

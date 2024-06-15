@@ -74,11 +74,13 @@ public class Casos extends Instruccion {
                     return this;
                 }
             }else{
+                Errores.errores.add(new Errores("Semantico", "expresion nula", fila, columna));
                 return new Errores("Semantico", "expresion nula", fila, columna);
             }
             return null;
 
         }catch(Exception e){
+            Errores.errores.add(new Errores("Semantico", "Error en la interpretacion de los casos", this.fila, this.columna));
             return new Errores("Semantico", "Error en la interpretacion de los casos", this.fila, this.columna);
         }
     }

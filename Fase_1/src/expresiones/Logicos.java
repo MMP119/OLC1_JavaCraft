@@ -43,10 +43,12 @@ public class Logicos extends Expresion{
                         this.setTipo(TipoDato.BOOLEAN);
                     }else{
                         System.out.println("Error Semántico: Error en la operacion logica NOT.");
+                        Errores.errores.add(new Errores("Semantico", "Error en la operacion logica NOT.", fila, columna));
                     }
                     return this;
                 }else{
                     System.out.println("Error Semántico: Error en la operacion logica.");
+                    Errores.errores.add(new Errores("Semantico", "Error en la operacion logica NOT.", fila, columna));
                     return this;
                 }
             }
@@ -61,6 +63,7 @@ public class Logicos extends Expresion{
                         this.setTipo(TipoDato.BOOLEAN);
                     } else {
                         System.out.println("Error Semántico: Error en la operacion logica AND.");
+                        Errores.errores.add(new Errores("Semantico", "Error en la operacion logica AND.", fila, columna));
                     }
                     break;
                 
@@ -72,6 +75,7 @@ public class Logicos extends Expresion{
                         this.setTipo(TipoDato.BOOLEAN);
                     } else {
                         System.out.println("Error Semántico: Error en la operacion logica OR.");
+                        Errores.errores.add(new Errores("Semantico", "Error en la operacion logica OR.", fila, columna));
                     }
                     break;
                 
@@ -82,17 +86,19 @@ public class Logicos extends Expresion{
                         this.setTipo(TipoDato.BOOLEAN);
                     } else {
                         System.out.println("Error Semántico: Error en la operacion logica XOR.");
+                        Errores.errores.add(new Errores("Semantico", "Error en la operacion logica XOR.", fila, columna));
                     }
                     break;
                 
                 default:
                     System.out.println("Error Semántico: Operador logico no reconocido.");
+                    Errores.errores.add(new Errores("Semantico", "Operador logico no reconocido.", fila, columna));
                     break;
             }
 
             return this;
         }catch(Exception e){
-
+            Errores.errores.add(new Errores("Semantico", "Error en la operacion logica"+e.getMessage(), fila, columna));
             return new Errores("Semantico", "Error en la operacion logica"+e.getMessage(), fila, columna);
             
         }

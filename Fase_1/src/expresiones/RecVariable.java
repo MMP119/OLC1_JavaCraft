@@ -38,10 +38,12 @@ public class RecVariable extends Expresion {
             }
             else{
                 System.out.println("ERROR SEMANTICO, Variable " + id+" no ha sido declarada");
+                Errores.errores.add(new Errores("ERROR SEMANTICO","La variable " + id + " no ha sido declarada", this.fila, this.columna));
                 return new Errores("ERROR SEMANTICO","La variable " + id + " no ha sido declarada", this.fila, this.columna);
             }
 
         }catch(Exception e){
+            Errores.errores.add(new Errores("Semantico", "Error al interpretar Recuperar Variable", this.fila, this.columna));
             return new Errores("Semantico", "Error al interpretar Recuperar Variable", this.fila, this.columna);
         }
     }

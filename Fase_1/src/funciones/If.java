@@ -59,6 +59,7 @@ public class If extends Instruccion{
 
             if(this.condicion.getTipo()!= TipoDato.BOOLEAN){
                 System.out.println("ERROR SEMANTICO: Se esperaba una expresion booleana en la condicion del if");
+                Errores.errores.add(new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del if", fila, columna));
                 return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del if", fila, columna);
             }else{
                 //System.out.println("La condicion del if es: " + this.condicion.getValor());
@@ -131,6 +132,7 @@ public class If extends Instruccion{
                 }else{
 
                     //System.out.println("No se cumple la condicion del if y no hay un else para ejecutar");
+                    Errores.errores.add(new Errores("Semantico", "No se cumple la condicion del if y no hay un else para ejecutar", fila, columna));
                     return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del if", fila, columna);
 
                 }
@@ -138,6 +140,7 @@ public class If extends Instruccion{
         return this;  
 
         }catch(Exception e){
+            Errores.errores.add(new Errores("Semantico", "Error al interpretar el if", this.fila, this.columna));
             return new Errores("Semantico", "Error al interpretar el if", this.fila, this.columna);
         }
     

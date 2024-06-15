@@ -3,7 +3,6 @@ package expresiones;
 import entorno.*;
 import excepciones.Errores;
 import AST.*;
-import excepciones.Errores;
 
 public class Aritmeticas extends Expresion{
     
@@ -412,6 +411,7 @@ public class Aritmeticas extends Expresion{
                     //verificar si el denominador es 0
                     if(valorDer == 0){
                         System.out.println("Error Semantico: Division entre 0");
+                        Errores.errores.add(new Errores("Semantico", "Division entre 0", fila, columna));
                         return new Errores("Semantico", "Division entre 0", fila, columna);
                     }
                     double resultado = valorIzq / valorDer;
@@ -425,6 +425,7 @@ public class Aritmeticas extends Expresion{
                     //verificar si el denominador es 0
                     if(valorDer == 0){
                         System.out.println("Error Semantico: Division entre 0");
+                        Errores.errores.add(new Errores("Semantico", "Division entre 0", fila, columna));
                         return new Errores("Semantico", "Division entre 0", fila, columna);
                     }
                     double resultado = valorIzq / valorDer;
@@ -441,6 +442,7 @@ public class Aritmeticas extends Expresion{
                     //verificar si el denominador es 0
                     if(valorDerAscii == 0){
                         System.out.println("Error Semantico: Division entre 0");
+                        Errores.errores.add(new Errores("Semantico", "Division entre 0", fila, columna));
                         return new Errores("Semantico", "Division entre 0", fila, columna);
                     }
                     double resultado = valorIzq / valorDerAscii;
@@ -456,6 +458,7 @@ public class Aritmeticas extends Expresion{
                     //verificar si el denominador es 0
                     if(valorDer == 0){
                         System.out.println("Error Semantico: Division entre 0");
+                        Errores.errores.add(new Errores("Semantico", "Division entre 0", fila, columna));
                         return new Errores("Semantico", "Division entre 0", fila, columna);
                     }
                     double resultado = valorIzq / valorDer;
@@ -469,6 +472,7 @@ public class Aritmeticas extends Expresion{
                     //verificar si el denominador es 0
                     if(valorDer == 0){
                         System.out.println("Error Semantico: Division entre 0");
+                        Errores.errores.add(new Errores("Semantico", "Division entre 0", fila, columna));
                         return new Errores("Semantico", "Division entre 0", fila, columna);
                     }
                     double resultado = valorIzq / valorDer;

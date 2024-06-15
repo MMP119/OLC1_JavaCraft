@@ -54,6 +54,7 @@ public class AsignarVariables extends Instruccion{
                     if(variable.getMutabilidad() != null){
     
                         if(variable.getMutabilidad().equals("const")){
+                        Errores.errores.add(new Errores("Semantico", "ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id, fila, columna));
                         System.out.println("ERROR SEMANTICO ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id);
                         return new Errores("Semantico", "ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id, fila, columna);
                         
@@ -70,6 +71,7 @@ public class AsignarVariables extends Instruccion{
                             }   
     
                         }else{
+                            Errores.errores.add(new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna));
                             System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
                             return new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna);
                             }
@@ -80,6 +82,7 @@ public class AsignarVariables extends Instruccion{
     
                     if(variable.getMutabilidad() != null){
                         if(variable.getMutabilidad().equals("const")){
+                            Errores.errores.add(new Errores("Semantico", "ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id, fila, columna));
                             System.out.println("ERROR SEMANTICO ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id);
                             return new Errores("Semantico", "ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id, fila, columna);
                         
@@ -101,6 +104,7 @@ public class AsignarVariables extends Instruccion{
                                     }
         
                                 }else{
+                                    Errores.errores.add(new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna));
                                     System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
                                     return new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna);
                                 }
@@ -122,6 +126,7 @@ public class AsignarVariables extends Instruccion{
                                     }
         
                                 }else{
+                                    Errores.errores.add(new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna));
                                     System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
                                     return new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna);
                                 }
@@ -143,6 +148,7 @@ public class AsignarVariables extends Instruccion{
                                     }  
         
                                 }else{
+                                    Errores.errores.add(new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna));
                                     System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
                                     return new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna);
                                 }
@@ -164,6 +170,7 @@ public class AsignarVariables extends Instruccion{
                                     }  
         
                                 }else{
+                                    Errores.errores.add(new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna));
                                     System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
                                     return new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna);
                                 }
@@ -185,12 +192,14 @@ public class AsignarVariables extends Instruccion{
                                     }  
         
                                 }else{
+                                    Errores.errores.add(new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna));
                                     System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
                                     return new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna);
                                 }
                             }
         
                             else{
+                                Errores.errores.add(new Errores("Semantico", "No se puede castear de "+this.expresion.getTipo()+" a "+this.tipo, this.fila, this.columna));
                                 System.out.println("ERROR SEMANTICO, No se puede castear de "+this.expresion.getTipo()+" a "+this.tipo);
                                 return new Errores("Semantico","No se puede castear de "+this.expresion.getTipo()+" a "+this.tipo, this.fila, this.columna);
                             }
@@ -199,6 +208,7 @@ public class AsignarVariables extends Instruccion{
                 }
     
             }else{
+                Errores.errores.add(new Errores("Semantico", "Variable no declarada: " + this.id, fila, columna));
                 System.out.println("ERROR SEMANTICO Variable NO DECLARADA:" + this.id);
                 return new Errores("Semantico", "Variable no declarada: " + this.id, fila, columna);
             }
@@ -207,6 +217,7 @@ public class AsignarVariables extends Instruccion{
             return this;
         }
         catch(Exception e){
+            Errores.errores.add(new Errores("Semantico", "Variable no declarada: " + this.id, fila, columna));
             System.out.println("ERROR SEMANTICO Variable NO DECLARADA:" + this.id);
             return new Errores("Semantico", "Variable no declarada: " + this.id, fila, columna);
         }

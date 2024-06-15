@@ -27,10 +27,12 @@ public class Continue extends Instruccion{
         try{
             if(Instruccion.cicloProfundida == 0){
                 //System.out.println("ERROR SEMANTICO: Continue fuera de ciclo");
+                Errores.errores.add(new Errores("Semantico", "Continue fuera de ciclo", this.fila, this.columna));
                 return new Errores("Semantico", "Continue fuera de ciclo", this.fila, this.columna);
             }
             return this;
         }catch(Exception e){
+            Errores.errores.add(new Errores("Semantico", "Error al interpretar Continue", this.fila, this.columna));
             return new Errores("Semantico", "Error al interpretar Continue", this.fila, this.columna);
         }
     }

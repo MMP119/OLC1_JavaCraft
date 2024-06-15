@@ -29,10 +29,12 @@ public class Break extends Instruccion {
         try {
             if(Instruccion.cicloProfundida == 0){
                 //System.out.println("ERROR SEMANTICO: Break fuera de ciclo");
+                Errores.errores.add(new Errores("Semantico", "Break fuera de ciclo", this.fila, this.columna));
                 return new Errores("Semantico", "Break fuera de ciclo", this.fila, this.columna);
             }
             return null;
         } catch (Exception e) {
+            Errores.errores.add(new Errores("Semantico", "Error al interpretar Break", this.fila, this.columna));
             System.out.println("ERROR: Break");
             return null;
         }

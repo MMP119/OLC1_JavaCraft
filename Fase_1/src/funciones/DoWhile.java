@@ -73,6 +73,7 @@ public class DoWhile extends Instruccion{
             return this;
             
         }catch(Exception e){
+            Errores.errores.add(new Errores("Semantico", "Error en el DoWhile", fila, columna));
             return new Errores("Semantico", "Error en el DoWhile", fila, columna);
         }
     }

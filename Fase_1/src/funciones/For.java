@@ -55,6 +55,7 @@ public class For extends Instruccion{
     
                 if(condicion.getTipo() != TipoDato.BOOLEAN){
                     System.out.println("ERROR SEMANTICO: Se esperaba una expresion booleana en la condicion del for");
+                    Errores.errores.add(new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del for", fila, columna));
                     return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del for", fila, columna);
                 }
     
@@ -91,6 +92,7 @@ public class For extends Instruccion{
             return this;
         }catch(Exception e){
             System.out.println("ERROR SEMANTICO: "+e.getMessage());
+            Errores.errores.add(new Errores("Semantico", "Error en el for"+e.getMessage(), fila, columna));
             return new Errores("Semantico", "Error en el for"+e.getMessage(), fila, columna);
         }
 

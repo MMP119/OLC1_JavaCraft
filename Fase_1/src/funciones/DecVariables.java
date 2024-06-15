@@ -67,6 +67,7 @@ public class DecVariables extends Instruccion{
                             this.expresion = new Dato("", TipoDato.CADENA, this.fila, this.columna);
                             break;            
                         default:
+                            Errores.errores.add(new Errores("Semantico","Tipo de dato no valido", this.fila, this.columna));
                             System.out.println("ERROR SEMANTICO, Tipo de dato no valido");
                             break;
                     }
@@ -78,6 +79,7 @@ public class DecVariables extends Instruccion{
     
                     if(ts.getTablaActual().containsKey(id)){
                         //System.out.println("Variable "+this.id+" ya existe");
+                        Errores.errores.add(new Errores("Semantico","Variable "+this.id+" ya existe", this.fila, this.columna));
                         return new Errores("Semantico","Variable "+this.id+" ya existe", this.fila, this.columna);
                     }else{
                         valor.setId(this.id);
@@ -150,6 +152,7 @@ public class DecVariables extends Instruccion{
     
                 else{
                     System.out.println("ERROR SEMANTICO, No se puede castear de "+this.tipo2+" a "+this.tipo);
+                    Errores.errores.add(new Errores("Semantico","No se puede castear de "+this.tipo2+" a "+this.tipo, this.fila, this.columna));
                     return new Errores("Semantico","No se puede castear de "+this.tipo2+" a "+this.tipo, this.fila, this.columna);
                 }
     
@@ -158,6 +161,7 @@ public class DecVariables extends Instruccion{
             return this;
             
         }catch(Exception e){
+            Errores.errores.add(new Errores("Semantico","Error al declarar variable", this.fila, this.columna));
             return new Errores("Semantico","Error al declarar variable", this.fila, this.columna);
         }
     }

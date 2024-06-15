@@ -54,6 +54,7 @@ public class While extends Instruccion {
 
             if(condicion.getTipo() != TipoDato.BOOLEAN){
                 System.out.println("ERROR SEMANTICO: Se esperaba una expresion booleana en la condicion del while");
+                Errores.errores.add(new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del while", fila, columna));
                 return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del while", fila, columna);
             }
 

@@ -8,6 +8,7 @@ import expresiones.Expresion;
 import instruccion.Instruccion;
 import instruccion.TipoInstruccion;
 import java.util.LinkedList;
+import excepciones.Errores;
 
 public class Match extends Instruccion {
 
@@ -43,6 +44,7 @@ public class Match extends Instruccion {
             }
             return this;
         }catch(Exception e){
+            Errores.errores.add(new Errores("Error Semantico", "Error en Match: "+e.getMessage(), fila, columna));
             System.out.println("Error en Match: "+e.getMessage());
             return null;
         }

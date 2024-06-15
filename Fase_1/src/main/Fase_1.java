@@ -25,12 +25,12 @@ public class Fase_1 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         
         String entrada = """
                     var z : int = -5;
-                    #####
-                    println(z<5);
+                    #####;
+                    println(5/0);
                     println("hola mundo");
                 """;
         
@@ -38,7 +38,7 @@ public class Fase_1 {
         //analizadores("Fase_1/src/interprete/", "Lexer.jflex", "Parser.cup");
         // Analizar
         analizar(entrada);
-    }
+    }*/
 
     public static void analizadores(String ruta, String jflexFile, String cupFile){
         try {
@@ -55,20 +55,16 @@ public class Fase_1 {
     }
 
     // Realizar Analisis
-    public static void analizar (String entrada){
+    public static void analizar (String entrada, Interfaz consola){
 
         ArrayList<Errores> errores = new ArrayList<>();
 
-
         try {
-
-            
 
             interprete.Lexer lexer = new interprete.Lexer(new StringReader(entrada)); 
             @SuppressWarnings("deprecation")
             interprete.Parser parser = new Parser(lexer);
             var resultado = parser.parse();
-            @SuppressWarnings("unchecked")
             
             var erroresLexicos = lexer.getErrores();
             errores.addAll(erroresLexicos);
@@ -76,6 +72,7 @@ public class Fase_1 {
             var erroresSintacticos = parser.getErrores();
             errores.addAll(erroresSintacticos);
 
+            @SuppressWarnings("unchecked")
             var ast = new Entorno((LinkedList<Instruccion>)resultado.value);
             var ts = new tablaSimbolos();
             ts.setNombre("Global");
@@ -88,7 +85,20 @@ public class Fase_1 {
                     instruc.agregarHijoAST(a.getNodo());
                     ast.getConsola();
                     var erroresSemanticos = Errores.getErrores();
-                    errores.addAll(erroresSemanticos);
+                    //verificar si hay errores repetidos
+                    for (var e: erroresSemanticos){
+                        boolean repetido = false;
+                        for (var e2: errores){
+                            if (e.getNombre().equals(e2.getNombre()) && e.getDesc().equals(e2.getDesc()) && e.getLinea() == e2.getLinea() && e.getColumna() == e2.getColumna()){
+                                repetido = true;
+                                break;
+                            }
+                        }
+                        if (!repetido){
+                            errores.add(e);
+                        }
+                    }
+
                 }catch(Exception e){
 
                     System.out.println("Error en la instruccion: "+a);
@@ -100,7 +110,7 @@ public class Fase_1 {
             System.out.println(ast.getConsola());
 
             //insertar ast.getConsola en la consola de la interfaz
-            //consola.appendConsola(ast.getConsola());
+            consola.appendConsola(ast.getConsola());
             
             FailsGenerateHTML(errores);
             
