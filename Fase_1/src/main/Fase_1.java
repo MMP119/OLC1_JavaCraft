@@ -24,28 +24,10 @@ public class Fase_1 {
     public static void main(String[] args) {
         
         String entrada = """
-println("");
-
-var j: int = 0;
-var k: int = 10;
-while (j <= k) {
-    match j {
-        1 => { println("j es 1"); }
-        2 => { println("j es 2"); }
-        3 => { println("j es 3"); }
-        4 => { println("j es 4"); }
-        5 => { println("j es 5"); }
-        6 => { println("j es 6"); }
-        7 => { println("j es 7"); }
-        8 => { println("j es 8"); }
-        9 => { println("j es 9"); }
-        10 => { println("j es 10"); }
-        _ => { println("j es otro valor"); }
-    }
-    j++;
-}
-
-
+        var i:int = 0;
+        for (i= 1; i < 10; i=i+2){
+            println(i);
+        }
                         """;
         
         // Generar Analizadores

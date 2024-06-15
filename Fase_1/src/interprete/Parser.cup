@@ -21,6 +21,7 @@ import funciones.Else;
 import funciones.Match;
 import funciones.Casos;
 import funciones.While;
+import funciones.For;
 import funciones.DoWhile;
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -91,6 +92,7 @@ non terminal LinkedList<Casos> casos;
 non terminal Instruccion caso;
 non terminal Instruccion sentWhile;
 non terminal Instruccion sentFOR;
+non terminal Instruccion updateFOR;
 non terminal Instruccion sentDO;
 non terminal Instruccion printConsole;
 non terminal Expresion expresion;
@@ -127,6 +129,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | sentIF:a                {:RESULT=a;:}
         | sentMATCH:a             {:RESULT=a;:}
         | sentWhile:a             {:RESULT=a;:}
+        | sentFOR:a               {:RESULT=a;:}
         | sentDO:a                {:RESULT=a;:}
 ;
 
@@ -174,7 +177,7 @@ elseIF ::= ELSE A_LLAVE instruccion:inst C_LLAVE        {:RESULT= new Else(inst,
 
 
         //Sentencia MATCH
-sentMATCH ::= MATCH expresion:exp A_LLAVE  casos:c  C_LLAVE                     {:RESULT = new Match(exp, c, expleft, expright);:}
+sentMATCH ::= MATCH expresion:exp A_LLAVE  casos:c  C_LLAVE     {:RESULT = new Match(exp, c, expleft, expright);:}
 ;
 
 casos::= caso:a                 {:RESULT= new LinkedList<>(); RESULT.add((Casos)a);:}
@@ -189,16 +192,20 @@ caso ::=  expresion:exp IGUAL MAYOR_Q A_LLAVE instruccion:inst C_LLAVE         {
 //Sentencia ciclicas
 
         //while
-sentWhile ::= WHILE A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE  {:RESULT =  new While(exp, inst, expleft, expright);:}
+sentWhile ::= WHILE A_PARENTESIS expresion:exp C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE            {:RESULT =  new While(exp, inst, expleft, expright);:}
 ;
 
         //FOR
-sentFOR ::= FOR A_PARENTESIS 
+sentFOR ::= FOR A_PARENTESIS asignarVariables:a expresion:exp PYC updateFOR:b C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE {:RESULT= new For(a, exp, b, inst,aleft, aright);:}
 ;
 
+updateFOR ::= ID:id IGUAL expresion:exp     {:RESULT = new AsignarVariables(id.toLowerCase(), exp, null,idleft, idright);:}
+        | ID:id MAS MAS                     {:RESULT = new IncDec(id.toLowerCase(), "++", idleft, idright);:}
+        | ID:id MENOS MENOS                 {:RESULT = new IncDec(id.toLowerCase(), "--", idleft, idright);:}
+;
 
         // DO-WHILE
-sentDO ::= DO A_LLAVE instruccion:inst C_LLAVE WHILE A_PARENTESIS expresion:exp C_PARENTESIS PYC {:RESULT = new DoWhile(exp, inst, instleft, instright);:}
+sentDO ::= DO A_LLAVE instruccion:inst C_LLAVE WHILE A_PARENTESIS expresion:exp C_PARENTESIS PYC        {:RESULT = new DoWhile(exp, inst, instleft, instright);:}
 ;
 
 //sentencias de transferencia

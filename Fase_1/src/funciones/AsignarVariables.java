@@ -4,7 +4,6 @@ import AST.NodoAst;
 import entorno.*;
 import excepciones.Errores;
 import expresiones.Expresion;
-import expresiones.RecVariable;
 import expresiones.TipoDato;
 import instruccion.Instruccion;
 import instruccion.TipoInstruccion;

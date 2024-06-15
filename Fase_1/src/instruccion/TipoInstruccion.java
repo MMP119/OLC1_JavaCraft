@@ -15,5 +15,7 @@ public enum TipoInstruccion {
     TERNARIO,
     FUNCION, 
     WHILE,
+    FOR, 
     DOWHILE,
+    BREAK
 }
