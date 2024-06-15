@@ -53,6 +53,10 @@ public class Errores {
         return errores;
     }
 
+    public static void borraErrores() {
+        errores.clear();
+    }
+
     @Override
     public String toString() {
         return "Errores{" + "tipo=" + nombre + ", desc=" + desc + ", linea=" + linea + ", columna=" + columna + '}';

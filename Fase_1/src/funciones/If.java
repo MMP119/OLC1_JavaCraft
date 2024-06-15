@@ -132,7 +132,7 @@ public class If extends Instruccion{
                 }else{
 
                     //System.out.println("No se cumple la condicion del if y no hay un else para ejecutar");
-                    Errores.errores.add(new Errores("Semantico", "No se cumple la condicion del if y no hay un else para ejecutar", fila, columna));
+                    //Errores.errores.add(new Errores("Semantico", "No se cumple la condicion del if y no hay un else para ejecutar", fila, columna));
                     return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del if", fila, columna);
 
                 }

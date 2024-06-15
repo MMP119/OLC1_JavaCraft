@@ -156,6 +156,11 @@ public class Interfaz extends javax.swing.JFrame {
         Reporte_button.setText("Reportes");
 
         Error_button.setText("Reporte Errores");
+        Error_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Error_buttonActionPerformed(evt);
+            }
+        });
         Reporte_button.add(Error_button);
 
         AST_button.setText("Generar AST");
@@ -293,6 +298,22 @@ public class Interfaz extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_GuardarArchivo_buttonActionPerformed
+
+    private void Error_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Error_buttonActionPerformed
+        
+        //letrero de que se ha generado el reporte
+        JOptionPane.showMessageDialog(this, "Reporte de errores generado con exito");
+
+        //abrir el archivo generado
+        try {
+            String path = "Fase_1/Reports/Fails.html";
+            File file = new File(path);
+            java.awt.Desktop.getDesktop().open(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }//GEN-LAST:event_Error_buttonActionPerformed
 
     /**
      * @param args the command line arguments

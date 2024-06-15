@@ -57,9 +57,11 @@ public class Fase_1 {
     // Realizar Analisis
     public static void analizar (String entrada, Interfaz consola){
 
-        ArrayList<Errores> errores = new ArrayList<>();
+        
 
         try {
+
+            ArrayList<Errores> errores = new ArrayList<>();
 
             interprete.Lexer lexer = new interprete.Lexer(new StringReader(entrada)); 
             @SuppressWarnings("deprecation")
@@ -98,7 +100,7 @@ public class Fase_1 {
                             errores.add(e);
                         }
                     }
-
+                    Errores.borraErrores();
                 }catch(Exception e){
 
                     System.out.println("Error en la instruccion: "+a);
@@ -118,6 +120,13 @@ public class Fase_1 {
 
             ArbolAST arbol = new ArbolAST();
             arbol.graficarArbol(init);
+
+            for (Errores err : errores) {
+                consola.appendConsola("\n"+"->"+err.getNombre() + ": " + err.getDesc() + "  Fila:" + err.getLinea() + "  Columna:" + err.getColumna()+"\n");
+            }
+
+            //limpiar errores
+            errores.clear();
 
         } catch (Exception e) {
             System.out.println("Error fatal en compilación de entrada.");
