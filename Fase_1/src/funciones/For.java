@@ -56,10 +56,13 @@ public class For extends Instruccion{
             }
 
             if(condicion.getValor().toString().equals("true")){
-                for(var a:entFor.getInstrucciones()){
+                for(var a: entFor.getInstrucciones()){
                     a.interpretar(entFor, tsFor);
+                    entFor.getConsola();
                 }
                 update.interpretar(entFor, tsFor);
+                ent.setConsola(ent.getConsola() + entFor.getConsola());
+                entFor.setConsola("");
             }else{
                 break;
             }

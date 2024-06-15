@@ -25,9 +25,14 @@ public class Fase_1 {
         
         String entrada = """
         var i:int = 0;
+        var j:int = 5;
         for (i= 1; i < 10; i=i+2){
+            if(5<i){
+                println("I es mayor a 5");
+            }
             println(i);
         }
+        
                         """;
         
         // Generar Analizadores

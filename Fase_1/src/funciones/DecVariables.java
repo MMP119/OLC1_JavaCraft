@@ -76,7 +76,7 @@ public class DecVariables extends Instruccion{
                 Expresion valor = (Expresion)this.expresion.interpretar(ent, ts);
 
                 if(ts.getTablaActual().containsKey(id)){
-                    System.out.println("Variable "+this.id+" ya existe");
+                    //System.out.println("Variable "+this.id+" ya existe");
                     return new Errores("Semantico","Variable "+this.id+" ya existe", this.fila, this.columna);
                 }else{
                     valor.setId(this.id);
