@@ -40,6 +40,7 @@ public class Casos extends Instruccion {
             tsCasos.setNombre("Casos");
             tsCasos.setTablaAnterior(ts);
             EntornoCasos.setConsola("");
+            tablaSimbolos.tablas.add(tsCasos);
 
             if(this.exp != null){
                 this.exp = (Expresion) this.exp.interpretar(ent, ts);

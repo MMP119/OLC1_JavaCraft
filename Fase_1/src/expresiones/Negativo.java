@@ -7,10 +7,14 @@ import excepciones.Errores;
 public class Negativo extends Expresion {
 
     private Expresion expresion;
+    private int fila;
+    private int columna;
 
     public Negativo(Expresion expresion, int fila, int columna) {
         super("ERROR", TipoDato.ERROR, fila, columna);
         this.expresion = expresion;
+        this.fila = fila;
+        this.columna = columna;
     }
 
     @Override
@@ -24,46 +28,36 @@ public class Negativo extends Expresion {
     @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
         try{
-            Expresion valor = (Expresion) this.expresion.interpretar(ent, ts);
+            this.expresion = (Expresion) this.expresion.interpretar(ent, ts);
         //System.out.println(valor.getValor()+" "+valor.getTipo());
 
-            if (valor.getTipo() == TipoDato.DOUBLE) {
-                valor.setValor(-1 * Double.parseDouble(valor.getValor().toString()));
-                valor.setTipo(TipoDato.DOUBLE);
+            if (this.expresion.getTipo() == TipoDato.DOUBLE) {
+                this.expresion.setValor(-1 * Double.parseDouble(this.expresion.getValor().toString()));
+                this.expresion.setTipo(TipoDato.DOUBLE);
                 //System.out.println(this.expresion.getValor()+" "+this.expresion.getTipo());
-                return valor;
+                return this.expresion;
             }
-            else if(valor.getTipo() == TipoDato.INT){
-                valor.setValor(-1 * Integer.parseInt(valor.getValor().toString()));
-                valor.setTipo(TipoDato.INT);
+            else if(this.expresion.getTipo() == TipoDato.INT){
+                this.expresion.setValor(-1 * Integer.parseInt(this.expresion.getValor().toString()));
+                this.expresion.setTipo(TipoDato.INT);
                 //System.out.println(this.expresion.getValor()+" "+this.expresion.getTipo());
-                return valor;
+                return this.expresion;
             }
 
             System.out.println("Error Semántico: Error en la operacion negativo.");
-            Errores.errores.add(new Errores("Semantico", "Error en la operacion negativo.", this.getFila(), this.getColumna()));
+            Errores.errores.add(new Errores("Semantico", "Error en la operacion negativo.", this.fila,  this.columna));
             return this;
 
         }catch(Exception e){
-            Errores.errores.add(new Errores("Semantico", "Error al interpretar Negativo", this.getFila(), this.getColumna()));
-            return new Errores("Semantico", "Error al interpretar Negativo", this.getFila(), this.getColumna());
+            Errores.errores.add(new Errores("Semantico", "Error al interpretar Negativo", this.fila,  this.columna));
+            return new Errores("Semantico", "Error al interpretar Negativo", this.fila,  this.columna);
         }
     }
 
     @Override
     public String toString() {
-        return "-" + this.expresion.toString();
+        return this.expresion.toString();
     }
-
-    // Getters y Setters
-    public Expresion getExpresion() {
-        return expresion;
-    }
-
-    public void setExpresion(Expresion expresion) {
-        this.expresion = expresion;
-    }
-
     
 
 }

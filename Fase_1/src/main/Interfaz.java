@@ -4,6 +4,9 @@
  */
 package main;
 
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -20,8 +23,6 @@ import java.io.PrintWriter;
 
 import java.util.ArrayList;
 import excepciones.Errores;
-
-import com.formdev.flatlaf.FlatDarculaLaf;
 
 
 import interprete.*;
@@ -244,7 +245,19 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_DeletePestania_buttonActionPerformed
 
     private void SymbolsTable_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SymbolsTable_buttonActionPerformed
-        // TODO add your handling code here:
+        
+        //letrero de que se ha generado el reporte
+        JOptionPane.showMessageDialog(this, "Tabla de simbolos generada con exito");
+        
+        //abrir el archivo generado
+        try {
+            //String path = "Fase_1/Reports/Fails.html";
+            String path = "tabla.html";
+            File file = new File(path);
+            java.awt.Desktop.getDesktop().open(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_SymbolsTable_buttonActionPerformed
 
     private void Go_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Go_buttonActionPerformed
@@ -306,7 +319,8 @@ public class Interfaz extends javax.swing.JFrame {
 
         //abrir el archivo generado
         try {
-            String path = "Fase_1/Reports/Fails.html";
+            //String path = "Fase_1/Reports/Fails.html";
+            String path = "Fails.html";
             File file = new File(path);
             java.awt.Desktop.getDesktop().open(file);
         } catch (IOException ex) {
@@ -319,7 +333,9 @@ public class Interfaz extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        FlatDarculaLaf.setup();
+        
+        //FlatDarkLaf.setup();
+        FlatMacDarkLaf.setup();
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

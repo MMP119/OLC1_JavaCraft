@@ -45,6 +45,7 @@ public class For extends Instruccion{
             tsFor.setNombre("For");
             tsFor.setTablaAnterior(ts);
             entFor.setConsola("");
+            tablaSimbolos.tablas.add(tsFor);
     
             var asig = asigVariable.interpretar(entFor, tsFor);
             if(asig instanceof Break){

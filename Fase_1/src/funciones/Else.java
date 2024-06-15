@@ -39,6 +39,7 @@ public class Else extends Instruccion{
             tsElse.setNombre("Else");
             tsElse.setTablaAnterior(ts);
             EntornoElse.setConsola("");
+            tablaSimbolos.tablas.add(tsElse);
 
             for(int i = 0; i< inst_else.size(); i++){
                 Instruccion a = inst_else.get(i);

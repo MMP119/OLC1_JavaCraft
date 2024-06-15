@@ -41,6 +41,7 @@ public class DoWhile extends Instruccion{
             tsDoWhile.setNombre("DoWhile");
             tsDoWhile.setTablaAnterior(ts);
             entornoDoWhile.setConsola("");
+            tablaSimbolos.tablas.add(tsDoWhile);
 
             do {
 

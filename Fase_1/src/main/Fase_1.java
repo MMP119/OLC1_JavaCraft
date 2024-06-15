@@ -79,6 +79,7 @@ public class Fase_1 {
             var ts = new tablaSimbolos();
             ts.setNombre("Global");
             ast.setConsola("");
+            tablaSimbolos.tablas.add(ts);
             var init = new NodoAst("INICIO");
             var instruc = new NodoAst("INSTRUCCIONES");
             for (var a: ast.getInstrucciones()){
@@ -115,9 +116,11 @@ public class Fase_1 {
             consola.appendConsola(ast.getConsola());
             
             FailsGenerateHTML(errores);
+            tablaSimbolos.tablaSimbolosHTML();
+            tablaSimbolos.tablas.clear();
+            
             
             init.agregarHijoAST(instruc);
-
             ArbolAST arbol = new ArbolAST();
             arbol.graficarArbol(init);
 
@@ -148,7 +151,8 @@ public class Fase_1 {
         PrintWriter pw = null;
 
         try {
-            String path = "Fase_1/Reports/Fails.html";
+            //String path = "Fase_1/Reports/Fails.html";
+            String path = "Fails.html";
             fichero = new FileWriter(path);
             pw = new PrintWriter(fichero);
 

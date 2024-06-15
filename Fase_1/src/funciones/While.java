@@ -48,6 +48,7 @@ public class While extends Instruccion {
         tsWhile.setNombre("While");
         tsWhile.setTablaAnterior(ts);
         EntWhile.setConsola("");
+        tablaSimbolos.tablas.add(tsWhile);
 
         while(true){
             Expresion condicion = (Expresion)this.exp.interpretar(EntWhile, tsWhile);

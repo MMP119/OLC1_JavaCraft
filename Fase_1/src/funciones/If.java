@@ -54,6 +54,7 @@ public class If extends Instruccion{
             tsIf.setNombre("If");
             tsIf.setTablaAnterior(ts);
             EntornoIf.setConsola("");
+            tablaSimbolos.tablas.add(tsIf);
             this.condicion = (Expresion)this.condicion.interpretar(EntornoIf, tsIf);
             
 
