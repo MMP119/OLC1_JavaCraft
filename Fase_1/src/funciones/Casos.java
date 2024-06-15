@@ -56,9 +56,17 @@ public class Casos extends Instruccion {
                     Object res = a.interpretar(EntornoCasos, tsCasos);
                     ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
                     EntornoCasos.setConsola("");
+
+                    // Break
                     if (a instanceof Break || res instanceof Break) {
                         return new Break(fila, columna);
                     }
+
+                    // Continue
+                    if (a instanceof Continue || res instanceof Continue) {
+                        return new Continue(fila, columna);
+                    }
+
                 }
                 ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
                 EntornoCasos.setConsola("");

@@ -41,6 +41,7 @@ public class While extends Instruccion {
     }
 
     public Object interpretar(Entorno ent, tablaSimbolos ts){
+        Instruccion.cicloProfundida++;//Aumentamos la profundidad del ciclo
 
         Entorno EntWhile = new Entorno(inst);
         tablaSimbolos tsWhile = new tablaSimbolos();
@@ -62,9 +63,20 @@ public class While extends Instruccion {
                     Object res = a.interpretar(EntWhile, tsWhile);
                     ent.setConsola(ent.getConsola() + EntWhile.getConsola());
                     EntWhile.setConsola("");
+
+                    // Break
                     if(res instanceof Break || a instanceof Break){
+                        Instruccion.cicloProfundida--; //Disminuimos la profundidad del ciclo antes de salir
                         return null;
                     }
+
+                    // Continue
+                    if(res instanceof Continue || a instanceof Continue){
+                        ent.setConsola(ent.getConsola() + EntWhile.getConsola());
+                        EntWhile.setConsola("");
+                        break;
+                    }
+
                 }
                 ent.setConsola(ent.getConsola() + EntWhile.getConsola());
                 EntWhile.setConsola("");
@@ -72,6 +84,7 @@ public class While extends Instruccion {
                 break;
             }
         }
+        Instruccion.cicloProfundida--; //Disminuimos la profundidad del ciclo antes de salir
         return this;
     }  
 }

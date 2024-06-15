@@ -8,6 +8,7 @@ import AST.*;
 
 public abstract class Instruccion {
     
+    public static int cicloProfundida = 0;
     private Tipo tipo;
     private int fila;
     private int columna;

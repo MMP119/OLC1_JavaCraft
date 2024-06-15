@@ -36,6 +36,7 @@ public class For extends Instruccion{
     }
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
+        Instruccion.cicloProfundida++;
 
         Entorno entFor = new Entorno(local);
         tablaSimbolos tsFor = new tablaSimbolos();
@@ -61,9 +62,20 @@ public class For extends Instruccion{
                     Object res = a.interpretar(entFor, tsFor);
                     ent.setConsola(ent.getConsola()+entFor.getConsola());
                     entFor.setConsola("");
+
+                    // Break
                     if(res instanceof Break || a instanceof Break){
+                        Instruccion.cicloProfundida--;
                         return null;
                     }
+
+                    // Continue
+                    if(res instanceof Continue || a instanceof Continue){
+                        ent.setConsola(ent.getConsola()+entFor.getConsola());
+                        entFor.setConsola("");
+                        break;
+                    }
+
                 }
                 update.interpretar(entFor, tsFor);
                 ent.setConsola(ent.getConsola() + entFor.getConsola());
@@ -73,6 +85,7 @@ public class For extends Instruccion{
             }
         }
         
+        Instruccion.cicloProfundida--;
         return this;
     }
     

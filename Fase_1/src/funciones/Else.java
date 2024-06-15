@@ -43,9 +43,17 @@ public class Else extends Instruccion{
             Object res = a.interpretar(EntornoElse, tsElse);
             ent.setConsola(ent.getConsola() + EntornoElse.getConsola());
             EntornoElse.setConsola("");
+
+            // Break
             if (a instanceof Break || res instanceof Break) {
                 return new Break(fila, columna);
             }
+
+            // Continue
+            if (a instanceof Continue || res instanceof Continue) {
+                return new Continue(fila, columna);
+            }
+
         }
         ent.setConsola(ent.getConsola() + EntornoElse.getConsola());
 

@@ -24,6 +24,7 @@ import funciones.While;
 import funciones.For;
 import funciones.DoWhile;
 import funciones.Break;
+import funciones.Continue;
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
 
@@ -94,8 +95,9 @@ non terminal Instruccion caso;
 non terminal Instruccion sentWhile;
 non terminal Instruccion sentFOR;
 non terminal Instruccion updateFOR;
-non terminal Instruccion break;
 non terminal Instruccion sentDO;
+non terminal Instruccion break;
+non terminal Instruccion continue;
 non terminal Instruccion printConsole;
 non terminal Expresion expresion;
 
@@ -134,6 +136,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | sentFOR:a               {:RESULT=a;:}
         | sentDO:a                {:RESULT=a;:}
         | break:a                 {:RESULT=a;:}
+        | continue:a              {:RESULT=a;:}
         | error PYC
 ;
 
@@ -218,9 +221,8 @@ sentDO ::= DO A_LLAVE instruccion:inst C_LLAVE WHILE A_PARENTESIS expresion:exp 
 break ::= BREAK:a PYC {:RESULT = new Break(aleft, aright);:}
 ;
         //continue
-//continue ::= CONTINUE PYC {:RESULT = new Continue();:}
-//;
-
+continue ::= CONTINUE:a PYC {:RESULT = new Continue(aleft, aright);:}
+;
 
 
 //imprimir en consola

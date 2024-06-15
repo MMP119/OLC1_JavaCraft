@@ -17,5 +17,6 @@ public enum TipoInstruccion {
     WHILE,
     FOR, 
     DOWHILE,
-    BREAK
+    BREAK,
+    CONTINUE
 }

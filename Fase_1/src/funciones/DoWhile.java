@@ -1,7 +1,6 @@
 package funciones;
 
 import expresiones.Expresion;
-import expresiones.TipoDato;
 import instruccion.Instruccion;
 import instruccion.TipoInstruccion;
 import entorno.Entorno;
@@ -33,6 +32,7 @@ public class DoWhile extends Instruccion{
     }
 
     public Object interpretar(Entorno ent, entorno.tablaSimbolos ts) {
+        Instruccion.cicloProfundida++;
 
         Entorno entornoDoWhile = new Entorno(inst);
         tablaSimbolos tsDoWhile = new tablaSimbolos();
@@ -47,9 +47,19 @@ public class DoWhile extends Instruccion{
                 Object res = a.interpretar(entornoDoWhile, tsDoWhile);
                 ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
                 entornoDoWhile.setConsola("");
+
+                // Break
                 if (a instanceof Break || res instanceof Break) {
+                    Instruccion.cicloProfundida--;
                     return null;
                 }
+
+                // Continue
+                if (a instanceof Continue || res instanceof Continue) {
+                    break;
+                }
+
+
             }
             ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
             entornoDoWhile.setConsola("");
@@ -57,6 +67,7 @@ public class DoWhile extends Instruccion{
 
         } while (Boolean.parseBoolean(this.exp.getValor().toString()));
         
+        Instruccion.cicloProfundida--;
         return this;
     }
     

@@ -67,9 +67,17 @@ public class If extends Instruccion{
         if(this.condicion.getValor().toString().toLowerCase().equals("true")){
 
             for (var a: EntornoIf.getInstrucciones()){
+                
+                //break
                 if(a instanceof Break){
                     return new Break(fila, columna);
                 }
+
+                //continue
+                if(a instanceof Continue){
+                    return new Continue(fila, columna);
+                }
+
                 a.interpretar(EntornoIf, tsIf);
                 EntornoIf.getConsola();
                 ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
@@ -88,9 +96,18 @@ public class If extends Instruccion{
                     NodoAst else_ = new NodoAst("ELSE");
                     else_.agregarHijoAST(instr_else.getNodo());
                     ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
+
+                    //break
                     if(a instanceof Break){
                         return new Break(fila, columna);
                     }
+
+                    //continue
+                    if(a instanceof Continue){
+                        return new Continue(fila, columna);
+                    }
+
+
                 }
                 
                 if(instr_else instanceof If){
@@ -98,9 +115,17 @@ public class If extends Instruccion{
                     NodoAst else_if = new NodoAst("ELSE IF");
                     else_if.agregarHijoAST(instr_else.getNodo());
                     ent.setConsola(ent.getConsola() + EntornoIf.getConsola());
+
+                    //break
                     if(a instanceof Break){
                         return new Break(fila, columna);
                     }
+
+                    //continue
+                    if(a instanceof Continue){
+                        return new Continue(fila, columna);
+                    }
+                    
                 }
 
             }else{
