@@ -17,7 +17,6 @@ public class DoWhile extends Instruccion{
     private Expresion exp;
     private LinkedList<Instruccion> inst;
     private int fila, columna;
-    
 
     public DoWhile(Expresion exp, LinkedList<Instruccion> inst, int fila, int columna) {
         super(new Tipo(TipoInstruccion.DOWHILE), fila, columna);
@@ -32,20 +31,20 @@ public class DoWhile extends Instruccion{
         return nodo;
     }
 
-    public Object interpretar(Entorno ent, entorno.tablaSimbolos ts) {
-        try{
+    public Object interpretar(Entorno ent, tablaSimbolos ts) {
+        try {
             Instruccion.cicloProfundida++;
 
-            Entorno entornoDoWhile = new Entorno(inst);
-            tablaSimbolos tsDoWhile = new tablaSimbolos();
-            tsDoWhile.setNombre("DoWhile");
-            tsDoWhile.setTablaAnterior(ts);
-            entornoDoWhile.setConsola("");
-            tablaSimbolos.tablas.add(tsDoWhile);
-
             do {
+                // Crear un nuevo entorno y tabla de símbolos en cada iteración
+                Entorno entornoDoWhile = new Entorno(inst);
+                tablaSimbolos tsDoWhile = new tablaSimbolos();
+                tsDoWhile.setNombre("DoWhile");
+                tsDoWhile.setTablaAnterior(ts);
+                entornoDoWhile.setConsola("");
+                tablaSimbolos.tablas.add(tsDoWhile);
 
-                for(int i = 0; i < inst.size(); i++){
+                for (int i = 0; i < inst.size(); i++) {
                     Instruccion a = inst.get(i);
                     Object res = a.interpretar(entornoDoWhile, tsDoWhile);
                     ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
@@ -61,22 +60,20 @@ public class DoWhile extends Instruccion{
                     if (a instanceof Continue || res instanceof Continue) {
                         break;
                     }
-
-
                 }
                 ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
                 entornoDoWhile.setConsola("");
-                this.exp = (Expresion) this.exp.interpretar(entornoDoWhile, tsDoWhile);
 
+                // Evaluar la condición en el entorno actual
+                this.exp = (Expresion) this.exp.interpretar(ent, ts);
             } while (Boolean.parseBoolean(this.exp.getValor().toString()));
-            
+
             Instruccion.cicloProfundida--;
             return this;
-            
-        }catch(Exception e){
-            Errores.errores.add(new Errores("Semantico", "Error en el DoWhile", fila, columna));
-            return new Errores("Semantico", "Error en el DoWhile", fila, columna);
+
+        } catch (Exception e) {
+            Errores.errores.add(new Errores("Semantico", "Error en el DoWhile: " + e.getMessage(), fila, columna));
+            return new Errores("Semantico", "Error en el DoWhile: " + e.getMessage(), fila, columna);
         }
     }
-    
 }

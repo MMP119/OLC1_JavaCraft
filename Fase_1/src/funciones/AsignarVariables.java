@@ -8,6 +8,7 @@ import expresiones.TipoDato;
 import instruccion.Instruccion;
 import instruccion.TipoInstruccion;
 
+
 public class AsignarVariables extends Instruccion{
 
     private String id;
@@ -45,11 +46,13 @@ public class AsignarVariables extends Instruccion{
             Simbolo sim = (Simbolo)ts.getVariable(this.id);
             Expresion variable = (Expresion)sim.getValor();
             this.expresion = (Expresion)this.expresion.interpretar(ent, ts);
+
             //variable =  (Expresion)variable.interpretar(ent, ts);
+            System.out.println("AQUI Recuperada: "+variable.getId()+" "+ variable.getTipo()+" "+ variable.getValor());
             
     
             if(variable.getValor() != "ERROR"){
-    
+            
                 if(this.tipo == null){
                     if(variable.getMutabilidad() != null){
     

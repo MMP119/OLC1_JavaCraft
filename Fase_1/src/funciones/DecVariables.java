@@ -161,7 +161,7 @@ public class DecVariables extends Instruccion{
             return this;
             
         }catch(Exception e){
-            Errores.errores.add(new Errores("Semantico","Error al declarar variable", this.fila, this.columna));
+            Errores.errores.add(new Errores("Semantico","Error al declarar variable"+this.id, this.fila, this.columna));
             return new Errores("Semantico","Error al declarar variable", this.fila, this.columna);
         }
     }

@@ -25,7 +25,6 @@ public class While extends Instruccion {
         this.columna = columna;
     }
 
-
     public NodoAst getNodo(){
         NodoAst nodo = new NodoAst("WHILE");
         nodo.agregarHijo("while");
@@ -43,15 +42,8 @@ public class While extends Instruccion {
     public Object interpretar(Entorno ent, tablaSimbolos ts){
         Instruccion.cicloProfundida++;//Aumentamos la profundidad del ciclo
 
-        Entorno EntWhile = new Entorno(inst);
-        tablaSimbolos tsWhile = new tablaSimbolos();
-        tsWhile.setNombre("While");
-        tsWhile.setTablaAnterior(ts);
-        EntWhile.setConsola("");
-        tablaSimbolos.tablas.add(tsWhile);
-
         while(true){
-            Expresion condicion = (Expresion)this.exp.interpretar(EntWhile, tsWhile);
+            Expresion condicion = (Expresion)this.exp.interpretar(ent, ts);
             //System.out.println(condicion.getValor().toString());
 
             if(condicion.getTipo() != TipoDato.BOOLEAN){
@@ -61,6 +53,12 @@ public class While extends Instruccion {
             }
 
             if(condicion.getValor().toString().equals("true")){
+                // Crear un nuevo entorno y tabla de símbolos en cada iteración
+                Entorno EntWhile = new Entorno(inst);
+                tablaSimbolos tsWhile = new tablaSimbolos();
+                tsWhile.setNombre("While");
+                tsWhile.setTablaAnterior(ts);
+
                 for(int i = 0; i< inst.size(); i++){
                     Instruccion a = inst.get(i);
                     Object res = a.interpretar(EntWhile, tsWhile);
@@ -79,7 +77,6 @@ public class While extends Instruccion {
                         EntWhile.setConsola("");
                         break;
                     }
-
                 }
                 ent.setConsola(ent.getConsola() + EntWhile.getConsola());
                 EntWhile.setConsola("");
