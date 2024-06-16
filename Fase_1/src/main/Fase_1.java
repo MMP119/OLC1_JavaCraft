@@ -114,6 +114,10 @@ public class Fase_1 {
 
             //insertar ast.getConsola en la consola de la interfaz
             consola.appendConsola(ast.getConsola());
+            for (Errores err : errores) {
+                System.out.println(err.getNombre() + ": " + err.getDesc() + "  Fila:" + err.getLinea() + "  Columna:" + err.getColumna());
+                consola.appendConsola("\n"+"->"+err.getNombre() + ": " + err.getDesc() + "  Fila:" + err.getLinea() + "  Columna:" + err.getColumna()+"\n");
+            }
             
             FailsGenerateHTML(errores);
             tablaSimbolos.tablaSimbolosHTML();
@@ -123,10 +127,6 @@ public class Fase_1 {
             init.agregarHijoAST(instruc);
             ArbolAST arbol = new ArbolAST();
             arbol.graficarArbol(init);
-
-            for (Errores err : errores) {
-                consola.appendConsola("\n"+"->"+err.getNombre() + ": " + err.getDesc() + "  Fila:" + err.getLinea() + "  Columna:" + err.getColumna()+"\n");
-            }
 
             //limpiar errores
             errores.clear();

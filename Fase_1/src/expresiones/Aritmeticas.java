@@ -26,7 +26,9 @@ public class Aritmeticas extends Expresion{
         NodoAst nodo = new NodoAst("ARITMETICA");
         nodo.agregarHijoAST(this.izq.getNodo());
         nodo.agregarHijo(this.operador);
-        nodo.agregarHijoAST(this.der.getNodo());
+        if(this.der != null){
+            nodo.agregarHijoAST(this.der.getNodo());
+        }
         return nodo;
     }
 
@@ -36,6 +38,28 @@ public class Aritmeticas extends Expresion{
 
         try{
             Expresion izq = (Expresion) this.izq.interpretar(ent, ts);
+
+            //negar un valor
+            if(this.der == null){
+                if(this.operador.equals("-")){
+                    if(izq.getTipo() == TipoDato.INT){
+                        this.setTipo(TipoDato.INT);
+                        int valorIzq = izq.getValor() != null ? (int) Integer.valueOf(izq.getValor().toString()) : 0;
+                        int resultado = -valorIzq;
+                        this.setValor(resultado);
+                        return this;
+                    }
+                    if(izq.getTipo() == TipoDato.DOUBLE){
+                        this.setTipo(TipoDato.DOUBLE);
+                        double valorIzq = izq.getValor() != null ? (double) Double.parseDouble(izq.getValor().toString()) : 0.0;
+                        double resultado = -valorIzq;
+                        this.setValor(resultado);
+                        return this;
+                    }
+                }
+            }
+
+
             Expresion der = (Expresion) this.der.interpretar(ent, ts);
 
             //Sumar

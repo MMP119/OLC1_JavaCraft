@@ -238,7 +238,7 @@ printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:RESULT= n
 ;
 
 //expresiones 
-expresion::= MENOS expresion: val                       {:RESULT = new Negativo(val, valleft, valright);:}%prec UMENOS
+expresion::= MENOS expresion: val                       {:RESULT = new Aritmeticas(val, "-", null, valleft,valright);:}%prec UMENOS
         | expresion:val1 POTENCIA  expresion:val2       {:RESULT = new Aritmeticas(val1, "**", val2, val2left,val2right);:}
         | expresion:val1 POR expresion:val2             {:RESULT = new Aritmeticas(val1, "*", val2, val2left,val2right);:}
         | expresion:val1 DIVIDIR expresion:val2         {:RESULT = new Aritmeticas(val1, "/", val2, val2left,val2right);:}

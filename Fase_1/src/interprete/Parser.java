@@ -1302,7 +1302,7 @@ class CUP$Parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Expresion val = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = new Negativo(val, valleft, valright);
+		RESULT = new Aritmeticas(val, "-", null, valleft,valright);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("expresion",18, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
