@@ -121,7 +121,7 @@ precedence left IGUALACION, DIFERENCIACION, MENOR_Q, MENOR_IGUAL, MAYOR_Q, MAYOR
 precedence left MAS, MENOS;
 precedence left POR, DIVIDIR, MODULO;
 precedence nonassoc POTENCIA;
-precedence left UCAST;
+precedence right UCAST;
 precedence right UMENOS;
 
 
