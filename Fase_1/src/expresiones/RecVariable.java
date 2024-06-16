@@ -34,6 +34,13 @@ public class RecVariable extends Expresion {
             if (variable != null && variable.getValor() != "ERROR"){
                 Expresion var = (Expresion)variable.getValor();
                 //System.out.println("Variable Recuperada: "+var.getId()+" "+ var.getTipo()+" "+ var.getValor());
+                
+                //verificar si var es un número negativo
+                if(var.getValor().toString().contains("-")){
+                    //System.out.println("Variable " + id);
+                }
+
+
                 return var;
             }
             else{

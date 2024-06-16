@@ -33,7 +33,13 @@ public class Println extends Instruccion{
         if(valor instanceof Errores) {
             return valor;
         }
-        ent.Print(valor.toString());
+        String valorStr = valor.toString();
+        valorStr = valorStr.replace("\\n", "\n")
+                            .replace("\\\\", "\\")
+                            .replace("\\\"", "\"")
+                            .replace("\\t", "\t")
+                            .replace("\\'", "'");
+        ent.Print(valorStr);
         return null;
     }
 

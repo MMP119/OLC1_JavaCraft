@@ -41,6 +41,7 @@ public class IncDec extends Instruccion {
             Simbolo sim = (Simbolo)ts.getVariable(this.id);
         Expresion variable = (Expresion)sim.getValor();
         variable = (Expresion)variable.interpretar(ent, ts);
+        //System.out.println("VARIABLE: " + variable.getValor());
         
         if(variable.getValor() != "ERROR"){
             if(variable.getMutabilidad().equals("const")){

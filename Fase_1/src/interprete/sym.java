@@ -59,6 +59,7 @@ public class sym {
   public static final int PUNTO = 32;
   public static final int DIVIDIR = 12;
   public static final int VARIABLE = 36;
+  public static final int UCAST = 67;
   public static final int START_WITH = 58;
   public static final int C_PARENTESIS = 26;
   public static final int WHILE = 41;
@@ -142,7 +143,8 @@ public class sym {
   "CARACTER",
   "ID",
   "UMENOS",
-  "UNOT"
+  "UNOT",
+  "UCAST"
   };
 }
 

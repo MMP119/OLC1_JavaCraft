@@ -52,6 +52,7 @@ public class While extends Instruccion {
 
         while(true){
             Expresion condicion = (Expresion)this.exp.interpretar(EntWhile, tsWhile);
+            //System.out.println(condicion.getValor().toString());
 
             if(condicion.getTipo() != TipoDato.BOOLEAN){
                 System.out.println("ERROR SEMANTICO: Se esperaba una expresion booleana en la condicion del while");

@@ -82,23 +82,6 @@ public class tablaSimbolos {
         return null;
     }
     
-    // public String generarReporte() {
-    //     StringBuilder reporte = new StringBuilder();
-    //     for (tablaSimbolos ts : tablaSimbolos.tablas) {
-    //         reporte.append("Tabla de símbolos: ").append(ts.getNombre()).append("\n");
-    //         for (Map.Entry<String, Object> entry : ts.getTablaActual().entrySet()) {
-    //             if (entry.getValue() instanceof Simbolo) {
-    //                 Simbolo simbolo = (Simbolo) entry.getValue();
-    //                 Expresion exp = (Expresion) simbolo.getValor();
-    //                 reporte.append("ID: ").append(simbolo.getId()).append(", Tipo: ").append(", Mutabilidad: ").append(exp.getMutabilidad()).append( ", Tipo: ").append(exp.getTipo()).append(", Entorno: ").append(ts.getNombre()).append(", Valor: ").append(exp.getValor()).append(", Fila: ").append(exp.getColumna()).append(", Columna: ").append(exp.getFila()).append("\n");
-    //                 //reporte.append(", Entorno: ").append(ts.getNombre()).append("\n");
-    //             }
-    //         }
-    //         reporte.append("\n");
-    //     }
-    //     return reporte.toString();
-    // }
-
     public static void tablaSimbolosHTML(){
         FileWriter fichero = null;
         PrintWriter pw = null;
