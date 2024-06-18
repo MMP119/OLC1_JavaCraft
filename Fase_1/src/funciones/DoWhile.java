@@ -1,6 +1,7 @@
 package funciones;
 
 import expresiones.Expresion;
+import expresiones.TipoDato;
 import instruccion.Instruccion;
 import instruccion.TipoInstruccion;
 import entorno.Entorno;
@@ -12,68 +13,72 @@ import java.util.LinkedList;
 
 import AST.NodoAst;
 
-public class DoWhile extends Instruccion{
-
-    private Expresion exp;
-    private LinkedList<Instruccion> inst;
-    private int fila, columna;
-
-    public DoWhile(Expresion exp, LinkedList<Instruccion> inst, int fila, int columna) {
-        super(new Tipo(TipoInstruccion.DOWHILE), fila, columna);
-        this.exp = exp;
-        this.inst = inst;
-        this.fila = fila;
-        this.columna = columna;
+public class DoWhile extends Instruccion {
+    private LinkedList<Instruccion> instrucciones;
+    private Expresion condicion;
+    
+    public DoWhile(Expresion condicion, LinkedList<Instruccion> instrucciones, int linea, int columna){
+        super(new Tipo(TipoInstruccion.DOWHILE), linea, columna);
+        this.instrucciones = instrucciones;
+        this.condicion = condicion;
     }
 
-    public NodoAst getNodo() {
-        NodoAst nodo = new NodoAst("DOWHILE");
+    public NodoAst getNodo(){
+        NodoAst nodo = new NodoAst("DO_WHILE");
+        nodo.agregarHijo("do");
+        for(var instruccion : this.instrucciones){
+            nodo.agregarHijoAST(instruccion.getNodo());
+        }
+        nodo.agregarHijo("while");
+        nodo.agregarHijo("(");
+        nodo.agregarHijoAST(this.condicion.getNodo());
+        nodo.agregarHijo(")");
+        nodo.agregarHijo(";");
         return nodo;
     }
-
-    public Object interpretar(Entorno ent, tablaSimbolos ts) {
-        try {
-            Instruccion.cicloProfundida++;
-
-            do {
-                // Crear un nuevo entorno y tabla de símbolos en cada iteración
-                Entorno entornoDoWhile = new Entorno(inst);
-                tablaSimbolos tsDoWhile = new tablaSimbolos();
-                tsDoWhile.setNombre("DoWhile");
-                tsDoWhile.setTablaAnterior(ts);
-                entornoDoWhile.setConsola("");
-                tablaSimbolos.tablas.add(tsDoWhile);
-
-                for (int i = 0; i < inst.size(); i++) {
-                    Instruccion a = inst.get(i);
-                    Object res = a.interpretar(entornoDoWhile, tsDoWhile);
-                    ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
-                    entornoDoWhile.setConsola("");
-
-                    // Break
-                    if (a instanceof Break || res instanceof Break) {
-                        Instruccion.cicloProfundida--;
-                        return null;
-                    }
-
-                    // Continue
-                    if (a instanceof Continue || res instanceof Continue) {
-                        break;
-                    }
-                }
-                ent.setConsola(ent.getConsola() + entornoDoWhile.getConsola());
-                entornoDoWhile.setConsola("");
-
-                // Evaluar la condición en el entorno actual
-                this.exp = (Expresion) this.exp.interpretar(ent, ts);
-            } while (Boolean.parseBoolean(this.exp.getValor().toString()));
-
-            Instruccion.cicloProfundida--;
-            return this;
-
-        } catch (Exception e) {
-            Errores.errores.add(new Errores("Semantico", "Error en el DoWhile: " + e.getMessage(), fila, columna));
-            return new Errores("Semantico", "Error en el DoWhile: " + e.getMessage(), fila, columna);
+    
+    @Override
+    public Object interpretar(Entorno arbol, tablaSimbolos tabla){
+        var condicional = this.condicion.interpretar(arbol, tabla);
+        //tablaSimbolos local = new tablaSimbolos(tabla);
+        
+        if (condicional instanceof Errores){
+            return condicional;
         }
+        
+        //Verificar la condicion de DO-While 
+        if(this.condicion.getTipo() != TipoDato.BOOLEAN){
+            return  new Errores("SEMANTIO", "La expresion a evaluar no es Booleano", 1, 1);
+        }
+        
+
+        do{
+            tablaSimbolos newTabla = new tablaSimbolos(tabla);
+            
+            for(var instruccion : this.instrucciones){
+                var a = instruccion.interpretar(arbol, newTabla);
+
+                if(a instanceof  Errores){
+                    return  instruccion;
+                }
+
+                if(a instanceof Break){
+                    return  null;
+                }
+
+                if(a instanceof Continue){
+                    break;
+                }
+            }
+            
+            condicional = this.condicion.interpretar(arbol, newTabla);
+            if(condicional instanceof  Errores){
+                return  condicional;
+            }
+        }while(Boolean.parseBoolean(condicional.toString()) == true);
+        return  null;
     }
+    
 }
+
+

@@ -26,23 +26,27 @@ public class Match extends Instruccion {
 
     public NodoAst getNodo() {
         NodoAst nodo = new NodoAst("MATCH");
+        nodo.agregarHijoAST(this.exp.getNodo());
+        for (int i = 0; i < casos.size(); i++) {
+            Casos caso = casos.get(i);
+            nodo.agregarHijoAST((caso.getNodo()));
+        }
         return nodo;
     }
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
-
         try{
+
             Expresion valorExp = (Expresion) this.exp.interpretar(ent, ts);
 
-            for (int i = 0; i < casos.size(); i++) {
-                Casos caso = casos.get(i);
+            for(Casos caso : casos){
                 caso.setMatch(valorExp);
                 Object resultado = caso.interpretar(ent, ts);
-                if (resultado != null) {
+                if(resultado != null){
                     return resultado;
                 }
             }
-            return this;
+            return null;
         }catch(Exception e){
             Errores.errores.add(new Errores("Error Semantico", "Error en Match: "+e.getMessage(), fila, columna));
             System.out.println("Error en Match: "+e.getMessage());

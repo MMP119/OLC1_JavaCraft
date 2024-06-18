@@ -20,6 +20,22 @@ public class Entorno {
         this.errores = new LinkedList<>();
     }
 
+    // Constructor de copia
+    public Entorno(Entorno otro) {
+        this.instrucciones = otro.instrucciones;
+        this.consola = otro.consola;
+        this.tablaGlobal = otro.tablaGlobal;
+        this.errores = otro.errores;
+    }
+
+    // Constructor de copia con tabla de símbolos
+    public Entorno(Entorno otro, tablaSimbolos tablaSimbolos) {
+        this.instrucciones = otro.instrucciones;
+        this.consola = otro.consola;
+        this.tablaGlobal = tablaSimbolos;
+        this.errores = otro.errores;
+    }
+
     public LinkedList<Instruccion> getInstrucciones() {
         return instrucciones;
     }

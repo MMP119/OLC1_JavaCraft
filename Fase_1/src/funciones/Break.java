@@ -20,6 +20,7 @@ public class Break extends Instruccion {
 
     public NodoAst getNodo() {
         NodoAst nodo = new NodoAst("BREAK");
+        nodo.agregarHijo("break");
         return nodo;
     }
 

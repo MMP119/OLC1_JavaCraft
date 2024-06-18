@@ -29,7 +29,18 @@ public class Println extends Instruccion{
 
     @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
+
+        //this.expresion = (Expresion)this.expresion.interpretar(ent, ts);
+        //datos.add(this.expresion.getValor().toString());
+        // System.out.println(this.expresion.getValor().toString());
+        // ent.Print(this.expresion.getValor().toString());
+        // return this;
+
+
+
+
         var valor = expresion.interpretar(ent, ts);
+        //System.out.println(valor.toString());
         if(valor instanceof Errores) {
             return valor;
         }
@@ -39,8 +50,9 @@ public class Println extends Instruccion{
                             .replace("\\\"", "\"")
                             .replace("\\t", "\t")
                             .replace("\\'", "'");
-        ent.Print(valorStr);
-        return null;
+        datos.add(valorStr);
+        ent.Print(valor.toString());
+        return this;
     }
 
 

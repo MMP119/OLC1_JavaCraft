@@ -6,8 +6,6 @@ import excepciones.Errores;
 
 public class RecVariable extends Expresion {
 
-    // para recuperar el valor de las variables en la tabla de simbolos, si no se enncuentra en la actual, se busca en la anterior y así
-
     private String id;
     private int fila;
     private int columna;
@@ -26,60 +24,24 @@ public class RecVariable extends Expresion {
     }
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
+        try {
+            // Buscar la variable en la tabla de símbolos
+            Simbolo variable = ts.getVariable(this.id);
 
-        try{
-            //Expresion variable = (Expresion)ts.getTablaActual().get(id);
-            Simbolo variable = (Simbolo)ts.getVariable(this.id);
-
-            if (variable != null && variable.getValor() != "ERROR"){
-                Expresion var = (Expresion)variable.getValor();
-                //System.out.println("Variable Recuperada: "+var.getId()+" "+ var.getTipo()+" "+ var.getValor());
+            if (variable != null && variable.getValor() != null) {
+                Expresion var = (Expresion) variable.getValor();
                 
-                //verificar si var es un número negativo
-                if(var.getValor().toString().contains("-")){
-                    //System.out.println("Variable " + id);
-                }
-
-
                 return var;
-            }
-            else{
-                System.out.println("ERROR SEMANTICO, Variable " + id+" no ha sido declarada");
-                Errores.errores.add(new Errores("ERROR SEMANTICO","La variable " + id + " no ha sido declarada", this.fila, this.columna));
-                return new Errores("ERROR SEMANTICO","La variable " + id + " no ha sido declarada", this.fila, this.columna);
+            } else {
+                System.out.println("ERROR SEMANTICO, Variable " + id + " no ha sido declarada");
+                Errores.errores.add(new Errores("ERROR SEMANTICO", "La variable " + id + " no ha sido declarada", this.fila, this.columna));
+                return new Errores("ERROR SEMANTICO", "La variable " + id + " no ha sido declarada", this.fila, this.columna);
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
             Errores.errores.add(new Errores("Semantico", "Error al interpretar Recuperar Variable", this.fila, this.columna));
             return new Errores("Semantico", "Error al interpretar Recuperar Variable", this.fila, this.columna);
         }
     }
-
-
-    // Getters y Setters
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public int getFila() {
-        return fila;
-    }
-
-    public void setFila(int fila) {
-        this.fila = fila;
-    }
-
-    public int getColumna() {
-        return columna;
-    }
-
-    public void setColumna(int columna) {
-        this.columna = columna;
-    }
-    
 }
+

@@ -38,61 +38,61 @@ public class For extends Instruccion{
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
         try {
             Instruccion.cicloProfundida++;
+            
+            var nuevaTabla = new tablaSimbolos(ts);
 
-            // Asignación inicial fuera del ciclo
-            var asig = asigVariable.interpretar(ent, ts);
-            if (asig instanceof Break) {
-                return null;
+            var res1 = this.asigVariable.interpretar(ent, nuevaTabla);
+            if(res1 instanceof Errores){
+                return res1;
             }
 
-            while (true) {
-                // Evaluar la condición en el entorno actual
-                Expresion condicion = (Expresion) this.condicion.interpretar(ent, ts);
+            var cond = this.condicion.interpretar(ent, nuevaTabla);
+            if(cond instanceof Errores){
+                return cond;
+            }
 
-                if (condicion.getTipo() != TipoDato.BOOLEAN) {
-                    System.out.println("ERROR SEMANTICO: Se esperaba una expresion booleana en la condicion del for");
-                    Errores.errores.add(new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del for", fila, columna));
-                    return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del for", fila, columna);
-                }
+            if(this.condicion.getTipo() != TipoDato.BOOLEAN){
+                System.out.println("ERROR SEMANTICO: Se esperaba una expresion booleana en la condicion del for");
+                Errores.errores.add(new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del for", fila, columna));
+                return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del for", fila, columna);
+            }
 
-                if (condicion.getValor().toString().equals("true")) {
-                    // Crear un nuevo entorno y tabla de símbolos para cada iteración
-                    Entorno entFor = new Entorno(local);
-                    tablaSimbolos tsFor = new tablaSimbolos();
-                    tsFor.setNombre("For");
-                    tsFor.setTablaAnterior(ts);
+            while(Boolean.parseBoolean(this.condicion.interpretar(ent, nuevaTabla).toString())){
 
-                    for (int i = 0; i < local.size(); i++) {
-                        Instruccion a = local.get(i);
-                        Object res = a.interpretar(entFor, tsFor);
-                        ent.setConsola(ent.getConsola() + entFor.getConsola());
-                        entFor.setConsola("");
+                //nuevo entorno
+                var newTabla2 = new tablaSimbolos(nuevaTabla);
 
-                        // Break
-                        if (res instanceof Break || a instanceof Break) {
-                            Instruccion.cicloProfundida--;
-                            return null;
-                        }
-
-                        // Continue
-                        if (res instanceof Continue || a instanceof Continue) {
-                            ent.setConsola(ent.getConsola() + entFor.getConsola());
-                            entFor.setConsola("");
-                            break;
-                        }
+                //ejecutar instrucciones
+                for(var i:this.local){
+                    if(i instanceof Break){
+                        Instruccion.cicloProfundida--;
+                        return null;
                     }
 
-                    // Actualizar la variable de control del ciclo
-                    update.interpretar(ent, ts);
-                    ent.setConsola(ent.getConsola() + entFor.getConsola());
-                    entFor.setConsola("");
-                } else {
-                    break;
+                    var res = i.interpretar(ent, newTabla2);
+                    if(res instanceof Errores){
+                        return res;
+                    }
+                    if(res instanceof Break){
+                        Instruccion.cicloProfundida--;
+                        return null;
+                    }
+
+                    if(res instanceof Continue){
+                        break;
+                    }
+
                 }
+
+                //actualizar
+                var act = this.update.interpretar(ent, nuevaTabla);
+                if(act instanceof Errores){
+                    return act;
+                }                
             }
 
             Instruccion.cicloProfundida--;
-            return this;
+            return null;
         } catch (Exception e) {
             System.out.println("ERROR SEMANTICO: " + e.getMessage());
             Errores.errores.add(new Errores("Semantico", "Error en el for: " + e.getMessage(), fila, columna));

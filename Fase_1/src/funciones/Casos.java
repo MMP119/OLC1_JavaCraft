@@ -29,17 +29,23 @@ public class Casos extends Instruccion {
 
     public NodoAst getNodo() {
         NodoAst nodo = new NodoAst("CASOS");
+        if(this.exp != null){
+            nodo.agregarHijo(this.exp.getNodo());
+        }
+        if(this.match != null){
+            nodo.agregarHijo(this.match.getNodo());
+        }
+        for (int i = 0; i < inst.size(); i++) {
+            Instruccion a = inst.get(i);
+            nodo.agregarHijoAST(a.getNodo());
+        }
         return nodo;
     }
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
         try{
-            Entorno EntornoCasos = new Entorno(inst);
-            tablaSimbolos tsCasos = new tablaSimbolos();
-            tsCasos.setNombre("Casos");
-            tsCasos.setTablaAnterior(ts);
-            EntornoCasos.setConsola("");
+            tablaSimbolos tsCasos = new tablaSimbolos(ts);
             tablaSimbolos.tablas.add(tsCasos);
 
             if(this.exp != null){
@@ -55,9 +61,7 @@ public class Casos extends Instruccion {
                     
                     for (int i = 0; i < inst.size(); i++) {
                         Instruccion a = inst.get(i);
-                        Object res = a.interpretar(EntornoCasos, tsCasos);
-                        ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
-                        EntornoCasos.setConsola("");
+                        Object res = a.interpretar(ent, tsCasos);
 
                         // Break
                         if (a instanceof Break || res instanceof Break) {
@@ -70,8 +74,6 @@ public class Casos extends Instruccion {
                         }
 
                     }
-                    ent.setConsola(ent.getConsola() + EntornoCasos.getConsola());
-                    EntornoCasos.setConsola("");
                     return this;
                 }
             }else{

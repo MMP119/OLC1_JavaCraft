@@ -34,33 +34,26 @@ public class Else extends Instruccion{
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
         
         try{
-            Entorno EntornoElse = new Entorno(inst_else);
-            tablaSimbolos tsElse = new tablaSimbolos();
-            tsElse.setNombre("Else");
-            tsElse.setTablaAnterior(ts);
-            EntornoElse.setConsola("");
+            tablaSimbolos tsElse = new tablaSimbolos(ts);
             tablaSimbolos.tablas.add(tsElse);
 
-            for(int i = 0; i< inst_else.size(); i++){
-                Instruccion a = inst_else.get(i);
-                Object res = a.interpretar(EntornoElse, tsElse);
-                ent.setConsola(ent.getConsola() + EntornoElse.getConsola());
-                EntornoElse.setConsola("");
+            for(Instruccion i : inst_else){
+                Object resultado = i.interpretar(ent, tsElse);
 
-                // Break
-                if (a instanceof Break || res instanceof Break) {
-                    return new Break(fila, columna);
+                if(resultado instanceof Errores){
+                    return resultado;
                 }
 
-                // Continue
-                if (a instanceof Continue || res instanceof Continue) {
-                    return new Continue(fila, columna);
+                if(resultado instanceof Break){
+                    return new Break(this.fila, this.columna);
                 }
 
+                if(resultado instanceof Continue){
+                    return new Continue(this.fila, this.columna);
+                }
             }
-            ent.setConsola(ent.getConsola() + EntornoElse.getConsola());
-
-            return this;
+            
+            return null;
             
         }catch(Exception e){
             Errores.errores.add(new Errores("Semantico", "Error en la instruccion Else", fila, columna));

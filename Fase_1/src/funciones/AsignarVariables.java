@@ -48,7 +48,7 @@ public class AsignarVariables extends Instruccion{
             this.expresion = (Expresion)this.expresion.interpretar(ent, ts);
 
             //variable =  (Expresion)variable.interpretar(ent, ts);
-            System.out.println("AQUI Recuperada: "+variable.getId()+" "+ variable.getTipo()+" "+ variable.getValor());
+            //System.out.println("AQUI Recuperada: "+variable.getId()+" "+ variable.getTipo()+" "+ variable.getValor());
             
     
             if(variable.getValor() != "ERROR"){

@@ -4,7 +4,6 @@
  */
 package main;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.io.*;
 
@@ -15,6 +14,7 @@ import excepciones.Errores;
 import java.util.LinkedList;
 import instruccion.*;
 import AST.*;
+import funciones.datos;
 
 /**
  *
@@ -83,6 +83,9 @@ public class Fase_1 {
             var init = new NodoAst("INICIO");
             var instruc = new NodoAst("INSTRUCCIONES");
             for (var a: ast.getInstrucciones()){
+                if(a == null){
+                    continue;
+                }
                 try{
                     a.interpretar(ast, ts);
                     instruc.agregarHijoAST(a.getNodo());
@@ -110,7 +113,8 @@ public class Fase_1 {
 
                 
             }
-            System.out.println(ast.getConsola());
+            //datos.print();
+            //System.out.println(ast.getConsola());
 
             //insertar ast.getConsola en la consola de la interfaz
             consola.appendConsola(ast.getConsola());

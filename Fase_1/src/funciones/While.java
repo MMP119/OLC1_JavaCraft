@@ -8,7 +8,6 @@ import entorno.Tipo;
 import entorno.tablaSimbolos;
 import excepciones.Errores;
 import expresiones.Expresion;
-import expresiones.TipoDato;
 import instruccion.*;
 
 public class While extends Instruccion {
@@ -42,49 +41,41 @@ public class While extends Instruccion {
     public Object interpretar(Entorno ent, tablaSimbolos ts){
         Instruccion.cicloProfundida++;//Aumentamos la profundidad del ciclo
 
-        while(true){
-            Expresion condicion = (Expresion)this.exp.interpretar(ent, ts);
-            //System.out.println(condicion.getValor().toString());
+        var newTabla = new tablaSimbolos(ts);
+        tablaSimbolos.tablas.add(newTabla);
 
-            if(condicion.getTipo() != TipoDato.BOOLEAN){
-                System.out.println("ERROR SEMANTICO: Se esperaba una expresion booleana en la condicion del while");
-                Errores.errores.add(new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del while", fila, columna));
-                return new Errores("Semantico", "Se esperaba una expresion booleana en la condicion del while", fila, columna);
-            }
+        try{
+            
+            while(Boolean.parseBoolean(exp.interpretar(ent, newTabla).toString())){
 
-            if(condicion.getValor().toString().equals("true")){
-                // Crear un nuevo entorno y tabla de símbolos en cada iteración
-                Entorno EntWhile = new Entorno(inst);
-                tablaSimbolos tsWhile = new tablaSimbolos();
-                tsWhile.setNombre("While");
-                tsWhile.setTablaAnterior(ts);
+                var newTabla2 = new tablaSimbolos(newTabla);
+                tablaSimbolos.tablas.add(newTabla2);
 
-                for(int i = 0; i< inst.size(); i++){
-                    Instruccion a = inst.get(i);
-                    Object res = a.interpretar(EntWhile, tsWhile);
-                    ent.setConsola(ent.getConsola() + EntWhile.getConsola());
-                    EntWhile.setConsola("");
+                for(Instruccion i : inst){
+                    Object result = i.interpretar(ent, newTabla2);
+                    if(result != null){
 
-                    // Break
-                    if(res instanceof Break || a instanceof Break){
-                        Instruccion.cicloProfundida--; //Disminuimos la profundidad del ciclo antes de salir
-                        return null;
-                    }
+                        if(result instanceof Break){
+                            Instruccion.cicloProfundida--; //Disminuimos la profundidad del ciclo antes de salir
+                            return null;
+                        }
 
-                    // Continue
-                    if(res instanceof Continue || a instanceof Continue){
-                        ent.setConsola(ent.getConsola() + EntWhile.getConsola());
-                        EntWhile.setConsola("");
-                        break;
+                        if(result instanceof Continue){
+                            break;
+                        }
+
                     }
                 }
-                ent.setConsola(ent.getConsola() + EntWhile.getConsola());
-                EntWhile.setConsola("");
-            } else {
-                break;
+
             }
+
+        }catch(Exception e){
+            Errores.errores.add(new Errores("Error Semantico", "Error en While: "+e.getMessage(), fila, columna));
+            System.out.println("Error en While: "+e.getMessage());
+            return null;
         }
+
         Instruccion.cicloProfundida--; //Disminuimos la profundidad del ciclo antes de salir
-        return this;
+        return null;
     }  
 }

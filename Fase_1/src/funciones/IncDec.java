@@ -1,5 +1,7 @@
 package funciones;
 
+import java.util.Arrays;
+
 import AST.NodoAst;
 import entorno.Entorno;
 import entorno.Simbolo;
@@ -35,79 +37,64 @@ public class IncDec extends Instruccion {
     }
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
-        //verificar si la variable existe
-        //Expresion variable = (Expresion)new RecVariable(this.id, this.fila, this.columna);
+
         try{
-            Simbolo sim = (Simbolo)ts.getVariable(this.id);
-        Expresion variable = (Expresion)sim.getValor();
-        variable = (Expresion)variable.interpretar(ent, ts);
-        //System.out.println("VARIABLE: " + variable.getValor());
-        
-        if(variable.getValor() != "ERROR"){
-            if(variable.getMutabilidad().equals("const")){
-                System.out.println("ERROR SEMANTICO ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id);
-                Errores.errores.add(new Errores("Semantico", "ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id, fila, columna));
-                return new Errores("Semantico", "ES UNA CONSTANTE, NO PUEDE CAMBIAR DE VALOR: " + this.id, fila, columna);
-            }else{
+            Simbolo variable = ts.getVariable(this.id);
 
-                if(this.operador.equals("++")){
-                    if(variable.getTipo() == TipoDato.INT || variable.getTipo() == TipoDato.DOUBLE){
-                        if(variable.getTipo() == TipoDato.INT){
-                            int valor = (int)Integer.parseInt(variable.getValor().toString());
-                            variable.setValor(valor + 1);
-
-                            if(ts.getTablaActual().containsKey(this.id)){
-                                ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.IncDec), this.id, variable));
-                            }  
-
-                        }else{
-                            double valor = (double)Double.parseDouble(variable.getValor().toString());
-                            variable.setValor(valor + 1.0);
-
-                            if(ts.getTablaActual().containsKey(this.id)){
-                                ts.getTablaActual().replace(id, new Simbolo(new Tipo(TipoInstruccion.IncDec), this.id, variable));
-                            }  
-                        }
-                    }else{
-                        System.out.println("ERROR SEMANTICO NO SE PUEDE INCREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo());
-                        Errores.errores.add(new Errores("Semantico", "NO SE PUEDE INCREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo(), fila, columna));
-                        return new Errores("Semantico", "NO SE PUEDE INCREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo(), fila, columna);
-                    }
-                    
-                }else{
-
-                    if(variable.getTipo() == TipoDato.INT || variable.getTipo() == TipoDato.DOUBLE){
-                        if(variable.getTipo() == TipoDato.INT){
-                            int valor = (int)Integer.parseInt(variable.getValor().toString());
-                            variable.setValor(valor - 1);
-
-                            if(ts.getTablaActual().containsKey(this.id)){
-                                ts.getTablaActual().replace(id, new Simbolo(new Tipo(TipoInstruccion.IncDec), this.id, variable));
-                            }  
-
-                        }else{
-                            double valor = (double)Double.parseDouble(variable.getValor().toString());
-                            variable.setValor(valor - 1.0);
-
-                            if(ts.getTablaActual().containsKey(this.id)){
-                                ts.getTablaActual().replace(id, new Simbolo(new Tipo(TipoInstruccion.IncDec), this.id, variable));
-                            }  
-
-                        }
-                    }else{
-                        System.out.println("ERROR SEMANTICO NO SE PUEDE DECREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo());
-                        Errores.errores.add(new Errores("Semantico", "NO SE PUEDE DECREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo(), fila, columna));
-                        return new Errores("Semantico", "NO SE PUEDE DECREMENTAR UNA VARIABLE DE TIPO: " + variable.getTipo(), fila, columna);
-                    }
-                }
-                
+            if (variable == null){
+                return new Errores("SEMANTICO", "La variable " + this.id + " no existe", this.fila, this.columna);
             }
-        }
-        return null;
+            Expresion exp = (Expresion)variable.getValor();
+            
+            if (TiposCompatibles(exp.getTipo()) == false){
+                return new Errores("SEMANTICO", "La variable " + this.id + " no es de tipo entero", this.fila, this.columna);
+            }
+            
+            if(this.operador.equals("++") && exp.getTipo() == TipoDato.INT){
+                int valorActual = (int) Integer.parseInt(exp.getValor().toString());
+                exp.setValor(valorActual + 1);
+            }else if(this.operador.equals("--") && exp.getTipo() == TipoDato.INT){
+                int valorActual = (int) Integer.parseInt(exp.getValor().toString());
+                exp.setValor(valorActual - 1);
+            }else if(this.operador.equals("++") && exp.getTipo() == TipoDato.DOUBLE){
+                double valorActual = (double) Double.parseDouble(exp.getValor().toString());
+                exp.setValor(valorActual + 1);
+            }else if(this.operador.equals("--") && exp.getTipo() == TipoDato.DOUBLE){
+                double valorActual = (double) Double.parseDouble(exp.getValor().toString());
+                exp.setValor(valorActual - 1);
+            }
+            
+            return null;
+
         }catch(Exception e){
-            Errores.errores.add(new Errores("Semantico", "NO SE PUEDE DECREMENTAR UNA VARIABLE", this.fila, this.columna));
-            return new Errores("Semantico", "NO SE PUEDE DECREMENTAR UNA VARIABLE", this.fila, this.columna);
+            e.printStackTrace();
+            // Imprimir información específica sobre la línea exacta del error
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            if (stackTrace.length > 0) {
+                StackTraceElement element = stackTrace[0];
+                System.out.println("Error en la clase: " + element.getClassName());
+                System.out.println("Error en el método: " + element.getMethodName());
+                System.out.println("Error en la línea: " + element.getLineNumber());
+                } 
+            Errores.errores.add(new Errores("Semantico", "NO SE PUEDE INCREMENTRA UNA VARIABLE", this.fila, this.columna));
+            return new Errores("Semantico", "NO SE PUEDE INCREMENTAR UNA VARIABLE", this.fila, this.columna);
         }
+    }
+
+    public boolean TiposCompatibles(TipoDato op1){
+        
+
+        //comprobar las combinaciones permitidas entre enteros, dobles
+        TipoDato[] tiposCompatibles = {TipoDato.INT, TipoDato.DOUBLE};
+
+        //verificar si los tipos de datos se encuentran en el arreglo de tipos compatibles
+        boolean izqCompatible = Arrays.stream (tiposCompatibles).anyMatch(tipo -> tipo == op1);
+
+        if(izqCompatible == true){
+            return true;
+        }
+
+        return false;
     }
     
 }
