@@ -37,8 +37,6 @@ public class Println extends Instruccion{
         // return this;
 
 
-
-
         var valor = expresion.interpretar(ent, ts);
         //System.out.println(valor.toString());
         if(valor instanceof Errores) {
@@ -51,7 +49,7 @@ public class Println extends Instruccion{
                             .replace("\\t", "\t")
                             .replace("\\'", "'");
         datos.add(valorStr);
-        ent.Print(valor.toString());
+        ent.Print(valorStr);
         return this;
     }
 

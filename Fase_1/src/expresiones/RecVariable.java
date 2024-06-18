@@ -29,7 +29,7 @@ public class RecVariable extends Expresion {
             Simbolo variable = ts.getVariable(this.id);
 
             if (variable != null && variable.getValor() != null) {
-                Expresion var = (Expresion) variable.getValor();
+                Expresion var = (Expresion) variable.getValor(); 
                 
                 return var;
             } else {

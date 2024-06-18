@@ -13,7 +13,6 @@ import expresiones.Dato;
 import expresiones.Aritmeticas;
 import expresiones.TipoDato;
 import expresiones.Expresion;
-import expresiones.Negativo;
 import expresiones.Relacionales;
 import expresiones.Logicos;
 import expresiones.RecVariable;
