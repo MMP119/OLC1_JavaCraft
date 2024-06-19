@@ -38,44 +38,29 @@ public class While extends Instruccion {
         return nodo;
     }
 
-    public Object interpretar(Entorno ent, tablaSimbolos ts){
-        Instruccion.cicloProfundida++;//Aumentamos la profundidad del ciclo
-
-        var newTabla = new tablaSimbolos(ts);
-        tablaSimbolos.tablas.add(newTabla);
-
-        try{
-            
-            while(Boolean.parseBoolean(exp.interpretar(ent, newTabla).toString())){
-
-                var newTabla2 = new tablaSimbolos(newTabla);
+    @Override
+    public Object interpretar(Entorno ent, tablaSimbolos ts) {
+            Object res = exp.interpretar(ent, ts);
+            while (Boolean.parseBoolean(res.toString())) {
+                var newTabla2 = new tablaSimbolos(ts);
                 tablaSimbolos.tablas.add(newTabla2);
-
-                for(Instruccion i : inst){
+                for (Instruccion i : inst) {
+                    if( i instanceof DecVariables){
+                        System.out.println("DecVariables");
+                    }
                     Object result = i.interpretar(ent, newTabla2);
-                    if(result != null){
-
-                        if(result instanceof Break){
-                            Instruccion.cicloProfundida--; //Disminuimos la profundidad del ciclo antes de salir
+                    if (result != null) {
+                        if (result instanceof Break) {
                             return null;
                         }
-
-                        if(result instanceof Continue){
+                        if (result instanceof Continue) {
                             break;
                         }
-
                     }
                 }
-
+                res = exp.interpretar(ent, newTabla2);
             }
-
-        }catch(Exception e){
-            Errores.errores.add(new Errores("Error Semantico", "Error en While: "+e.getMessage(), fila, columna));
-            System.out.println("Error en While: "+e.getMessage());
-            return null;
-        }
-
-        Instruccion.cicloProfundida--; //Disminuimos la profundidad del ciclo antes de salir
         return null;
     }  
 }
+

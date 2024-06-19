@@ -13,7 +13,7 @@ public class Relacionales extends Expresion{
     private String operador;
 
     public Relacionales(Expresion izquierda, Expresion derecha, String operador, int fila, int columna) {
-        super("ERROR", TipoDato.ERROR, fila, columna);
+        super("RELACIONALES", TipoDato.ERROR, fila, columna);
         this.izquierda = izquierda;
         this.dererecha = derecha;
         this.operador = operador;

@@ -12,7 +12,7 @@ public class Casteo extends Expresion{
     private int fila, columna;
 
     public Casteo(Expresion exp, TipoDato tipo, int fila, int columna) {
-        super("ERROR", TipoDato.ERROR, fila, columna);
+        super("CASTEO", TipoDato.ERROR, fila, columna);
         this.exp = exp;
         this.tipo = tipo;
         this.fila = fila;

@@ -235,7 +235,7 @@ continue ::= CONTINUE:a PYC {:RESULT = new Continue(aleft, aright);:}
 
 
 //imprimir en consola
-printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:RESULT= new Println(val, valleft, valright);:}
+printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:System.out.println(val);RESULT= new Println(val, valleft, valright);:}
 ;
 
 

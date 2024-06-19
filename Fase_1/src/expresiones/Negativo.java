@@ -11,7 +11,7 @@ public class Negativo extends Expresion {
     private int columna;
 
     public Negativo(Expresion expresion, int fila, int columna) {
-        super("ERROR", TipoDato.ERROR, fila, columna);
+        super("NEGATIVO", TipoDato.ERROR, fila, columna);
         this.expresion = expresion;
         this.fila = fila;
         this.columna = columna;

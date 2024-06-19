@@ -164,7 +164,7 @@ tipoExpresion ::= INT:val     {:RESULT=TipoDato.INT;:}
 //Declarar variables, tambien incluyo los casteos en este no terminal 
 declararVariables ::= VARIABLE:mut ID:id DOS_P tipoExpresion:tipo PYC                   {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, null, null, tipoleft, tiporight);:}
                 | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo PYC                      {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, null, null,tipoleft, tiporight);:}
-                | VARIABLE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC   {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, null, expleft, expright);:}
+                | VARIABLE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC   {:System.out.println(exp.getValor());RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, null, expleft, expright);:}
                 | CONSTANTE:mut ID:id DOS_P tipoExpresion:tipo IGUAL expresion:exp PYC  {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, null, expleft, expright);:}
 
                 | VARIABLE:mut ID:id DOS_P tipoExpresion:tipo IGUAL A_PARENTESIS tipoExpresion:tipo2 C_PARENTESIS expresion:exp PYC     {:RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, tipo2, expleft, expright);:}
@@ -235,7 +235,7 @@ continue ::= CONTINUE:a PYC {:RESULT = new Continue(aleft, aright);:}
 
 
 //imprimir en consola
-printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:System.out.println(val);RESULT= new Println(val, valleft, valright);:}
+printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:RESULT= new Println(val, valleft, valright);:}
 ;
 
 

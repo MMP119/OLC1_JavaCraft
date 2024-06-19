@@ -13,6 +13,7 @@ import expresiones.Dato;
 import expresiones.Aritmeticas;
 import expresiones.TipoDato;
 import expresiones.Expresion;
+import expresiones.Negativo;
 import expresiones.Relacionales;
 import expresiones.Logicos;
 import expresiones.RecVariable;
@@ -906,7 +907,7 @@ class CUP$Parser$actions {
 		int expleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int expright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		Expresion exp = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, null, expleft, expright);
+		System.out.println("El valor de entrada es: "+ exp.getValor());RESULT=new DecVariables(mut.toLowerCase(), id.toLowerCase(), tipo, exp, null, expleft, expright);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("declararVariables",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -1266,7 +1267,7 @@ class CUP$Parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
 		Expresion val = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		System.out.println(val);RESULT= new Println(val, valleft, valright);
+		RESULT= new Println(val, valleft, valright);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("printConsole",17, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
