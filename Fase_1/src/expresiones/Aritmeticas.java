@@ -13,7 +13,7 @@ public class Aritmeticas extends Expresion{
     private String operador;
 
     public Aritmeticas(Expresion izq, String operador, Expresion der, int fila, int columna){
-        super("ARITMETICAS", TipoDato.ERROR, fila, columna);
+        super("ERROR ARITMETICAS", TipoDato.ERROR, fila, columna);
         this.izq = izq;
         this.der = der;
         this.fila = fila;

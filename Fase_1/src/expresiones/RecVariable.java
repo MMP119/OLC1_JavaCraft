@@ -11,7 +11,7 @@ public class RecVariable extends Expresion {
     private int columna;
 
     public RecVariable(String id, int fila, int columna) {
-        super("ERROR", TipoDato.ERROR, fila, columna);
+        super("ERROR RECUPERAR VARIABLE", TipoDato.ERROR, fila, columna);
         this.id = id;
         this.fila = fila;
         this.columna = columna;

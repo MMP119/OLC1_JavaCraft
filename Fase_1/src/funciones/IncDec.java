@@ -45,18 +45,29 @@ public class IncDec extends Instruccion {
             if (variable == null){
                 return new Errores("SEMANTICO", "La variable " + this.id + " no existe", this.fila, this.columna);
             }
-
-            
             Expresion expre = (Expresion)variable.getValor();
             Expresion exp = (Expresion) expre.interpretar(ent, ts);
             
-            if(this.operador.equals("++")){
-                int valor = Integer.parseInt(exp.getValor().toString());
-                System.out.println("valor: " + valor);
-                int valor2 = valor+1;
-                System.out.println("valor2: " + valor2);
-                //exp.setValor(valor2); 
-                variable.setValor(new Dato(valor2, TipoDato.INT, this.fila, this.columna));
+            if (TiposCompatibles(exp.getTipo()) == false){
+                return new Errores("SEMANTICO", "La variable " + this.id + " no es de tipo entero", this.fila, this.columna);
+            }
+            
+            if(this.operador.equals("++") && exp.getTipo() == TipoDato.INT){
+                int valorActual = (int) Integer.parseInt(exp.getValor().toString());
+                int valor2 = valorActual + 1;
+                variable.setValor(new Dato(valor2,TipoDato.INT, this.fila, this.columna));
+            }else if(this.operador.equals("--") && exp.getTipo() == TipoDato.INT){
+                int valorActual = (int) Integer.parseInt(exp.getValor().toString());
+                int valor2 = valorActual - 1;
+                variable.setValor(new Dato(valor2,TipoDato.INT, this.fila, this.columna));
+            }else if(this.operador.equals("++") && exp.getTipo() == TipoDato.DOUBLE){
+                double valorActual = (double) Double.parseDouble(exp.getValor().toString());
+                double valor2 = valorActual + 1;
+                variable.setValor(new Dato(valor2,TipoDato.DOUBLE, this.fila, this.columna));
+            }else if(this.operador.equals("--") && exp.getTipo() == TipoDato.DOUBLE){
+                double valorActual = (double) Double.parseDouble(exp.getValor().toString());
+                double valor2 = valorActual - 1;
+                variable.setValor(new Dato(valor2,TipoDato.DOUBLE, this.fila, this.columna));
             }
             
             return null;

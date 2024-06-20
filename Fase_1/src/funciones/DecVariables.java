@@ -17,7 +17,6 @@ public class DecVariables extends Instruccion {
     private TipoDato tipo2;
     private int fila;
     private int columna;
-    private Expresion val;
 
     public DecVariables(String mutabilidad, String id, TipoDato tipo, Expresion expresion, TipoDato tipo2 ,int fila, int columna) {
         super(new Tipo(TipoInstruccion.DECLARAR), fila, columna);
@@ -28,7 +27,6 @@ public class DecVariables extends Instruccion {
         this.tipo2 = tipo2;
         this.fila = fila;
         this.columna = columna;
-        this.val = (Expresion)expresion;
     }
 
     @Override
@@ -76,11 +74,9 @@ public class DecVariables extends Instruccion {
 
                 // Interpretar la expresión para obtener el valor
                 Expresion valorInterpretado = (Expresion)this.expresion.interpretar(ent, ts);
-    
-                valorInterpretado.setValor(this.val.getValor());
+                System.out.println("Valor interpretado: " + valorInterpretado.getValor() + " ID: " + this.id + " Tipo: " + valorInterpretado.getTipo());
                 
                 if (ts.getTablaActual().containsKey(this.id)) {
-                    Errores.errores.add(new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna));
                     return new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna);
                 } else {
                     valorInterpretado.setMutabilidad(this.mutabilidad);

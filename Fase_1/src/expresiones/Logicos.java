@@ -13,7 +13,7 @@ public class Logicos extends Expresion{
     private int fila, columna;
 
     public Logicos(Expresion izquierda, Expresion derecha, String operador, int fila, int columna) {
-        super("LOGICOS", TipoDato.ERROR, fila, columna);
+        super("ERROR LOGICOS", TipoDato.ERROR, fila, columna);
         this.izquierda = izquierda;
         this.dererecha = derecha;
         this.operador = operador;
