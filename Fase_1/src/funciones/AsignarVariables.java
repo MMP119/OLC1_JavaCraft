@@ -3,6 +3,7 @@ package funciones;
 import AST.NodoAst;
 import entorno.*;
 import excepciones.Errores;
+import expresiones.Dato;
 import expresiones.Expresion;
 import expresiones.TipoDato;
 import instruccion.Instruccion;
@@ -42,7 +43,8 @@ public class AsignarVariables extends Instruccion{
         
         try{
             Simbolo sim = (Simbolo)ts.getVariable(this.id);
-            Expresion variable = (Expresion)sim.getValor();
+            Expresion simbol = (Expresion)sim.getValor();
+            Expresion variable = (Expresion)simbol.interpretar(ent, ts);
             this.expresion = (Expresion)this.expresion.interpretar(ent, ts);
             
     
@@ -61,13 +63,14 @@ public class AsignarVariables extends Instruccion{
                         //verificar si la expresion es del mismo tipo que la variable
                         if(variable.getTipo() == this.expresion.getTipo()){
     
-                            variable.setValor(this.expresion.getValor());
-    
-                            //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
-                            if(ts.getTablaActual().containsKey(this.id)){
-                                ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
-                            }   
-    
+                            var valor = this.expresion.getValor();
+                            var tipo = this.expresion.getTipo();
+                            var fila = this.expresion.getFila();
+                            var columna = this.expresion.getColumna();
+                            variable.setValor (new Dato(valor, tipo, fila, columna));
+                            
+                            return null;
+
                         }else{
                             Errores.errores.add(new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna));
                             System.out.println("ERROR SEMANTICO Tipos de datos diferentes: " + this.id);
@@ -95,9 +98,8 @@ public class AsignarVariables extends Instruccion{
                                 if(variable.getTipo() == this.expresion.getTipo()){
         
                                     //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
-                                    if(ts.getTablaActual().containsKey(this.id)){
-                                        variable.setValor(this.expresion.getValor());
-                                        ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
+                                    if(ts.getVariable(this.id) != null){
+                                        variable.setValor(new Dato(this.expresion.getValor(), this.expresion.getTipo(), this.expresion.getFila(), this.expresion.getColumna()));
                                     }
         
                                 }else{
@@ -117,9 +119,8 @@ public class AsignarVariables extends Instruccion{
                                 if(variable.getTipo() == this.expresion.getTipo()){
         
                                     //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
-                                    if(ts.getTablaActual().containsKey(this.id)){
-                                        variable.setValor(this.expresion.getValor());
-                                        ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
+                                    if(ts.getVariable(id) != null){
+                                        variable.setValor(new Dato(this.expresion.getValor(), this.expresion.getTipo(), this.expresion.getFila(), this.expresion.getColumna()));
                                     }
         
                                 }else{
@@ -139,10 +140,9 @@ public class AsignarVariables extends Instruccion{
                                 if(variable.getTipo() == this.expresion.getTipo()){
         
                                     //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
-                                    if(ts.getTablaActual().containsKey(this.id)){
-                                        variable.setValor(this.expresion.getValor());
-                                        ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
-                                    }  
+                                    if(ts.getVariable(id) != null){
+                                        variable.setValor(new Dato(this.expresion.getValor(), this.expresion.getTipo(), this.expresion.getFila(), this.expresion.getColumna()));
+                                    }
         
                                 }else{
                                     Errores.errores.add(new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna));
@@ -161,10 +161,9 @@ public class AsignarVariables extends Instruccion{
                                 if(variable.getTipo() == this.expresion.getTipo()){
         
                                     //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
-                                    if(ts.getTablaActual().containsKey(this.id)){
-                                        variable.setValor(this.expresion.getValor());
-                                        ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
-                                    }  
+                                    if(ts.getVariable(id) != null){
+                                        variable.setValor(new Dato(this.expresion.getValor(), this.expresion.getTipo(), this.expresion.getFila(), this.expresion.getColumna()));
+                                    } 
         
                                 }else{
                                     Errores.errores.add(new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna));
@@ -183,10 +182,9 @@ public class AsignarVariables extends Instruccion{
                                 if(variable.getTipo() == this.expresion.getTipo()){
         
                                     //verificar si existe en la tabla de simbolos, si es así, se actualiza su valor
-                                    if(ts.getTablaActual().containsKey(this.id)){
-                                        variable.setValor(this.expresion.getValor());
-                                        ts.getTablaActual().replace(this.id, new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, variable));
-                                    }  
+                                    if(ts.getVariable(id) != null){
+                                        variable.setValor(new Dato(this.expresion.getValor(), this.expresion.getTipo(), this.expresion.getFila(), this.expresion.getColumna()));
+                                    } 
         
                                 }else{
                                     Errores.errores.add(new Errores("Semantico", "Tipos de datos diferentes: " + this.id, fila, columna));

@@ -40,15 +40,11 @@ public class While extends Instruccion {
 
     public Object interpretar(Entorno ent, tablaSimbolos ts){
         Instruccion.cicloProfundida++;//Aumentamos la profundidad del ciclo
-
-        var newTabla = new tablaSimbolos(ts);
-        tablaSimbolos.tablas.add(newTabla);
-
         try{
             
-            while(Boolean.parseBoolean(exp.interpretar(ent, newTabla).toString())){
+            while(Boolean.parseBoolean(exp.interpretar(ent, ts).toString())){
 
-                var newTabla2 = new tablaSimbolos(newTabla);
+                var newTabla2 = new tablaSimbolos(ts);
                 tablaSimbolos.tablas.add(newTabla2);
 
                 for(Instruccion i : inst){

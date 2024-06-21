@@ -35,7 +35,7 @@ public class Fase_1 {
                 """;
         
         // Generar Analizadores
-        analizadores("Fase_1/src/interprete/", "Lexer.jflex", "Parser.cup");
+        analizadores("Fa<se_1/src/interprete/", "Lexer.jflex", "Parser.cup");
         // Analizar
         //analizar(entrada);
     }*/

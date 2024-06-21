@@ -76,9 +76,11 @@ public class DecVariables extends Instruccion {
                 Expresion valorInterpretado = (Expresion)this.expresion.interpretar(ent, ts);
                 System.out.println("Valor interpretado: " + valorInterpretado.getValor() + " ID: " + this.id + " Tipo: " + valorInterpretado.getTipo());
                 
-                if (ts.getTablaActual().containsKey(this.id)) {
+
+                //verificar si ya existe
+                if(ts.getVariable(this.id) != null){
                     return new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna);
-                } else {
+                }else{
                     valorInterpretado.setMutabilidad(this.mutabilidad);
                     Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, valorInterpretado);
                     ts.setVariable(simbolo);
@@ -88,102 +90,109 @@ public class DecVariables extends Instruccion {
                 this.expresion = (Expresion)this.expresion.interpretar(ent, ts);
 
                 //castear a int a double
-                if(expresion.getTipo() == TipoDato.INT && this.tipo2 == TipoDato.DOUBLE && this.tipo == TipoDato.DOUBLE){
-                    int val = (int) Integer.parseInt(expresion.getValor().toString());
+                if(this.expresion.getTipo() == TipoDato.INT && this.tipo2 == TipoDato.DOUBLE && this.tipo == TipoDato.DOUBLE){
+                    int val = (int) Integer.parseInt(this.expresion.getValor().toString());
                     double valor = (double) val;
-                    expresion.setValor(valor);
-                    expresion.setTipo(TipoDato.DOUBLE);
-                    expresion.setMutabilidad(this.mutabilidad);
-                    expresion.setId(this.id);
-                    Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, expresion);
+                    this.expresion.setValor(valor);
+                    this.expresion.setTipo(TipoDato.DOUBLE);
+                    this.expresion.setMutabilidad(this.mutabilidad);
+                    this.expresion.setId(this.id);
+                    Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion);
                     
                     // Verificar si la variable ya existe
-                    if (ts.getTablaActual().containsKey(this.id)) {
+                    if(ts.getVariable(this.id) != null){
+                        Errores.errores.add(new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna));
                         return new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna);
-                    } else {
+                    }else{
                         ts.setVariable(simbolo);
-                    }                    
+                    }
                 }
 
                 //castear a double a int
-                else if(expresion.getTipo() == TipoDato.DOUBLE && this.tipo2 == TipoDato.INT && this.tipo == TipoDato.INT){
-                    double val = (double) Double.parseDouble(expresion.getValor().toString());
+                else if(this.expresion.getTipo() == TipoDato.DOUBLE && this.tipo2 == TipoDato.INT && this.tipo == TipoDato.INT){
+                    double val = (double) Double.parseDouble(this.expresion.getValor().toString());
                     int valor = (int) val;
-                    expresion.setValor(valor);
-                    expresion.setTipo(TipoDato.INT);
-                    expresion.setMutabilidad(this.mutabilidad);
-                    expresion.setId(this.id);
-                    Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, expresion);
+                    this.expresion.setValor(valor);
+                    this.expresion.setTipo(TipoDato.INT);
+                    this.expresion.setMutabilidad(this.mutabilidad);
+                    this.expresion.setId(this.id);
+                    Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion);
                     
                     // Verificar si la variable ya existe
                     if (ts.getTablaActual().containsKey(this.id)) {
+                        Errores.errores.add(new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna));
                         return new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna);
                     } else {
                         ts.setVariable(simbolo);
-                    }                    
+                    }                  
                 }
 
                 //castear a int a char
                 else if(expresion.getTipo() == TipoDato.INT && this.tipo2 == TipoDato.CHAR && this.tipo == TipoDato.CHAR){
-                    int val = (int) Integer.parseInt(expresion.getValor().toString());
+                    int val = (int) Integer.parseInt(this.expresion.getValor().toString());
                     char valor = (char) val;
-                    expresion.setValor(valor);
-                    expresion.setTipo(TipoDato.CHAR);
-                    expresion.setMutabilidad(this.mutabilidad);
-                    expresion.setId(this.id);
-                    Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, expresion);
+                    this.expresion.setValor(valor);
+                    this.expresion.setTipo(TipoDato.CHAR);
+                    this.expresion.setMutabilidad(this.mutabilidad);
+                    this.expresion.setId(this.id);
+                    Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion);
                     
                     // Verificar si la variable ya existe
                     if (ts.getTablaActual().containsKey(this.id)) {
+                        Errores.errores.add(new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna));
                         return new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna);
                     } else {
                         ts.setVariable(simbolo);
-                    }                    
+                    }                  
                 }
 
                 //castear a char a int
-                else if(expresion.getTipo() == TipoDato.CHAR && this.tipo2 == TipoDato.INT && this.tipo == TipoDato.INT){
-                    char val = expresion.getValor().toString().charAt(0);
+                else if(this.expresion.getTipo() == TipoDato.CHAR && this.tipo2 == TipoDato.INT && this.tipo == TipoDato.INT){
+                    char val = this.expresion.getValor().toString().charAt(0);
                     int valor = (int) val;
-                    expresion.setValor(valor);
-                    expresion.setTipo(TipoDato.INT);
-                    expresion.setMutabilidad(this.mutabilidad);
-                    expresion.setId(this.id);
-                    Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, expresion);
+                    this.expresion.setValor(valor);
+                    this.expresion.setTipo(TipoDato.INT);
+                    this.expresion.setMutabilidad(this.mutabilidad);
+                    this.expresion.setId(this.id);
+                    Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion);
                     
                     // Verificar si la variable ya existe
                     if (ts.getTablaActual().containsKey(this.id)) {
+                        Errores.errores.add(new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna));
                         return new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna);
                     } else {
                         ts.setVariable(simbolo);
-                    }                    
+                    }                  
                 }
 
                 //castear de char a double
-                else if(expresion.getTipo() == TipoDato.CHAR && this.tipo2 == TipoDato.DOUBLE && this.tipo == TipoDato.DOUBLE){
-                    char val = expresion.getValor().toString().charAt(0);
+                else if(this.expresion.getTipo() == TipoDato.CHAR && this.tipo2 == TipoDato.DOUBLE && this.tipo == TipoDato.DOUBLE){
+                    char val = this.expresion.getValor().toString().charAt(0);
                     double valor = (double) val;
-                    expresion.setValor(valor);
-                    expresion.setTipo(TipoDato.DOUBLE);
-                    expresion.setMutabilidad(this.mutabilidad);
-                    expresion.setId(this.id);
-                    Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, expresion);
+                    this.expresion.setValor(valor);
+                    this.expresion.setTipo(TipoDato.DOUBLE);
+                    this.expresion.setMutabilidad(this.mutabilidad);
+                    this.expresion.setId(this.id);
+                    Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, this.expresion);
                     
                     // Verificar si la variable ya existe
                     if (ts.getTablaActual().containsKey(this.id)) {
+                        Errores.errores.add(new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna));
                         return new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna);
                     } else {
                         ts.setVariable(simbolo);
-                    }                    
+                    }                   
                 }
 
                 else{
                     System.out.println("SEMANTICO: no se puede castear de" + expresion.getTipo() + " a " + this.tipo2);
+                    Errores.errores.add(new Errores("Semantico", "No se puede castear de " + expresion.getTipo() + " a " + this.tipo2, this.fila, this.columna));
                     return new Errores("Semantico", "Error al declarar la variable " + this.id, this.fila, this.columna);
                 }
 
             }
         } catch (Exception e) {
+            Errores.errores.add(new Errores("Semantico", "Error al declarar la variable " + this.id, this.fila, this.columna));
             return new Errores("Semantico", "Error al declarar la variable " + this.id, this.fila, this.columna);
         }
         return null;

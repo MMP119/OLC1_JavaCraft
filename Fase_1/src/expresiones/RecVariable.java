@@ -30,8 +30,9 @@ public class RecVariable extends Expresion {
 
             if (variable != null && variable.getValor() != null) {
                 Expresion var = (Expresion) variable.getValor(); 
+                Expresion valor = (Expresion) var.interpretar(ent, ts);
                 
-                return var;
+                return valor;
             } else {
                 System.out.println("ERROR SEMANTICO, Variable " + id + " no ha sido declarada");
                 Errores.errores.add(new Errores("ERROR SEMANTICO", "La variable " + id + " no ha sido declarada", this.fila, this.columna));
