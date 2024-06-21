@@ -50,6 +50,7 @@ public class If extends Instruccion{
 
         try{
             tablaSimbolos tsIf = new tablaSimbolos(ts);
+            tsIf.setNombre("if");
             tablaSimbolos.tablas.add(tsIf);
             this.condicion = (Expresion)this.condicion.interpretar(ent, ts);
             

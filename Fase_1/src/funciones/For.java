@@ -40,6 +40,8 @@ public class For extends Instruccion{
             Instruccion.cicloProfundida++;
             
             var nuevaTabla = new tablaSimbolos(ts);
+            nuevaTabla.setNombre("for");
+            tablaSimbolos.tablas.add(nuevaTabla);
 
             var res1 = this.asigVariable.interpretar(ent, nuevaTabla);
             if(res1 instanceof Errores){

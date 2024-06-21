@@ -54,6 +54,7 @@ public class DoWhile extends Instruccion {
 
         do{
             tablaSimbolos newTabla = new tablaSimbolos(tabla);
+            newTabla.setNombre("do-while");
             tablaSimbolos.tablas.add(newTabla);
             Instruccion.cicloProfundida++;
             

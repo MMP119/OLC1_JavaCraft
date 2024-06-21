@@ -46,6 +46,7 @@ public class Casos extends Instruccion {
 
         try{
             tablaSimbolos tsCasos = new tablaSimbolos(ts);
+            tsCasos.setNombre("casos");
             tablaSimbolos.tablas.add(tsCasos);
 
             if(this.exp != null){

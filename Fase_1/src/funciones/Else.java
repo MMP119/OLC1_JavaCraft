@@ -35,6 +35,7 @@ public class Else extends Instruccion{
         
         try{
             tablaSimbolos tsElse = new tablaSimbolos(ts);
+            tsElse.setNombre("else");
             tablaSimbolos.tablas.add(tsElse);
 
             for(Instruccion i : inst_else){

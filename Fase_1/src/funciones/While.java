@@ -45,6 +45,7 @@ public class While extends Instruccion {
             while(Boolean.parseBoolean(exp.interpretar(ent, ts).toString())){
 
                 var newTabla2 = new tablaSimbolos(ts);
+                newTabla2.setNombre("while");
                 tablaSimbolos.tablas.add(newTabla2);
 
                 for(Instruccion i : inst){
