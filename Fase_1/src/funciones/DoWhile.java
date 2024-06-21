@@ -54,6 +54,8 @@ public class DoWhile extends Instruccion {
 
         do{
             tablaSimbolos newTabla = new tablaSimbolos(tabla);
+            tablaSimbolos.tablas.add(newTabla);
+            Instruccion.cicloProfundida++;
             
             for(var instruccion : this.instrucciones){
                 var a = instruccion.interpretar(arbol, newTabla);
@@ -76,6 +78,7 @@ public class DoWhile extends Instruccion {
                 return  condicional;
             }
         }while(Boolean.parseBoolean(condicional.toString()) == true);
+        Instruccion.cicloProfundida--;
         return  null;
     }
     
