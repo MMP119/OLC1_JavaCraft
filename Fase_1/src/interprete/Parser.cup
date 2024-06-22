@@ -28,6 +28,8 @@ import funciones.Break;
 import funciones.Continue;
 import excepciones.Errores;
 import expresiones.Casteo;
+import funciones.DecArreglos;
+import funciones.DecArreglos2D;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -108,7 +110,12 @@ non terminal Instruccion sentDO;
 non terminal Instruccion break;
 non terminal Instruccion continue;
 non terminal Instruccion printConsole;
+non terminal Instruccion vector1;
+non terminal Instruccion vector2;
+non terminal LinkedList<Expresion> listaExpresionesVectores;
+non terminal LinkedList<LinkedList<Expresion>> listaExpresionesVectores2;
 non terminal Expresion expresion;
+
 
 
 //-------> Precedencias
@@ -148,6 +155,8 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | break:a                 {:RESULT=a;:}
         | continue:a              {:RESULT=a;:}
         | error PYC               {:RESULT=null;:}
+        | vector1:a               {:RESULT=a;:}
+        | vector2:a               {:RESULT=a;:}
 ;
 
 
@@ -239,6 +248,22 @@ printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:System.ou
 ;
 
 
+//VECTORES
+vector1 ::= VARIABLE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores:exp C_CORCHETE PYC {:RESULT=new DecArreglos(id, tipo, exp, idleft, idright);:}
+        | CONSTANTE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores:exp C_CORCHETE PYC {:RESULT=new DecArreglos(id, tipo, exp, idleft, idright);:}
+;
+
+vector2 ::= VARIABLE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores2:exp C_CORCHETE PYC {:RESULT = new DecArreglos2D(id, tipo, exp, idleft, idright);:}
+        | CONSTANTE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores2:exp C_CORCHETE PYC {:RESULT = new DecArreglos2D(id, tipo, exp, idleft, idright);:}
+;
+
+listaExpresionesVectores ::= expresion:val {:RESULT = new LinkedList<>(); RESULT.add(val);:}
+        | listaExpresionesVectores:a COMA expresion:val {:RESULT = a; RESULT.add(val);:}
+;
+
+listaExpresionesVectores2 ::= A_CORCHETE listaExpresionesVectores:val C_CORCHETE {:RESULT = new LinkedList<>(); RESULT.add(val);:}
+        | listaExpresionesVectores2:a COMA A_CORCHETE listaExpresionesVectores:val C_CORCHETE {:RESULT = a; RESULT.add(val);:}
+;
 
 //expresiones 
 expresion::= MENOS expresion: val                       {:RESULT = new Aritmeticas(val, "-", null, valleft,valright);:}%prec UMENOS

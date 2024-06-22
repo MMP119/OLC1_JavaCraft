@@ -20,4 +20,6 @@ public enum TipoInstruccion {
     BREAK,
     CONTINUE,
     ERROR,
+    ARREGLO1D,
+    ARREGLO2D,
 }

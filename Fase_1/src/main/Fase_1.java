@@ -25,7 +25,7 @@ public class Fase_1 {
     /**
      * @param args the command line arguments
      */
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         
         String entrada = """
                     var z : int = -5;
@@ -35,10 +35,10 @@ public class Fase_1 {
                 """;
         
         // Generar Analizadores
-        analizadores("Fa<se_1/src/interprete/", "Lexer.jflex", "Parser.cup");
+        analizadores("Fase_1/src/interprete/", "Lexer.jflex", "Parser.cup");
         // Analizar
         //analizar(entrada);
-    }*/
+    }
 
     public static void analizadores(String ruta, String jflexFile, String cupFile){
         try {

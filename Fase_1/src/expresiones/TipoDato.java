@@ -10,5 +10,6 @@ public enum TipoDato {
     ERROR,
     VOID,
     LOGICO,
-    RECUPERAR
+    RECUPERAR,
+    ARREGLO1D
 }
