@@ -32,6 +32,17 @@ public class For extends Instruccion{
 
     public NodoAst getNodo() {
         NodoAst nodo = new NodoAst("FOR");
+        nodo.agregarHijo("for");
+        nodo.agregarHijo("(");
+        nodo.agregarHijoAST(asigVariable.getNodo());
+        nodo.agregarHijoAST(condicion.getNodo());
+        nodo.agregarHijoAST(update.getNodo());
+        nodo.agregarHijo(")");
+        nodo.agregarHijo("{");
+        for(Instruccion i : local){
+            nodo.agregarHijoAST(i.getNodo());
+        }
+        nodo.agregarHijo("}");
         return nodo;
     }
 

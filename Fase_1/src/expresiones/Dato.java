@@ -36,6 +36,9 @@ public class Dato extends Expresion{
         }
     }
 
+    public Dato clone(){
+        return new Dato(this.valor, this.tipo, this.fila, this.columna);
+    }
 
     // Getters y Setters
     public Object getValor() {

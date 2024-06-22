@@ -76,4 +76,9 @@ public abstract class Expresion {
     public void setId(String id){
         this.id = id;
     } 
+
+    public Expresion clone(){
+        return new Dato(this.valor, this.tipo, this.fila, this.columna);
+    }
+
 }
