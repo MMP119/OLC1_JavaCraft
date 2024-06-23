@@ -22,4 +22,5 @@ public enum TipoInstruccion {
     ERROR,
     ARREGLO1D,
     ARREGLO2D,
+    ASIG_ARREGLOS,
 }

@@ -32,6 +32,7 @@ import funciones.DecArreglos;
 import funciones.DecArreglos2D;
 import expresiones.AccesoVector;
 import expresiones.AccesoArreglo2D;
+import funciones.AsigArreglos;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -118,6 +119,7 @@ non terminal LinkedList<Expresion> listaExpresionesVectores;
 non terminal LinkedList<LinkedList<Expresion>> listaExpresionesVectores2;
 non terminal Expresion accesoVector;
 non terminal Expresion accesoVector2D;
+non terminal Instruccion asignacionVector;
 non terminal Expresion expresion;
 
 
@@ -161,6 +163,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | error PYC               {:RESULT=null;:}
         | vector1:a               {:RESULT=a;:}
         | vector2:a               {:RESULT=a;:}
+        | asignacionVector:a      {:RESULT=a;:}
 ;
 
 
@@ -274,6 +277,12 @@ accesoVector ::= ID:id A_CORCHETE expresion:indice C_CORCHETE      {:RESULT = ne
 
 accesoVector2D ::= ID:id A_CORCHETE expresion:indice1 C_CORCHETE A_CORCHETE expresion:indice2 C_CORCHETE   {:RESULT = new AccesoArreglo2D(id.toLowerCase(), indice1, indice2, idleft, idright);:}
 ;
+
+
+asignacionVector ::= ID:id A_CORCHETE expresion:indice C_CORCHETE IGUAL expresion:val  PYC                                {:RESULT=new AsigArreglos(id.toLowerCase(), indice, val, idleft, idright);:}
+        | ID:id A_CORCHETE expresion:indice1 C_CORCHETE A_CORCHETE expresion:indice2 C_CORCHETE IGUAL expresion:val PYC   {::}
+;
+
 
 //expresiones 
 expresion::= MENOS expresion: val                       {:RESULT = new Aritmeticas(val, "-", null, valleft,valright);:}%prec UMENOS

@@ -36,4 +36,8 @@ public class DatoArreglo extends Expresion {
     public LinkedList<Object> getValor() {
         return this.valores;
     }
+
+    public String toString(){
+        return this.valores.toString();
+    }
 }

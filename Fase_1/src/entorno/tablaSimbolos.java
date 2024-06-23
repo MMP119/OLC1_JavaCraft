@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import expresiones.Expresion;
+import funciones.DatoArreglo;
 
 
 public class tablaSimbolos {
@@ -128,16 +129,36 @@ public class tablaSimbolos {
                 for (Map.Entry<String, Object> entry : ts.getTablaActual().entrySet()) {
                     if (entry.getValue() instanceof Simbolo) {
                         Simbolo simbolo = (Simbolo) entry.getValue();
-                        Expresion exp = (Expresion) simbolo.getValor();
+                        Object valor = simbolo.getValor();
+                        String valorStr = "";
+                        String TipoD = "";
+                        String mutabilidad = "";
+
+                        if (valor instanceof Expresion) {
+                            Expresion exp = (Expresion) valor;
+                            valorStr = String.valueOf(exp.getValor());
+                            TipoD = exp.getTipo().toString();
+                            mutabilidad = exp.getMutabilidad();
+
+                        } else if (valor instanceof DatoArreglo) {
+                            DatoArreglo arreglo = (DatoArreglo) valor;
+                            valorStr = arreglo.toString();
+                            TipoD = "Arreglo";
+                            mutabilidad = arreglo.getMutabilidad();
+                        } else {
+                            valorStr = valor.toString();
+                            TipoD = simbolo.getTipo().toString();
+                            mutabilidad = simbolo.getMutabilidad();
+                        }
                         pw.println("<tr>");
                         pw.println("<td>" + numError++ + "</td>");
                         pw.println("<td>" + simbolo.getId() + "</td>");
-                        pw.println("<td>" + exp.getMutabilidad() + "</td>");
-                        pw.println("<td>" + exp.getTipo() + "</td>");
+                        pw.println("<td>" + mutabilidad + "</td>");
+                        pw.println("<td>" + TipoD+ "</td>");
                         pw.println("<td>" + ts.getNombre() + "</td>");
-                        pw.println("<td>" + exp.getValor() + "</td>");
-                        pw.println("<td>" + exp.getColumna() + "</td>");
-                        pw.println("<td>" + exp.getFila() + "</td>");
+                        pw.println("<td>" + valorStr + "</td>");
+                        pw.println("<td>" + simbolo.getFila() + "</td>");
+                        pw.println("<td>" + simbolo.getColumna() + "</td>");
                         pw.println("</tr>");
                     }
                 }
