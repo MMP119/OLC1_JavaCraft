@@ -37,7 +37,7 @@ public class DatoArreglo2D extends Expresion {
     }
 
     @Override
-    public Object getValor() {
+    public LinkedList<LinkedList<Object>> getValor() {
         return this.valores;
     }
     

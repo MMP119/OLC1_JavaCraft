@@ -3,6 +3,8 @@ package expresiones;
 import AST.NodoAst;
 import entorno.*;
 import excepciones.Errores;
+import funciones.DatoArreglo2D;
+import funciones.DatoArreglo;
 
 public class RecVariable extends Expresion {
 
@@ -29,10 +31,27 @@ public class RecVariable extends Expresion {
             Simbolo variable = ts.getVariable(this.id);
 
             if (variable != null && variable.getValor() != null) {
-                Expresion var = (Expresion) variable.getValor(); 
-                Expresion valor = (Expresion) var.interpretar(ent, ts);
-                
-                return valor;
+
+                Object valor = variable.getValor();
+
+                if(valor instanceof Expresion){
+                    return((Expresion)valor).interpretar(ent, ts);
+
+                }else if(valor instanceof DatoArreglo){
+                    return valor;
+
+                }else if(valor instanceof DatoArreglo2D){
+                    return valor;
+
+                }else{
+                    return valor;
+                }
+
+                // Expresion var = (Expresion) variable.getValor();
+                // Object var1 = variable.getValor();
+                // Expresion valor = (Expresion) var.interpretar(ent, ts);
+                // return valor;
+
             } else {
                 System.out.println("ERROR SEMANTICO, Variable " + id + " no ha sido declarada");
                 Errores.errores.add(new Errores("ERROR SEMANTICO", "La variable " + id + " no ha sido declarada", this.fila, this.columna));
@@ -40,6 +59,15 @@ public class RecVariable extends Expresion {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
+            // Imprimir información específica sobre la línea exacta del error
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            if (stackTrace.length > 0) {
+                StackTraceElement element = stackTrace[0];
+                System.out.println("Error en la clase: " + element.getClassName());
+                System.out.println("Error en el método: " + element.getMethodName());
+                System.out.println("Error en la línea: " + element.getLineNumber());
+                } 
             Errores.errores.add(new Errores("Semantico", "Error al interpretar Recuperar Variable", this.fila, this.columna));
             return new Errores("Semantico", "Error al interpretar Recuperar Variable", this.fila, this.columna);
         }

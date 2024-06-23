@@ -1,14 +1,14 @@
 package funciones;
 
 import java.util.LinkedList;
-
 import AST.NodoAst;
 import entorno.Entorno;
 import entorno.tablaSimbolos;
 import expresiones.Expresion;
 import expresiones.TipoDato;
 
-class DatoArreglo extends Expresion {
+public class DatoArreglo extends Expresion {
+
     private LinkedList<Object> valores;
     private TipoDato tipo;
 
@@ -33,7 +33,7 @@ class DatoArreglo extends Expresion {
     }
 
     @Override
-    public Object getValor() {
+    public LinkedList<Object> getValor() {
         return this.valores;
     }
 }
