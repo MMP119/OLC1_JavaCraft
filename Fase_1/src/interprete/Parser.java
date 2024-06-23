@@ -37,6 +37,7 @@ import funciones.DecArreglos2D;
 import expresiones.AccesoVector;
 import expresiones.AccesoArreglo2D;
 import funciones.AsigArreglos;
+import funciones.AsigArreglos2D;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -1657,7 +1658,7 @@ class CUP$Parser$actions {
 		int valleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int valright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		Expresion val = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		
+		RESULT=new AsigArreglos2D(id.toLowerCase(), indice1, indice2, val, idleft, idright);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("asignacionVector",24, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-9)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

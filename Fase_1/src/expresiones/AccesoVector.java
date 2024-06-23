@@ -29,7 +29,7 @@ public class AccesoVector extends Expresion {
         NodoAst nodo = new NodoAst("ACCESO_VECTOR");
         nodo.agregarHijo(id);
         nodo.agregarHijo("[");
-        nodo.agregarHijo(indice.getNodo());
+        nodo.agregarHijoAST(indice.getNodo());
         nodo.agregarHijo("]");
         return nodo;
     }

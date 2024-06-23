@@ -33,6 +33,7 @@ import funciones.DecArreglos2D;
 import expresiones.AccesoVector;
 import expresiones.AccesoArreglo2D;
 import funciones.AsigArreglos;
+import funciones.AsigArreglos2D;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -280,7 +281,7 @@ accesoVector2D ::= ID:id A_CORCHETE expresion:indice1 C_CORCHETE A_CORCHETE expr
 
 
 asignacionVector ::= ID:id A_CORCHETE expresion:indice C_CORCHETE IGUAL expresion:val  PYC                                {:RESULT=new AsigArreglos(id.toLowerCase(), indice, val, idleft, idright);:}
-        | ID:id A_CORCHETE expresion:indice1 C_CORCHETE A_CORCHETE expresion:indice2 C_CORCHETE IGUAL expresion:val PYC   {::}
+        | ID:id A_CORCHETE expresion:indice1 C_CORCHETE A_CORCHETE expresion:indice2 C_CORCHETE IGUAL expresion:val PYC   {:RESULT=new AsigArreglos2D(id.toLowerCase(), indice1, indice2, val, idleft, idright);:}
 ;
 
 

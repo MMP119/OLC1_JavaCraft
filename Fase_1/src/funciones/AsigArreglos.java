@@ -53,7 +53,6 @@ public class AsigArreglos extends Instruccion {
                 Errores.errores.add(new Errores("Semantico","Error en la asignacion de arreglos de una dimension", fila, columna));
                 return new Errores("Semantico","Error en la asignacion de arreglos de una dimension", fila, columna);
             }
-            System.out.println("Simbolo: "+sim.getValor());
 
             if(!(sim.getValor() instanceof DatoArreglo)){
                 System.out.println("El simbolo: "+id+" no es un arreglo");
