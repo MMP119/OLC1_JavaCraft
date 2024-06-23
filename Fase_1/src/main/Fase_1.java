@@ -25,7 +25,7 @@ public class Fase_1 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         
         String entrada = """
                     var z : int = -5;
@@ -38,7 +38,7 @@ public class Fase_1 {
         analizadores("Fase_1/src/interprete/", "Lexer.jflex", "Parser.cup");
         // Analizar
         //analizar(entrada);
-    }
+    }*/
 
     public static void analizadores(String ruta, String jflexFile, String cupFile){
         try {
@@ -56,8 +56,6 @@ public class Fase_1 {
 
     // Realizar Analisis
     public static void analizar (String entrada, Interfaz consola){
-
-        
 
         try {
 
@@ -109,13 +107,8 @@ public class Fase_1 {
 
                     System.out.println("Error en la instruccion: "+a);
                     e.printStackTrace();
-                }
-
-                
+                }     
             }
-            //datos.print();
-            //System.out.println(ast.getConsola());
-
             //insertar ast.getConsola en la consola de la interfaz
             consola.appendConsola(ast.getConsola());
             for (Errores err : errores) {
@@ -126,7 +119,6 @@ public class Fase_1 {
             FailsGenerateHTML(errores);
             tablaSimbolos.tablaSimbolosHTML();
             tablaSimbolos.tablas.clear();
-            
             
             init.agregarHijoAST(instruc);
             ArbolAST arbol = new ArbolAST();

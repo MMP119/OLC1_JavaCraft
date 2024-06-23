@@ -30,6 +30,8 @@ import excepciones.Errores;
 import expresiones.Casteo;
 import funciones.DecArreglos;
 import funciones.DecArreglos2D;
+import expresiones.AccesoVector;
+import expresiones.AccesoArreglo2D;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -114,6 +116,8 @@ non terminal Instruccion vector1;
 non terminal Instruccion vector2;
 non terminal LinkedList<Expresion> listaExpresionesVectores;
 non terminal LinkedList<LinkedList<Expresion>> listaExpresionesVectores2;
+non terminal Expresion accesoVector;
+non terminal Expresion accesoVector2D;
 non terminal Expresion expresion;
 
 
@@ -182,9 +186,9 @@ declararVariables ::= VARIABLE:mut ID:id DOS_P tipoExpresion:tipo PYC           
 
 
 //asignar variables, tambien casteos sin forma de declarar
-asignarVariables ::= ID:id IGUAL expresion:exp PYC                                              {:RESULT = new AsignarVariables(id.toLowerCase(), exp, null,idleft, idright);:}
-                | ID:id MAS MAS PYC                                                             {:RESULT = new IncDec(id.toLowerCase(), "++", idleft, idright);:}
-                | ID:id MENOS MENOS PYC                                                         {:RESULT = new IncDec(id.toLowerCase(), "--", idleft, idright);:}
+asignarVariables ::= ID:id IGUAL expresion:exp PYC              {:RESULT = new AsignarVariables(id.toLowerCase(), exp, null,idleft, idright);:}
+                | ID:id MAS MAS PYC                             {:RESULT = new IncDec(id.toLowerCase(), "++", idleft, idright);:}
+                | ID:id MENOS MENOS PYC                         {:RESULT = new IncDec(id.toLowerCase(), "--", idleft, idright);:}
 ;
 
 
@@ -249,20 +253,26 @@ printConsole ::= PRINTLN A_PARENTESIS expresion:val C_PARENTESIS PYC {:System.ou
 
 
 //VECTORES
-vector1 ::= VARIABLE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores:exp C_CORCHETE PYC {:RESULT=new DecArreglos(id, tipo, exp, idleft, idright);:}
-        | CONSTANTE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores:exp C_CORCHETE PYC {:RESULT=new DecArreglos(id, tipo, exp, idleft, idright);:}
+vector1 ::= VARIABLE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores:exp C_CORCHETE PYC  {:RESULT=new DecArreglos(id, tipo, exp, idleft, idright);:}
+        | CONSTANTE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores:exp C_CORCHETE PYC   {:RESULT=new DecArreglos(id, tipo, exp, idleft, idright);:}
 ;
 
-vector2 ::= VARIABLE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores2:exp C_CORCHETE PYC {:RESULT = new DecArreglos2D(id, tipo, exp, idleft, idright);:}
-        | CONSTANTE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores2:exp C_CORCHETE PYC {:RESULT = new DecArreglos2D(id, tipo, exp, idleft, idright);:}
+vector2 ::= VARIABLE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores2:exp C_CORCHETE PYC   {:RESULT = new DecArreglos2D(id, tipo, exp, idleft, idright);:}
+        | CONSTANTE ID:id DOS_P tipoExpresion:tipo A_CORCHETE C_CORCHETE A_CORCHETE C_CORCHETE IGUAL A_CORCHETE listaExpresionesVectores2:exp C_CORCHETE PYC    {:RESULT = new DecArreglos2D(id, tipo, exp, idleft, idright);:}
 ;
 
-listaExpresionesVectores ::= expresion:val {:RESULT = new LinkedList<>(); RESULT.add(val);:}
+listaExpresionesVectores ::= expresion:val              {:RESULT = new LinkedList<>(); RESULT.add(val);:}
         | listaExpresionesVectores:a COMA expresion:val {:RESULT = a; RESULT.add(val);:}
 ;
 
-listaExpresionesVectores2 ::= A_CORCHETE listaExpresionesVectores:val C_CORCHETE {:RESULT = new LinkedList<>(); RESULT.add(val);:}
-        | listaExpresionesVectores2:a COMA A_CORCHETE listaExpresionesVectores:val C_CORCHETE {:RESULT = a; RESULT.add(val);:}
+listaExpresionesVectores2 ::= A_CORCHETE listaExpresionesVectores:val C_CORCHETE                {:RESULT = new LinkedList<>(); RESULT.add(val);:}
+        | listaExpresionesVectores2:a COMA A_CORCHETE listaExpresionesVectores:val C_CORCHETE   {:RESULT = a; RESULT.add(val);:}
+;
+
+accesoVector ::= ID:id A_CORCHETE expresion:indice C_CORCHETE      {:RESULT = new AccesoVector(id.toLowerCase(), indice, idleft, idright);:}
+;
+
+accesoVector2D ::= ID:id A_CORCHETE expresion:indice1 C_CORCHETE A_CORCHETE expresion:indice2 C_CORCHETE   {:RESULT = new AccesoArreglo2D(id.toLowerCase(), indice1, indice2, idleft, idright);:}
 ;
 
 //expresiones 
@@ -290,5 +300,7 @@ expresion::= MENOS expresion: val                       {:RESULT = new Aritmetic
         | CADENA:val                                    {:RESULT = new Dato(val, TipoDato.CADENA, valleft, valright);:}
         | CARACTER:val                                  {:RESULT = new Dato(val, TipoDato.CHAR, valleft, valright);:}
         | ID:id                                         {:RESULT = new RecVariable(id.toLowerCase(), idleft, idright);:}
-        |A_PARENTESIS tipoExpresion:tipo C_PARENTESIS expresion:exp {:RESULT = new Casteo(exp, tipo, expleft, expright);:} %prec UCAST
+        | A_PARENTESIS tipoExpresion:tipo C_PARENTESIS expresion:exp {:RESULT = new Casteo(exp, tipo, expleft, expright);:} %prec UCAST
+        | accesoVector:a                                {:RESULT=a;:}
+        | accesoVector2D:a                              {:RESULT=a;:}
 ;
