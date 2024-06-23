@@ -95,6 +95,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generar AST"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AST_buttonActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="SymbolsTable_button">
               <Properties>

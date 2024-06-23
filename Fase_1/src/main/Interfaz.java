@@ -165,6 +165,11 @@ public class Interfaz extends javax.swing.JFrame {
         Reporte_button.add(Error_button);
 
         AST_button.setText("Generar AST");
+        AST_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AST_buttonActionPerformed(evt);
+            }
+        });
         Reporte_button.add(AST_button);
 
         SymbolsTable_button.setText("Tabla de Simbolos");
@@ -328,6 +333,22 @@ public class Interfaz extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_Error_buttonActionPerformed
+
+    private void AST_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AST_buttonActionPerformed
+            
+            //letrero de que se ha generado el reporte
+            JOptionPane.showMessageDialog(this, "AST generado con exito");
+    
+            //abrir el archivo generado
+            try {
+                //String path = "Fase_1/Reports/Fails.html";
+                String path = "arbolAST.svg";
+                File file = new File(path);
+                java.awt.Desktop.getDesktop().open(file);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+    }//GEN-LAST:event_AST_buttonActionPerformed
 
     /**
      * @param args the command line arguments
