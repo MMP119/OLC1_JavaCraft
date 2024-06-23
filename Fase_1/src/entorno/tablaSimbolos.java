@@ -133,22 +133,29 @@ public class tablaSimbolos {
                         String valorStr = "";
                         String TipoD = "";
                         String mutabilidad = "";
+                        String fila, columna;
 
                         if (valor instanceof Expresion) {
                             Expresion exp = (Expresion) valor;
                             valorStr = String.valueOf(exp.getValor());
                             TipoD = exp.getTipo().toString();
                             mutabilidad = exp.getMutabilidad();
+                            fila = String.valueOf(exp.getFila());
+                            columna = String.valueOf(exp.getColumna());
 
                         } else if (valor instanceof DatoArreglo) {
                             DatoArreglo arreglo = (DatoArreglo) valor;
                             valorStr = arreglo.toString();
                             TipoD = "Arreglo";
                             mutabilidad = arreglo.getMutabilidad();
+                            fila = String.valueOf(arreglo.getFila());
+                            columna = String.valueOf(arreglo.getColumna());
                         } else {
                             valorStr = valor.toString();
                             TipoD = simbolo.getTipo().toString();
                             mutabilidad = simbolo.getMutabilidad();
+                            fila = String.valueOf(simbolo.getFila());
+                            columna = String.valueOf(simbolo.getColumna());
                         }
                         pw.println("<tr>");
                         pw.println("<td>" + numError++ + "</td>");
@@ -157,8 +164,8 @@ public class tablaSimbolos {
                         pw.println("<td>" + TipoD+ "</td>");
                         pw.println("<td>" + ts.getNombre() + "</td>");
                         pw.println("<td>" + valorStr + "</td>");
-                        pw.println("<td>" + simbolo.getFila() + "</td>");
-                        pw.println("<td>" + simbolo.getColumna() + "</td>");
+                        pw.println("<td>" + fila + "</td>");
+                        pw.println("<td>" + columna + "</td>");
                         pw.println("</tr>");
                     }
                 }
