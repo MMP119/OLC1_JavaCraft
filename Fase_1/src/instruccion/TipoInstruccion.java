@@ -23,4 +23,7 @@ public enum TipoInstruccion {
     ARREGLO1D,
     ARREGLO2D,
     ASIG_ARREGLOS,
+    DECLARA_LISTA,
+    ADD_LISTA,
+    REMOVE_LISTA,
 }

@@ -34,6 +34,9 @@ import expresiones.AccesoVector;
 import expresiones.AccesoArreglo2D;
 import funciones.AsigArreglos;
 import funciones.AsigArreglos2D;
+import funciones.DeclaraLista;
+import funciones.AddLista;
+import funciones.RemoveElementoLista;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -123,6 +126,8 @@ non terminal Expresion accesoVector2D;
 non terminal Instruccion asignacionVector;
 non terminal Instruccion decListas;
 non terminal Instruccion asignacionLista;
+non terminal Instruccion addLista;
+non terminal Expresion removeLista;
 non terminal Expresion accesoLista;
 
 
@@ -171,6 +176,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | vector2:a               {:RESULT=a;:}
         | asignacionVector:a      {:RESULT=a;:}
         | decListas:a             {:RESULT=a;:}
+        | addLista:a              {:RESULT=a;:}
 ;
 
 
@@ -292,14 +298,14 @@ asignacionVector ::= ID:id A_CORCHETE expresion:indice C_CORCHETE IGUAL expresio
 
 
 //Listas Dinámicas 
-decListas ::= LIST MENOR_Q tipoExpresion:tipo MAYOR_Q ID:id IGUAL NEW LIST A_PARENTESIS C_PARENTESIS PYC {::}
+decListas ::= LIST MENOR_Q tipoExpresion:tipo MAYOR_Q ID:id IGUAL NEW LIST A_PARENTESIS C_PARENTESIS PYC {:RESULT = new DeclaraLista(tipo, id.toLowerCase(), idleft, idright);:}
 ;
 
-// accesoLista ::=  ID:id  A_CORCHETE expresion:indice C_CORCHETE {::}
-// ;
+addLista ::= ID: id PUNTO APPEND A_PARENTESIS expresion:val C_PARENTESIS PYC {:RESULT = new AddLista(id.toLowerCase(), val, idleft, idright);:}
+;
 
-// asignacionLista ::= ID:id A_CORCHETE expresion:indice C_CORCHETE IGUAL expresion:val  PYC {::}
-// ;
+removeLista ::= ID: id PUNTO REMOVE A_PARENTESIS expresion:val C_PARENTESIS {:RESULT = new RemoveElementoLista(id.toLowerCase(), val, idleft, idright);:}
+;
 
 
 //expresiones 
@@ -330,4 +336,5 @@ expresion::= MENOS expresion: val                       {:RESULT = new Aritmetic
         | A_PARENTESIS tipoExpresion:tipo C_PARENTESIS expresion:exp {:RESULT = new Casteo(exp, tipo, expleft, expright);:} %prec UCAST
         | accesoVector:a                                {:RESULT=a;:}
         | accesoVector2D:a                              {:RESULT=a;:}
+        | removeLista:a                                 {:RESULT=a;:}
 ;

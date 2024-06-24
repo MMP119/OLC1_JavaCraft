@@ -48,48 +48,79 @@ public class AsigArreglos extends Instruccion {
         try{
             Simbolo sim = ts.getVariable(id);
             
-            if(sim == null){
-                System.out.println("Error en la asignacion de arreglos de una dimension");
-                Errores.errores.add(new Errores("Semantico","Error en la asignacion de arreglos de una dimension", fila, columna));
-                return new Errores("Semantico","Error en la asignacion de arreglos de una dimension", fila, columna);
+            if(sim != null  && (sim.getValor() instanceof DatoArreglo || sim.getValor() instanceof DatoLista)){
+
+                if(sim.getValor() instanceof DatoArreglo){
+                    DatoArreglo arre = (DatoArreglo) sim.getValor();
+                    LinkedList<Object> arreglo = arre.getValor();
+
+                    //evaluar el indice
+                    Object indiceValor = exp.interpretar(ent, ts);
+
+                    int index;
+
+                    try{
+                        index = Integer.parseInt(indiceValor.toString());
+                    }catch(Exception e){
+                        System.out.println("El indice no es un entero");
+                        Errores.errores.add(new Errores("Semantico","El indice no es un entero", fila, columna));
+                        return new Errores("Semantico","El indice no es un entero", fila, columna);
+                    }
+
+                    if(index < 0 || index >= arreglo.size()){
+                        System.out.println("Indice fuera de rango");
+                        Errores.errores.add(new Errores("Semantico","Indice fuera de rango", fila, columna));
+                        return new Errores("Semantico","Indice fuera de rango", fila, columna);
+                    }
+
+                    //evaluar el valor a asignar
+                    Object valorAsig = valor.interpretar(ent, ts);
+
+                    //asignar el valor al arreglo
+                    arreglo.set(index, valorAsig);
+
+                    //actualizar la tabla de simbolos
+                    sim.setValor(new DatoArreglo(arreglo, arre.getTipo()));
+                }
+
+                if(sim.getValor() instanceof DatoLista){
+                    DatoLista lista = (DatoLista) sim.getValor();
+                    LinkedList<Object> arreglo = lista.getElementos();
+
+                    //evaluar el indice
+                    Object indiceValor = exp.interpretar(ent, ts);
+
+                    int index;
+
+                    try{
+                        index = Integer.parseInt(indiceValor.toString());
+                    }catch(Exception e){
+                        System.out.println("El indice no es un entero");
+                        Errores.errores.add(new Errores("Semantico","El indice no es un entero", fila, columna));
+                        return new Errores("Semantico","El indice no es un entero", fila, columna);
+                    }
+
+                    if(index < 0 || index >= arreglo.size()){
+                        System.out.println("Indice fuera de rango");
+                        Errores.errores.add(new Errores("Semantico","Indice fuera de rango", fila, columna));
+                        return new Errores("Semantico","Indice fuera de rango", fila, columna);
+                    }
+
+                    //evaluar el valor a asignar
+                    Object valorAsig = valor.interpretar(ent, ts);
+
+                    //asignar el valor al arreglo
+                    arreglo.set(index, valorAsig);
+
+                    //actualizar la tabla de simbolos
+                    sim.setValor(new DatoLista(arreglo, lista.getTipo()));
+                }
+
+            }else{
+                System.out.println("Error Semantico: El vector o lista: "+this.id+" no existe");
+                Errores.errores.add(new Errores("Semantico", "El vector o lista: "+this.id+" no existe", this.fila, this.columna));
+                return new Errores("Semantico", "El vector o lista: "+this.id+" no existe", this.fila, this.columna);
             }
-
-            if(!(sim.getValor() instanceof DatoArreglo)){
-                System.out.println("El simbolo: "+id+" no es un arreglo");
-                Errores.errores.add(new Errores("Semantico","El simbolo: "+id+" no es un arreglo", fila, columna));
-                return new Errores("Semantico","El simbolo: "+id+" no es un arreglo", fila, columna);
-            }
-
-            DatoArreglo arre = (DatoArreglo) sim.getValor();
-            LinkedList<Object> arreglo = arre.getValor();
-
-            //evaluar el indice
-            Object indiceValor = exp.interpretar(ent, ts);
-
-            int index;
-
-            try{
-                index = Integer.parseInt(indiceValor.toString());
-            }catch(Exception e){
-                System.out.println("El indice no es un entero");
-                Errores.errores.add(new Errores("Semantico","El indice no es un entero", fila, columna));
-                return new Errores("Semantico","El indice no es un entero", fila, columna);
-            }
-
-            if(index < 0 || index >= arreglo.size()){
-                System.out.println("Indice fuera de rango");
-                Errores.errores.add(new Errores("Semantico","Indice fuera de rango", fila, columna));
-                return new Errores("Semantico","Indice fuera de rango", fila, columna);
-            }
-
-            //evaluar el valor a asignar
-            Object valorAsig = valor.interpretar(ent, ts);
-
-            //asignar el valor al arreglo
-            arreglo.set(index, valorAsig);
-
-            //actualizar la tabla de simbolos
-            sim.setValor(new DatoArreglo(arreglo, arre.getTipo()));
 
             return null;
 

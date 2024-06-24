@@ -10,6 +10,7 @@ import java.util.Map;
 
 import expresiones.Expresion;
 import funciones.DatoArreglo;
+import funciones.DatoLista;
 
 
 public class tablaSimbolos {
@@ -150,7 +151,16 @@ public class tablaSimbolos {
                             mutabilidad = arreglo.getMutabilidad();
                             fila = String.valueOf(arreglo.getFila());
                             columna = String.valueOf(arreglo.getColumna());
-                        } else {
+
+                        } else if (valor instanceof DatoLista){
+                            DatoLista lista = (DatoLista) valor;
+                            valorStr = lista.toString();
+                            TipoD = "Lista";
+                            mutabilidad = "VAR";  
+                            fila = String.valueOf(0);
+                            columna = String.valueOf(0);
+                            
+                        }else {
                             valorStr = valor.toString();
                             TipoD = simbolo.getTipo().toString();
                             mutabilidad = simbolo.getMutabilidad();
