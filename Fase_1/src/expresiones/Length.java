@@ -6,10 +6,8 @@ import AST.NodoAst;
 import entorno.Entorno;
 import entorno.tablaSimbolos;
 import excepciones.Errores;
-import funciones.DatoArreglo;
 import funciones.DatoArreglo2D;
 import funciones.DatoLista;
-import funciones.DecArreglos;
 
 public class Length extends Expresion{
 

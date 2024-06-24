@@ -192,6 +192,13 @@ public class DecVariables extends Instruccion {
 
             }
         } catch (Exception e) {
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            if (stackTrace.length > 0) {
+                StackTraceElement element = stackTrace[0];
+                System.out.println("Error en la clase: " + element.getClassName());
+                System.out.println("Error en el método: " + element.getMethodName());
+                System.out.println("Error en la línea: " + element.getLineNumber());
+                } 
             Errores.errores.add(new Errores("Semantico", "Error al declarar la variable " + this.id, this.fila, this.columna));
             return new Errores("Semantico", "Error al declarar la variable " + this.id, this.fila, this.columna);
         }
