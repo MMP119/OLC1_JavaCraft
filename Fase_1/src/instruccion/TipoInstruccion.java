@@ -26,4 +26,6 @@ public enum TipoInstruccion {
     DECLARA_LISTA,
     ADD_LISTA,
     REMOVE_LISTA,
+    ROUND,
+    LENGTH,
 }

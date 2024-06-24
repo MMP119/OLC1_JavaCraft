@@ -37,6 +37,8 @@ import funciones.AsigArreglos2D;
 import funciones.DeclaraLista;
 import funciones.AddLista;
 import funciones.RemoveElementoLista;
+import expresiones.Round;
+import expresiones.Length;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -129,7 +131,8 @@ non terminal Instruccion asignacionLista;
 non terminal Instruccion addLista;
 non terminal Expresion removeLista;
 non terminal Expresion accesoLista;
-
+non terminal Expresion natRound;
+non terminal Expresion natLength;
 
 non terminal Expresion expresion;
 
@@ -308,6 +311,14 @@ removeLista ::= ID: id PUNTO REMOVE A_PARENTESIS expresion:val C_PARENTESIS {:RE
 ;
 
 
+//NATIVAS
+natRound ::= ROUND A_PARENTESIS expresion:val C_PARENTESIS      {:RESULT = new Round(val, valleft, valright);:}
+;
+
+natLength ::= LENGTH A_PARENTESIS expresion:val C_PARENTESIS    {:RESULT = new Length(val, valleft, valright);:}
+;
+
+
 //expresiones 
 expresion::= MENOS expresion: val                       {:RESULT = new Aritmeticas(val, "-", null, valleft,valright);:}%prec UMENOS
         | expresion:val1 POTENCIA  expresion:val2       {:RESULT = new Aritmeticas(val1, "**", val2, val2left,val2right);:}
@@ -337,4 +348,6 @@ expresion::= MENOS expresion: val                       {:RESULT = new Aritmetic
         | accesoVector:a                                {:RESULT=a;:}
         | accesoVector2D:a                              {:RESULT=a;:}
         | removeLista:a                                 {:RESULT=a;:}
+        | natRound:a                                    {:RESULT=a;:}
+        | natLength:a                                   {:RESULT=a;:}
 ;

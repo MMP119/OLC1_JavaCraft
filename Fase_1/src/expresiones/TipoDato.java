@@ -11,5 +11,7 @@ public enum TipoDato {
     VOID,
     LOGICO,
     RECUPERAR,
-    ARREGLO1D
+    ARREGLO1D,
+    ROUND,
+    LENGTH,
 }
