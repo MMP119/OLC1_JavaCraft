@@ -121,6 +121,11 @@ non terminal LinkedList<LinkedList<Expresion>> listaExpresionesVectores2;
 non terminal Expresion accesoVector;
 non terminal Expresion accesoVector2D;
 non terminal Instruccion asignacionVector;
+non terminal Instruccion decListas;
+non terminal Instruccion asignacionLista;
+non terminal Expresion accesoLista;
+
+
 non terminal Expresion expresion;
 
 
@@ -165,6 +170,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | vector1:a               {:RESULT=a;:}
         | vector2:a               {:RESULT=a;:}
         | asignacionVector:a      {:RESULT=a;:}
+        | decListas:a             {:RESULT=a;:}
 ;
 
 
@@ -283,6 +289,17 @@ accesoVector2D ::= ID:id A_CORCHETE expresion:indice1 C_CORCHETE A_CORCHETE expr
 asignacionVector ::= ID:id A_CORCHETE expresion:indice C_CORCHETE IGUAL expresion:val  PYC                                {:RESULT=new AsigArreglos(id.toLowerCase(), indice, val, idleft, idright);:}
         | ID:id A_CORCHETE expresion:indice1 C_CORCHETE A_CORCHETE expresion:indice2 C_CORCHETE IGUAL expresion:val PYC   {:RESULT=new AsigArreglos2D(id.toLowerCase(), indice1, indice2, val, idleft, idright);:}
 ;
+
+
+//Listas Dinámicas 
+decListas ::= LIST MENOR_Q tipoExpresion:tipo MAYOR_Q ID:id IGUAL NEW LIST A_PARENTESIS C_PARENTESIS PYC {::}
+;
+
+// accesoLista ::=  ID:id  A_CORCHETE expresion:indice C_CORCHETE {::}
+// ;
+
+// asignacionLista ::= ID:id A_CORCHETE expresion:indice C_CORCHETE IGUAL expresion:val  PYC {::}
+// ;
 
 
 //expresiones 
