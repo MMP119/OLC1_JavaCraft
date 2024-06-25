@@ -30,4 +30,5 @@ public enum TipoInstruccion {
     LENGTH,
     STRUCT,
     INSTSTRUCT,
+    ASIG_STRUCT,
 }

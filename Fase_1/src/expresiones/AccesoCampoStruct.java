@@ -23,6 +23,9 @@ public class AccesoCampoStruct extends Expresion{
 
     public NodoAst getNodo(){
         NodoAst nodo = new NodoAst("ACCESO CAMPO STRUCT");
+        nodo.agregarHijo(idStruct);
+        nodo.agregarHijo(".");
+        nodo.agregarHijo(Campo);
         return nodo;
     }
 

@@ -47,6 +47,7 @@ import funciones.CampoStruct;
 import funciones.InstStruct;
 import funciones.ValorStruct;
 import expresiones.AccesoCampoStruct;
+import funciones.AsignacionCampoStruct;
 
 
 //------> Codigo para el parser
@@ -151,6 +152,7 @@ non terminal Instruccion instStruct;
 non terminal LinkedList<ValorStruct> valoresStruct;
 non terminal ValorStruct valorStruct;
 non terminal Expresion accesoCampoStruct;
+non terminal Instruccion asigStruct;
 non terminal Expresion expresion;
 
 
@@ -199,6 +201,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | addLista:a              {:RESULT=a;:}
         | decStructs:a            {:RESULT=a;:}
         | instStruct:a            {:RESULT=a;:}
+        | asigStruct:a            {:RESULT=a;:}
 ;
 
 
@@ -359,6 +362,10 @@ valorStruct ::= ID:id DOS_P expresion:val {:RESULT = new ValorStruct(id.toLowerC
 accesoCampoStruct ::= ID:id PUNTO ID:campo {:RESULT = new AccesoCampoStruct(id.toLowerCase(), campo.toLowerCase(), idleft, idright);:}
 ;
 
+        //Asignacion de struct
+asigStruct ::= ID:id PUNTO ID:campo IGUAL expresion:exp PYC {:RESULT = new AsignacionCampoStruct(id.toLowerCase(), campo.toLowerCase(), exp, idleft, idright);:}
+;
+
 
 
 //NATIVAS
@@ -373,6 +380,7 @@ natToString ::= TOSTRING A_PARENTESIS expresion:val C_PARENTESIS        {:RESULT
 
 natfind ::= ID:id PUNTO FIND A_PARENTESIS expresion:val C_PARENTESIS    {:RESULT = new Find(id.toLowerCase(), val, idleft, idright);:}
 ;
+
 
 //expresiones 
 expresion::= MENOS expresion: val                       {:RESULT = new Aritmeticas(val, "-", null, valleft,valright);:}%prec UMENOS
