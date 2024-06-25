@@ -40,6 +40,7 @@ import funciones.RemoveElementoLista;
 import expresiones.Round;
 import expresiones.Length;
 import expresiones.Find;
+import expresiones.ToString;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -135,6 +136,7 @@ non terminal Expresion accesoLista;
 non terminal Expresion natRound;
 non terminal Expresion natLength;
 non terminal Expresion natfind;
+non terminal Expresion natToString;
 non terminal Expresion expresion;
 
 
@@ -319,6 +321,9 @@ natRound ::= ROUND A_PARENTESIS expresion:val C_PARENTESIS      {:RESULT = new R
 natLength ::= LENGTH A_PARENTESIS expresion:val C_PARENTESIS    {:RESULT = new Length(val, valleft, valright);:}
 ;
 
+natToString ::= TOSTRING A_PARENTESIS expresion:val C_PARENTESIS {:RESULT = new ToString(val, valleft, valright);:}
+;
+
 natfind ::= ID:id PUNTO FIND A_PARENTESIS expresion:val C_PARENTESIS {:RESULT = new Find(id.toLowerCase(), val, idleft, idright);:}
 ;
 
@@ -354,4 +359,5 @@ expresion::= MENOS expresion: val                       {:RESULT = new Aritmetic
         | natRound:a                                    {:RESULT=a;:}
         | natLength:a                                   {:RESULT=a;:}
         | natfind:a                                     {:RESULT=a;:}
+        | natToString:a                                 {:RESULT=a;:}
 ;

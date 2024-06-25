@@ -14,4 +14,6 @@ public enum TipoDato {
     ARREGLO1D,
     ROUND,
     LENGTH,
+    TOSTRING,
+    STRUCT,
 }
