@@ -17,4 +17,9 @@ public class Tipo {
         this.tipo = tipo;
     }
 
+    @Override
+    public String toString() {
+        return tipo.toString();
+    }
+
 }

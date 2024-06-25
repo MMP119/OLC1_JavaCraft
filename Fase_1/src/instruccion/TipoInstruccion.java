@@ -29,4 +29,5 @@ public enum TipoInstruccion {
     ROUND,
     LENGTH,
     STRUCT,
+    INSTSTRUCT,
 }

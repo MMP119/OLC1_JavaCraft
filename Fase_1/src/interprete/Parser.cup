@@ -44,6 +44,9 @@ import expresiones.ToString;
 import funciones.DecStruct;
 import funciones.Campo;
 import funciones.CampoStruct;
+import funciones.InstStruct;
+import funciones.ValorStruct;
+
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -143,6 +146,9 @@ non terminal Expresion natToString;
 non terminal Instruccion decStructs;
 non terminal LinkedList<Campo> listaCampos;
 non terminal Campo campoStruct;
+non terminal Instruccion instStruct;
+non terminal LinkedList<ValorStruct> valoresStruct;
+non terminal ValorStruct valorStruct;
 non terminal Expresion expresion;
 
 
@@ -190,6 +196,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | decListas:a             {:RESULT=a;:}
         | addLista:a              {:RESULT=a;:}
         | decStructs:a            {:RESULT=a;:}
+        | instStruct:a            {:RESULT=a;:}
 ;
 
 
@@ -334,8 +341,17 @@ campoStruct ::= ID:id DOS_P tipoExpresion:tipo PYC      {:RESULT = new Campo(tip
         | ID:id DOS_P ID:idStruct2 PYC                {:RESULT = new CampoStruct(idStruct2.toLowerCase(), id.toLowerCase(), idleft, idright);:}
 ;
 
-//
+        //Instancia struct
+instStruct ::= VARIABLE ID:id DOS_P ID:structId IGUAL A_LLAVE valoresStruct:valores C_LLAVE PYC     {:RESULT = new InstStruct("var", id.toLowerCase(), structId.toLowerCase(), valores, idleft, idright);:}
+        | CONSTANTE ID:id DOS_P ID:structId IGUAL A_LLAVE valoresStruct:valores C_LLAVE  PYC        {:RESULT = new InstStruct("const", id.toLowerCase(), structId.toLowerCase(), valores, idleft, idright);:}
+;
 
+valoresStruct ::= valoresStruct:b COMA valorStruct: a   {:RESULT = b; RESULT.add(a);:}
+        | valorStruct:a                                 {:RESULT = new LinkedList<>(); RESULT.add(a);:}
+;
+
+valorStruct ::= ID:id DOS_P expresion:val {:RESULT = new ValorStruct(id.toLowerCase(), val, idleft, idright);:}
+;
 
 //NATIVAS
 natRound ::= ROUND A_PARENTESIS expresion:val C_PARENTESIS              {:RESULT = new Round(val, valleft, valright);:}

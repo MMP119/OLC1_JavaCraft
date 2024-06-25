@@ -47,17 +47,26 @@ public class DecStruct extends Instruccion{
             }
 
             Simbolo structSimbolo = new Simbolo(new Tipo(TipoInstruccion.STRUCT), id);
+            structSimbolo.setStructDef(this); //alamcenar la deficion del struct en el simbolo
 
             for (Campo campo : campos) {
-                structSimbolo.agregarCampo(campo.getNombre(), new Simbolo(new Tipo(TipoInstruccion.STRUCT), this.id));
+                if (campo instanceof CampoStruct) {
+                    // Recuperar la definición del struct anidado
+                    Simbolo simboloAnidado = ts.getVariable(((CampoStruct) campo).getStructName());
+                    if (simboloAnidado == null || !simboloAnidado.esStruct()) {
+                        System.out.println("SEMANTICO: No se encontró la estructura anidada: " + ((CampoStruct) campo).getStructName());
+                        Errores.errores.add(new Errores("Semantico", "No se encontró la estructura anidada: " + ((CampoStruct) campo).getStructName(), fila, columna));
+                        return new Errores("Semantico", "No se encontró la estructura anidada: " + ((CampoStruct) campo).getStructName(), fila, columna);
+                    }
+                    ((CampoStruct) campo).setStructDef(simboloAnidado.getStructDef());
+                    structSimbolo.agregarCampo(campo.getNombre(), simboloAnidado);
+                } else {
+                    structSimbolo.agregarCampo(campo.getNombre(), new Simbolo(new Tipo(TipoInstruccion.STRUCT), campo.getNombre()));
+                }
             }
             ts.setVariable(structSimbolo);
 
-            //ver el struct creado y sus campos asignados
-            System.out.println("STRUCT: "+id);
-            for (Campo campo : campos) {
-                System.out.println("Campo: "+campo.getNombre()+" Tipo: "+campo.getTipo());
-            }
+            System.out.println(structSimbolo.toString());
 
             return null;
         

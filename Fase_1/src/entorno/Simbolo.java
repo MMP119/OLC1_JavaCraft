@@ -1,6 +1,9 @@
 package entorno;
 
 import java.util.HashMap;
+import java.util.Map;
+
+import funciones.DecStruct;
 
 public class Simbolo {
     private Tipo tipo;
@@ -9,6 +12,7 @@ public class Simbolo {
     private int fila, columna;
     private String mutabilidad;
     private HashMap<String, Simbolo> campos;
+    private DecStruct structDef; //para la definicion de structs anidados
 
     public Simbolo(Tipo tipo, String id) {
         this.tipo = tipo;
@@ -86,6 +90,33 @@ public class Simbolo {
     public Simbolo obtenerCampo(String id) {
         return this.campos.get(id);
     }
+
+    public void setStructDef(DecStruct structDef) {
+        this.structDef = structDef;
+    }
+
+    public DecStruct getStructDef() {
+        return structDef;
+    }
+
+    public boolean esStruct() {
+        return structDef != null;
+    }
         
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("STRUCT: ").append(id).append("\n");
+        for (Map.Entry<String, Simbolo> campo : campos.entrySet()) {
+            sb.append("Campo: ").append(campo.getKey()).append(" Tipo: ");
+            if (campo.getValue().esStruct()) {
+                sb.append("STRUCT\n").append(campo.getValue().toString());
+            } else {
+                sb.append(campo.getValue().getTipo().toString()).append("\n");
+                sb.append("Valor: ").append(campo.getValue().getValor()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
     
 }
