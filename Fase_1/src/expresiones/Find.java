@@ -17,24 +17,23 @@ public class Find extends Expresion{
     
     private String id;
     private Expresion exp;
-    private int fila, columna;
+    private int linea, columna;
     private String valorFinal = "";
 
     public Find(String id, Expresion exp, int fila, int columna){
         super("ERROR_FIND", TipoDato.ERROR, fila, columna);
         this.id = id;
         this.exp = exp;
-        this.fila = fila;
+        this.linea = fila;
         this.columna = columna;
     }
 
 
     public NodoAst getNodo() {
         NodoAst nodo = new NodoAst("FIND");
-        nodo.agregarHijo("FIND");
-        nodo.agregarHijo("(");
         nodo.agregarHijo(id);
-        nodo.agregarHijo(",");
+        nodo.agregarHijo(".FIND");
+        nodo.agregarHijo("(");
         nodo.agregarHijoAST(exp.getNodo());
         nodo.agregarHijo(")");
         return nodo;
@@ -47,9 +46,9 @@ public class Find extends Expresion{
 
         if(sim == null){
             System.out.println("No se encontro el vector o lista: " + id);
-            Errores.errores.add(new Errores("Semantico", "No se encontro el vector o lista: " + id, fila, columna));
+            Errores.errores.add(new Errores("Semantico", "No se encontro el vector o lista: " + id, linea, columna));
             valorFinal = "false";
-            return false;
+            return new Dato(false, TipoDato.BOOLEAN, linea, columna);
         }
 
 
@@ -57,9 +56,9 @@ public class Find extends Expresion{
 
         if(!(valor instanceof LinkedList) && !(valor instanceof DatoArreglo) && !(valor instanceof DatoArreglo2D) && !(valor instanceof DatoLista)){
             System.out.println("Semantico, el simbolo "+id+" no es un vector o lista");
-            Errores.errores.add(new Errores("Semantico", "El simbolo "+id+" no es un vector o lista", fila, columna));
+            Errores.errores.add(new Errores("Semantico", "El simbolo "+id+" no es un vector o lista", linea, columna));
             valorFinal = "false";
-            return false;
+            return new Dato(false, TipoDato.BOOLEAN, linea, columna);
         }
 
         if(valor instanceof LinkedList){
@@ -69,7 +68,7 @@ public class Find extends Expresion{
             for (Object elemento : lista) {
                 if(elemento.toString().equals(e.getValor().toString())){
                     valorFinal = "true";
-                    return true;
+                    return new Dato(true, TipoDato.BOOLEAN, linea, columna);
                 }
             }
         }
@@ -82,7 +81,7 @@ public class Find extends Expresion{
             for (Object elemento : arreglo) {
                 if(elemento.toString().equals(e.getValor().toString())){
                     valorFinal = "true";
-                    return true;
+                    return new Dato(true, TipoDato.BOOLEAN, linea, columna);
                 }
             }
         }
@@ -96,7 +95,7 @@ public class Find extends Expresion{
                 for (Object elemento : fila) {
                     if(elemento.toString().equals(e.getValor().toString())){
                         valorFinal = "true";
-                        return true;
+                        return new Dato(true, TipoDato.BOOLEAN, linea, columna);
                     }
                 }
             }
@@ -110,12 +109,12 @@ public class Find extends Expresion{
             for (Object elemento : arreglo) {
                 if(elemento.toString().equals(e.getValor().toString())){
                     valorFinal = "true";
-                    return true;
+                    return new Dato(true, TipoDato.BOOLEAN, linea, columna);
                 }
             }
         }
         valorFinal = "false";
-        return false;
+        return new Dato(false, TipoDato.BOOLEAN, linea, columna);
     }
 
     public String toString(){
