@@ -46,6 +46,7 @@ import funciones.Campo;
 import funciones.CampoStruct;
 import funciones.InstStruct;
 import funciones.ValorStruct;
+import expresiones.AccesoCampoStruct;
 
 
 //------> Codigo para el parser
@@ -149,6 +150,7 @@ non terminal Campo campoStruct;
 non terminal Instruccion instStruct;
 non terminal LinkedList<ValorStruct> valoresStruct;
 non terminal ValorStruct valorStruct;
+non terminal Expresion accesoCampoStruct;
 non terminal Expresion expresion;
 
 
@@ -353,6 +355,12 @@ valoresStruct ::= valoresStruct:b COMA valorStruct: a   {:RESULT = b; RESULT.add
 valorStruct ::= ID:id DOS_P expresion:val {:RESULT = new ValorStruct(id.toLowerCase(), val, idleft, idright);:}
 ;
 
+        //Acceso a campos struct
+accesoCampoStruct ::= ID:id PUNTO ID:campo {:RESULT = new AccesoCampoStruct(id.toLowerCase(), campo.toLowerCase(), idleft, idright);:}
+;
+
+
+
 //NATIVAS
 natRound ::= ROUND A_PARENTESIS expresion:val C_PARENTESIS              {:RESULT = new Round(val, valleft, valright);:}
 ;
@@ -399,4 +407,5 @@ expresion::= MENOS expresion: val                       {:RESULT = new Aritmetic
         | natLength:a                                   {:RESULT=a;:}
         | natfind:a                                     {:RESULT=a;:}
         | natToString:a                                 {:RESULT=a;:}
+        | accesoCampoStruct:a                           {:RESULT=a;:}
 ;

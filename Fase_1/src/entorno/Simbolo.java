@@ -102,6 +102,13 @@ public class Simbolo {
     public boolean esStruct() {
         return structDef != null;
     }
+
+    public Simbolo getCampo(String id) {
+        if(esStruct() && campos.containsKey(id)) {
+            return campos.get(id);
+        }
+        return null;
+    }
         
     @Override
     public String toString() {
