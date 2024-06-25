@@ -41,6 +41,9 @@ import expresiones.Round;
 import expresiones.Length;
 import expresiones.Find;
 import expresiones.ToString;
+import funciones.DecStruct;
+import funciones.Campo;
+import funciones.CampoStruct;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -137,6 +140,9 @@ non terminal Expresion natRound;
 non terminal Expresion natLength;
 non terminal Expresion natfind;
 non terminal Expresion natToString;
+non terminal Instruccion decStructs;
+non terminal LinkedList<Campo> listaCampos;
+non terminal Campo campoStruct;
 non terminal Expresion expresion;
 
 
@@ -183,6 +189,7 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | asignacionVector:a      {:RESULT=a;:}
         | decListas:a             {:RESULT=a;:}
         | addLista:a              {:RESULT=a;:}
+        | decStructs:a            {:RESULT=a;:}
 ;
 
 
@@ -314,17 +321,33 @@ removeLista ::= ID: id PUNTO REMOVE A_PARENTESIS expresion:val C_PARENTESIS {:RE
 ;
 
 
+
+//Structs
+decStructs ::= STRUCT A_LLAVE listaCampos:campos C_LLAVE ID:id PYC {:RESULT = new DecStruct(id.toLowerCase(), campos, idleft, idright);:}
+;
+
+listaCampos ::= listaCampos:b campoStruct:a     {:RESULT = b; RESULT.add(a);:}
+        | campoStruct:a                         {:RESULT = new LinkedList<>(); RESULT.add(a);:}
+;
+
+campoStruct ::= ID:id DOS_P tipoExpresion:tipo PYC      {:RESULT = new Campo(tipo, id.toLowerCase(), idleft, idright);:}
+        | ID:id DOS_P ID:idStruct2 PYC                {:RESULT = new CampoStruct(idStruct2.toLowerCase(), id.toLowerCase(), idleft, idright);:}
+;
+
+//
+
+
 //NATIVAS
-natRound ::= ROUND A_PARENTESIS expresion:val C_PARENTESIS      {:RESULT = new Round(val, valleft, valright);:}
+natRound ::= ROUND A_PARENTESIS expresion:val C_PARENTESIS              {:RESULT = new Round(val, valleft, valright);:}
 ;
 
-natLength ::= LENGTH A_PARENTESIS expresion:val C_PARENTESIS    {:RESULT = new Length(val, valleft, valright);:}
+natLength ::= LENGTH A_PARENTESIS expresion:val C_PARENTESIS            {:RESULT = new Length(val, valleft, valright);:}
 ;
 
-natToString ::= TOSTRING A_PARENTESIS expresion:val C_PARENTESIS {:RESULT = new ToString(val, valleft, valright);:}
+natToString ::= TOSTRING A_PARENTESIS expresion:val C_PARENTESIS        {:RESULT = new ToString(val, valleft, valright);:}
 ;
 
-natfind ::= ID:id PUNTO FIND A_PARENTESIS expresion:val C_PARENTESIS {:RESULT = new Find(id.toLowerCase(), val, idleft, idright);:}
+natfind ::= ID:id PUNTO FIND A_PARENTESIS expresion:val C_PARENTESIS    {:RESULT = new Find(id.toLowerCase(), val, idleft, idright);:}
 ;
 
 //expresiones 

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import expresiones.Expresion;
+import funciones.Campo;
 import funciones.DatoArreglo;
 import funciones.DatoLista;
 
@@ -136,7 +137,8 @@ public class tablaSimbolos {
                         String mutabilidad = "";
                         String fila, columna;
 
-                        if (valor instanceof Expresion) {
+                        if(valor != null){
+                            if (valor instanceof Expresion) {
                             Expresion exp = (Expresion) valor;
                             valorStr = String.valueOf(exp.getValor());
                             TipoD = exp.getTipo().toString();
@@ -160,13 +162,28 @@ public class tablaSimbolos {
                             fila = String.valueOf(0);
                             columna = String.valueOf(0);
                             
-                        }else {
+                        } else if(valor instanceof Campo){ 
+                            Campo campo = (Campo) valor;
+                            valorStr = campo.getNombre();
+                            TipoD = campo.getTipo().toString();
+                            mutabilidad = "VAR";
+                            fila = String.valueOf(campo.getFila());
+                            columna = String.valueOf(campo.getColumna());
+
+                        } else {
                             valorStr = valor.toString();
                             TipoD = simbolo.getTipo().toString();
                             mutabilidad = simbolo.getMutabilidad();
                             fila = String.valueOf(simbolo.getFila());
                             columna = String.valueOf(simbolo.getColumna());
                         }
+                    }else{
+                        valorStr = "Campos Struct";
+                        TipoD = "Struct";
+                        mutabilidad = "Struct";
+                        fila = String.valueOf(simbolo.getFila());
+                        columna = String.valueOf(simbolo.getColumna());
+                    }
                         pw.println("<tr>");
                         pw.println("<td>" + numError++ + "</td>");
                         pw.println("<td>" + simbolo.getId() + "</td>");

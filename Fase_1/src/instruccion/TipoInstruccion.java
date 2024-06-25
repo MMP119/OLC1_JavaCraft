@@ -28,4 +28,5 @@ public enum TipoInstruccion {
     REMOVE_LISTA,
     ROUND,
     LENGTH,
+    STRUCT,
 }

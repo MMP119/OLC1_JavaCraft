@@ -1,5 +1,6 @@
 package entorno;
 
+import java.util.HashMap;
 
 public class Simbolo {
     private Tipo tipo;
@@ -7,16 +8,19 @@ public class Simbolo {
     private Object valor;
     private int fila, columna;
     private String mutabilidad;
+    private HashMap<String, Simbolo> campos;
 
     public Simbolo(Tipo tipo, String id) {
         this.tipo = tipo;
         this.id = id;
+        this.campos = new HashMap<>();
     }
 
     public Simbolo(Tipo tipo, String id, Object valor) {
         this.tipo = tipo;
         this.id = id;
         this.valor = valor;
+        this.campos = new HashMap<>();
     }
 
     public Tipo getTipo() {
@@ -65,6 +69,22 @@ public class Simbolo {
 
     public void setMutabilidad(String mutabilidad) {
         this.mutabilidad = mutabilidad;
+    }
+
+    public HashMap<String, Simbolo> getCampos() {
+        return campos;
+    }
+
+    public void setCampos(HashMap<String, Simbolo> campos) {
+        this.campos = campos;
+    }
+
+    public void agregarCampo(String id, Simbolo simbolo) {
+        this.campos.put(id, simbolo);
+    }
+
+    public Simbolo obtenerCampo(String id) {
+        return this.campos.get(id);
     }
         
     
