@@ -42,10 +42,10 @@ public class AsignarVariables extends Instruccion{
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
         
         try{
-            Simbolo sim = (Simbolo)ts.getVariable(this.id);
-            Expresion simbol = (Expresion)sim.getValor();
-            Expresion variable = (Expresion)simbol.interpretar(ent, ts);
-
+            Simbolo sim = ts.getVariable(this.id);
+            Object simbol = sim.getValor();
+            Expresion variable1 = (Expresion)simbol;
+            Expresion variable = (Expresion)variable1.interpretar(ent, ts);
             Expresion nuevoValor = (Expresion)this.expresion.interpretar(ent, ts);
             //this.expresion = (Expresion)this.expresion.interpretar(ent, ts);
             
@@ -63,6 +63,7 @@ public class AsignarVariables extends Instruccion{
                     }else{
     
                         //verificar si la expresion es del mismo tipo que la variable
+                        System.out.println(variable.getTipo() + " " + nuevoValor.getTipo());
                         if(variable.getTipo() == nuevoValor.getTipo()){
     
                             Object valor = nuevoValor.getValor();

@@ -77,6 +77,13 @@ public class DecVariables extends Instruccion {
                 System.out.println("Valor interpretado: " + valorInterpretado.getValor() + " ID: " + this.id + " Tipo: " + valorInterpretado.getTipo());
                 
 
+                //verificar que sean del mismo tipo
+                if(valorInterpretado.getTipo() != this.tipo){
+                    System.out.println("SEMANTICO: no se puede asignar " + valorInterpretado.getTipo() + " a " + this.tipo);
+                    Errores.errores.add(new Errores("Semantico", "No se puede asignar " + valorInterpretado.getTipo() + " a " + this.tipo, this.fila, this.columna));
+                    return new Errores("Semantico", "Error al declarar la variable " + this.id, this.fila, this.columna);
+                }
+
                 //verificar si ya existe
                 if(ts.getVariable(this.id) != null){
                     return new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna);
