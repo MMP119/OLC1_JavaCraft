@@ -3,6 +3,7 @@ package entorno;
 import java.util.LinkedList;
 
 import excepciones.Errores;
+import funciones.Metodo;
 import instruccion.Instruccion;
 
 
@@ -12,12 +13,14 @@ public class Entorno {
     private String consola;
     private tablaSimbolos tablaGlobal;
     private LinkedList<Errores> errores;
+    private LinkedList<Instruccion> funciones;
 
     public Entorno(LinkedList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
         this.consola = "";
         this.tablaGlobal = new tablaSimbolos();
         this.errores = new LinkedList<>();
+        this.funciones = new LinkedList<>();
     }
 
     // Constructor de copia
@@ -70,6 +73,30 @@ public class Entorno {
 
     public void Print(String mensaje){
         this.consola += mensaje + "\n";
+    }
+
+    public LinkedList<Instruccion> getFunciones() {
+        return funciones;
+    }
+
+    public void setFunciones(LinkedList<Instruccion> funciones) {
+        this.funciones = funciones;
+    }
+
+    public void addFunciones(Instruccion funcion){
+        //llamar a get funcion y si es null, agregar funcion, caso contrario no agregar
+        this.funciones.add(funcion);
+    }
+
+    public Instruccion getFuncion(String id){
+        for(var i: this.funciones){
+            if(i instanceof Metodo metodo){
+                if(metodo.id.equalsIgnoreCase(id)){
+                    return i;
+                }
+            }
+        }
+        return null;
     }
 
 }

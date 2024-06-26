@@ -14,7 +14,7 @@ import excepciones.Errores;
 import java.util.LinkedList;
 import instruccion.*;
 import AST.*;
-import funciones.datos;
+import funciones.*;
 
 /**
  *
@@ -77,38 +77,75 @@ public class Fase_1 {
             var ts = new tablaSimbolos();
             ts.setNombre("Global");
             ast.setConsola("");
+            ast.setTablaGlobal(ts);
             tablaSimbolos.tablas.add(ts);
+
             var init = new NodoAst("INICIO");
             var instruc = new NodoAst("INSTRUCCIONES");
+
+            //para las funciones, métodos o structs
             for (var a: ast.getInstrucciones()){
                 if(a == null){
                     continue;
                 }
-                try{
-                    a.interpretar(ast, ts);
-                    instruc.agregarHijoAST(a.getNodo());
-                    ast.getConsola();
-                    var erroresSemanticos = Errores.getErrores();
-                    //verificar si hay errores repetidos
-                    for (var e: erroresSemanticos){
-                        boolean repetido = false;
-                        for (var e2: errores){
-                            if (e.getNombre().equals(e2.getNombre()) && e.getDesc().equals(e2.getDesc()) && e.getLinea() == e2.getLinea() && e.getColumna() == e2.getColumna()){
-                                repetido = true;
-                                break;
+                if(a instanceof Metodo){
+                    ast.addFunciones(a);
+                }
+            }
+            
+            // declaraciones o asignaciones globales
+            for (var a: ast.getInstrucciones()){
+                if(a == null){
+                    continue;
+                }
+                if(a instanceof DecVariables || a instanceof AsignarVariables || a instanceof IncDec || a instanceof If){
+                    try{
+                        a.interpretar(ast, ts);
+                        instruc.agregarHijoAST(a.getNodo());
+                        ast.getConsola();
+                        var erroresSemanticos = Errores.getErrores();
+                        //verificar si hay errores repetidos
+                        for (var e: erroresSemanticos){
+                            boolean repetido = false;
+                            for (var e2: errores){
+                                if (e.getNombre().equals(e2.getNombre()) && e.getDesc().equals(e2.getDesc()) && e.getLinea() == e2.getLinea() && e.getColumna() == e2.getColumna()){
+                                    repetido = true;
+                                    break;
+                                }
+                            }
+                            if (!repetido){
+                                errores.add(e);
                             }
                         }
-                        if (!repetido){
-                            errores.add(e);
-                        }
-                    }
-                    Errores.borraErrores();
-                }catch(Exception e){
+                        Errores.borraErrores();
+                    }catch(Exception e){
 
-                    System.out.println("Error en la instruccion: "+a);
-                    e.printStackTrace();
-                }     
+                        System.out.println("Error en la instruccion: "+a);
+                        e.printStackTrace();
+                    } 
+                }    
             }
+
+            //llamada a la función principal
+            StartWith e = null;
+            for (var a: ast.getInstrucciones()){
+                if(a == null){
+                    continue;
+                }
+                if(a instanceof StartWith startwith){
+                    e = startwith;
+                    break;
+                }
+            }
+
+            var resultadoStartWith = e.interpretar(ast, ts);
+            
+            if(resultadoStartWith instanceof Errores){
+                errores.add((Errores)resultadoStartWith);
+                System.out.println("MEGA ERROR COMPAE");
+            }
+
+
             //insertar ast.getConsola en la consola de la interfaz
             consola.appendConsola(ast.getConsola());
             for (Errores err : errores) {

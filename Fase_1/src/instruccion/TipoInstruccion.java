@@ -31,4 +31,8 @@ public enum TipoInstruccion {
     STRUCT,
     INSTSTRUCT,
     ASIG_STRUCT,
+    VOID, 
+    INT,
+    METODO,
+    
 }

@@ -48,7 +48,11 @@ import funciones.InstStruct;
 import funciones.ValorStruct;
 import expresiones.AccesoCampoStruct;
 import funciones.AsignacionCampoStruct;
-
+import funciones.Metodo;
+import instruccion.TipoInstruccion;
+import entorno.Tipo;
+import java.util.HashMap;
+import funciones.StartWith;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -154,6 +158,11 @@ non terminal ValorStruct valorStruct;
 non terminal Expresion accesoCampoStruct;
 non terminal Instruccion asigStruct;
 non terminal Expresion expresion;
+non terminal Instruccion metodo;
+non terminal TipoDato tipoInstrucciones;
+non terminal LinkedList<HashMap> param;
+non terminal Instruccion StartWith1;
+non terminal LinkedList<Expresion> paramLlamada;
 
 
 
@@ -193,7 +202,6 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | sentDO:a                {:RESULT=a;:}
         | break:a                 {:RESULT=a;:}
         | continue:a              {:RESULT=a;:}
-        | error PYC               {:RESULT=null;:}
         | vector1:a               {:RESULT=a;:}
         | vector2:a               {:RESULT=a;:}
         | asignacionVector:a      {:RESULT=a;:}
@@ -202,6 +210,36 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | decStructs:a            {:RESULT=a;:}
         | instStruct:a            {:RESULT=a;:}
         | asigStruct:a            {:RESULT=a;:}
+        | metodo:a                {:RESULT=a;:}
+        | StartWith1:a            {:RESULT=a;:}
+        | error PYC               {:RESULT=null;:}
+
+;
+
+//METODO
+metodo ::= tipoInstrucciones:tipo ID:id A_PARENTESIS C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE              {:RESULT = new Metodo(id.toLowerCase(), new LinkedList<HashMap>(), inst, tipo, idleft, idright);:}
+        | tipoInstrucciones:tipo ID:id A_PARENTESIS param:param C_PARENTESIS A_LLAVE instruccion:inst C_LLAVE   {:RESULT = new Metodo(id.toLowerCase(), param, inst, tipo, idleft, idright);:}
+;
+
+param ::=  param:a COMA tipoInstrucciones: tipo ID:id   {:RESULT = a; var hm2 = new HashMap<String, Object>(); hm2.put("id", id); hm2.put("tipo", tipo); RESULT.add(hm2);:}
+        | tipoInstrucciones: tipo ID:id                 {:RESULT = new LinkedList<HashMap>(); var hm = new HashMap<String, Object>(); hm.put("id", id); hm.put("tipo", tipo); RESULT.add(hm);:}        
+;
+
+
+StartWith1 ::= START_WITH ID:id A_PARENTESIS paramLlamada:b C_PARENTESIS PYC    {:RESULT = new StartWith(id, b, idleft, idright);:}
+        | START_WITH ID:id A_PARENTESIS C_PARENTESIS PYC                        {:RESULT = new StartWith(id, new LinkedList<Expresion>() , idleft, idright);:}
+;
+
+paramLlamada ::= paramLlamada:a COMA expresion:val      {:RESULT = a; RESULT.add(val);:}
+        | expresion:val                                 {:RESULT = new LinkedList<Expresion>(); RESULT.add(val);:}
+;
+
+tipoInstrucciones ::= VOID:val {:RESULT=TipoDato.VOID;:}
+        | INT:val              {:RESULT=TipoDato.INT;:}
+        | DOUBLE:val           {:RESULT=TipoDato.DOUBLE;:}
+        | BOOL:val             {:RESULT=TipoDato.BOOLEAN;:}
+        | CHAR:val             {:RESULT=TipoDato.CHAR;:}
+        | STRING:val           {:RESULT=TipoDato.CADENA;:}
 ;
 
 
@@ -211,7 +249,6 @@ tipoExpresion ::= INT:val     {:RESULT=TipoDato.INT;:}
         | BOOL:val            {:RESULT=TipoDato.BOOLEAN;:}
         | CHAR:val            {:RESULT=TipoDato.CHAR;:}
         | STRING:val          {:RESULT=TipoDato.CADENA;:}
-
 ;
 
 
