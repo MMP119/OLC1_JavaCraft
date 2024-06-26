@@ -51,7 +51,6 @@ public class StartWith extends Instruccion{
                 return new Errores("Semantico", "la funcion "+id+" no tiene la misma cantidad de parametros", this.fila, this.columna);
             }
 
-            //parametros coincidan con la lista de la clase metodos con la clase startwith
             
             for (int i=0; i<this.parametros.size(); i++){
                 var identificador = (String)metodo.parametros.get(i).get("id");

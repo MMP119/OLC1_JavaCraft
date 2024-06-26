@@ -98,7 +98,7 @@ public class Fase_1 {
                 if(a == null){
                     continue;
                 }
-                if(a instanceof DecVariables || a instanceof AsignarVariables || a instanceof IncDec || a instanceof If){
+                if(a instanceof DecVariables || a instanceof AsignarVariables || a instanceof IncDec || a instanceof DecArreglos || a instanceof DecArreglos2D || a instanceof  DeclaraLista || a instanceof DecStruct){
                     try{
                         a.interpretar(ast, ts);
                         instruc.agregarHijoAST(a.getNodo());

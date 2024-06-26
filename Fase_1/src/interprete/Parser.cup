@@ -193,8 +193,8 @@ instruccion ::= expresiones:a                     {:RESULT = new LinkedList<>();
 ;
 
 expresiones ::= printConsole:a    {:RESULT=a;:}
-        | declararVariables:a     {:RESULT=a;:}
-        | asignarVariables:a      {:RESULT=a;:}
+        | declararVariables:a     {:RESULT=a;:} 
+        | asignarVariables:a      {:RESULT=a;:} 
         | sentIF:a                {:RESULT=a;:}
         | sentMATCH:a             {:RESULT=a;:}
         | sentWhile:a             {:RESULT=a;:}
@@ -202,14 +202,14 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | sentDO:a                {:RESULT=a;:}
         | break:a                 {:RESULT=a;:}
         | continue:a              {:RESULT=a;:}
-        | vector1:a               {:RESULT=a;:}
-        | vector2:a               {:RESULT=a;:}
-        | asignacionVector:a      {:RESULT=a;:}
-        | decListas:a             {:RESULT=a;:}
-        | addLista:a              {:RESULT=a;:}
-        | decStructs:a            {:RESULT=a;:}
-        | instStruct:a            {:RESULT=a;:}
-        | asigStruct:a            {:RESULT=a;:}
+        | vector1:a               {:RESULT=a;:} 
+        | vector2:a               {:RESULT=a;:} 
+        | asignacionVector:a      {:RESULT=a;:} 
+        | decListas:a             {:RESULT=a;:} 
+        | addLista:a              {:RESULT=a;:} 
+        | decStructs:a            {:RESULT=a;:} 
+        | instStruct:a            {:RESULT=a;:} 
+        | asigStruct:a            {:RESULT=a;:} 
         | metodo:a                {:RESULT=a;:}
         | StartWith1:a            {:RESULT=a;:}
         | error PYC               {:RESULT=null;:}

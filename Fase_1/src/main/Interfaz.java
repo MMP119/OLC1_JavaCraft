@@ -82,7 +82,7 @@ public class Interfaz extends javax.swing.JFrame {
         EntradaText.setText("Entrada");
 
         Entrada.setColumns(20);
-        Entrada.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        Entrada.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Entrada.setRows(5);
         jScrollPane1.setViewportView(Entrada);
 
@@ -90,7 +90,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         Salida.setEditable(false);
         Salida.setColumns(20);
-        Salida.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        Salida.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Salida.setRows(5);
         jScrollPane4.setViewportView(Salida);
 
