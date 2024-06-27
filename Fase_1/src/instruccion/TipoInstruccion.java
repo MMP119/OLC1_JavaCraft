@@ -34,5 +34,6 @@ public enum TipoInstruccion {
     VOID, 
     INT,
     METODO,
+    LLAMADA,
     
 }

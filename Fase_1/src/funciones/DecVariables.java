@@ -85,9 +85,17 @@ public class DecVariables extends Instruccion {
                 }
 
                 //verificar si ya existe
-                if(ts.getVariable(this.id) != null){
+                // if(ts.getVariable(this.id) != null){
+                //     System.out.println("SEMANTICO: Variable " + this.id + " ya existe");
+                //     Errores.errores.add(new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna));
+                //     return new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna);
+                // }
+                if(ts.getTablaActual().containsKey(this.id)){
+                    System.out.println("SEMANTICO: Variable " + this.id + " ya existe");
+                    Errores.errores.add(new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna));
                     return new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna);
-                }else{
+                }
+                else{
                     valorInterpretado.setMutabilidad(this.mutabilidad);
                     Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.DECLARAR), this.id, valorInterpretado);
                     ts.setVariable(simbolo);

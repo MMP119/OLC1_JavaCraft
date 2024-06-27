@@ -25,7 +25,7 @@ public class Fase_1 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         
         String entrada = """
                     var z : int = -5;
@@ -38,7 +38,7 @@ public class Fase_1 {
         analizadores("Fase_1/src/interprete/", "Lexer.jflex", "Parser.cup");
         // Analizar
         //analizar(entrada);
-    }
+    }*/
 
     public static void analizadores(String ruta, String jflexFile, String cupFile){
         try {
@@ -101,7 +101,7 @@ public class Fase_1 {
                 if(a instanceof DecVariables || a instanceof AsignarVariables || a instanceof IncDec || a instanceof DecArreglos || a instanceof DecArreglos2D || a instanceof  DeclaraLista || a instanceof DecStruct){
                     try{
                         a.interpretar(ast, ts);
-                        instruc.agregarHijoAST(a.getNodo());
+                        //instruc.agregarHijoAST(a.getNodo());
                         ast.getConsola();
                         var erroresSemanticos = Errores.getErrores();
                         //verificar si hay errores repetidos
@@ -145,6 +145,14 @@ public class Fase_1 {
                 System.out.println("MEGA ERROR COMPAE");
             }
 
+            //para el ast 
+
+            for (var i: ast.getInstrucciones()){
+                if(i == null){
+                    continue;
+                }
+                instruc.agregarHijoAST(i.getNodo());
+            }
 
             //insertar ast.getConsola en la consola de la interfaz
             consola.appendConsola(ast.getConsola());

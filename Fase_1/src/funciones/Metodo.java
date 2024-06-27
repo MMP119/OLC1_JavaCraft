@@ -7,6 +7,7 @@ import AST.NodoAst;
 import entorno.Entorno;
 import entorno.Tipo;
 import entorno.tablaSimbolos;
+import excepciones.Errores;
 import expresiones.TipoDato;
 import instruccion.Instruccion;
 import instruccion.TipoInstruccion;
@@ -15,6 +16,7 @@ public class Metodo extends Instruccion{
     public String id;
     public LinkedList<Instruccion> instrucciones;
     public LinkedList<HashMap> parametros;
+    private int fila, columna;
 
 
     public Metodo(String id, LinkedList<HashMap> parametros ,LinkedList<Instruccion> instrucciones, TipoDato tipo, int fila, int columna) {
@@ -25,18 +27,30 @@ public class Metodo extends Instruccion{
     }
 
     public NodoAst getNodo() {
-        return null;
+        NodoAst nodo = new NodoAst("METODO");
+        nodo.agregarHijo(id);
+        nodo.agregarHijo("(");
+        for (HashMap parametro : parametros) {
+            nodo.agregarHijo((String)parametro.get("id"));
+            nodo.agregarHijo(":");
+            nodo.agregarHijo((TipoDato)parametro.get("tipo"));
+        }
+        nodo.agregarHijo(")");
+        nodo.agregarHijo("{");
+        for (Instruccion instruccion : instrucciones) {
+            nodo.agregarHijoAST(instruccion.getNodo());
+        }
+        nodo.agregarHijo("}");
+        return nodo;
     }
 
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
+        //tablaSimbolos tablaLocal = new tablaSimbolos(ts);
+
         for(var i: this.instrucciones){
             var resultado = i.interpretar(ent, ts);
-            //resultado instancia de errores
-            //validar si viene un return
-            //si viene un break o continue es un error semantico
-
 
         }
 
