@@ -77,11 +77,15 @@ public class Casteo extends Expresion{
             }
 
             else{
+                System.out.println("Error Semantico: Error en el casteo. Linea: "+this.fila+" Columna: "+this.columna);
+                Errores.errores.add(new Errores("Semantico:", "Error en el casteo", this.columna, this.fila));
                 return new Errores("Semantico:", "Error en el casteo", this.columna, this.fila);
             }
 
         }catch(Exception e){
             System.out.println("Error en el casteo: "+e);
+            System.out.println("Error en el casteo: "+e);
+            Errores.errores.add(new Errores("Semantico:", "Error en el casteo", this.columna, this.fila));
             return new Errores("Semantico:", "Error en el casteo", this.columna, this.fila);
         }
 

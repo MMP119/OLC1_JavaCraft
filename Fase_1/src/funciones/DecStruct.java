@@ -40,7 +40,7 @@ public class DecStruct extends Instruccion{
     public Object interpretar(Entorno ent, tablaSimbolos ts){
         try{
             //VERIFICAR SI YA EXISTE UNA ESTRUCTURA CON EL MISMO NOMBRE
-            if(ts.getVariable(id)!=null){
+            if(ts.getTablaActual().containsKey(this.id)){
                 System.out.println("SEMANTICO: Ya existe una estructura con el nombre: "+id);
                 Errores.errores.add(new Errores("Semantico", "Ya existe una estructura con el nombre: "+id, fila, columna));
                 return new Errores("Semantico", "Ya existe una estructura con el nombre: "+id, fila, columna);

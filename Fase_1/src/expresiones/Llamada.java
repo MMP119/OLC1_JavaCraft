@@ -51,7 +51,8 @@ public class Llamada extends Instruccion {
             if(busqueda instanceof Metodo metodo){
                 
                 var newTabla = new tablaSimbolos(ent.getTablaGlobal());
-                newTabla.setNombre("LLAMADA MÉTODO"+this.id);
+                newTabla.setNombre("LLAMADA MÉTODO: "+this.id);
+                tablaSimbolos.tablas.add(newTabla);
 
                 if(metodo.parametros.size() != this.parametros.size()){
                     System.out.println("La cantidad de parametros no coincide con la cantidad de parametros de la funcion "+id);

@@ -41,7 +41,7 @@ public class DeclaraLista extends Instruccion {
 
         try{
 
-            if(ts.getVariable(id) != null){
+            if(ts.getTablaActual().containsKey(this.id)){
                 System.out.println("La lista "+id+" ya existe en este ambito");
                 Errores.errores.add(new Errores("Semantico", "La lista "+id+" ya existe en este ambito", fila, columna));
                 return new Errores("Semantico", "La lista "+id+" ya existe en este ambito", fila, columna);

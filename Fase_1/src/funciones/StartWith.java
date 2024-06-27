@@ -43,6 +43,7 @@ public class StartWith extends Instruccion{
         if(buscarFuncion instanceof Metodo metodo){
             var nuevaTabla = new tablaSimbolos(ent.getTablaGlobal());
             nuevaTabla.setNombre("Start_With");
+            tablaSimbolos.tablas.add(nuevaTabla);
 
 
             if(metodo.parametros.size()!=this.parametros.size()){
