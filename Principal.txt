@@ -1,31 +1,3 @@
-var global:int = 10;
-//var b:int = 5;
-
-start_with main(global, 20);
-
-
-void main(int g, int num){
-  println(g);
-  println(num);
-  println(global);
-  println("valor de b antes if: "+b);
-  if(g == 10){
-   var b:int = 20;
-   println("valor de b: "+b);
-   funcion2(b);
-   funcion2(b);
- }
-
-}
-
-void funcion2(int a){
- println("funcion2");
- println(global);
-println(a);
-
-}
-
-
 START_WITH main();
 
 var var1: int = 0;
@@ -48,6 +20,9 @@ void main(){
     // tabla de multiplicar
     tablaMultiplicar(5);
 
+    // recursividad
+    recursividadBasica();
+
     // arreglos
     AnalizarArreglo();
 
@@ -58,7 +33,7 @@ void main(){
 void tablaMultiplicar(int valor){
     const cadenaSalida: string = "Final de la tabla de multiplicar";
     var i: int = 0;
-    for (i = 1; i <= 11; i++) {
+    for (i = 1; i < 11; i++) {
         println(valor + " x " + i + " = " + valor * i);
         if (i == 10) {
             println(cadenaSalida);
@@ -67,66 +42,23 @@ void tablaMultiplicar(int valor){
     }
 }
 
-// viendo arreglos
-void AnalizarArreglo(){
-    var temporal: int = 0;
-    var suma: int = 0;
-    var ceros: int = 0;
-    var i: int = 0;
-    for (i = 0; i < length(arreglo2); i++) {
-        temporal = arreglo2[i];
-        if (temporal == 0) {
-            ceros = ceros + 1;
-            continue;
-        }
-        suma = suma + temporal;
-    }
-    println("La suma de los elementos del arreglo es: " + suma);
-    println("La cantidad de ceros en el arreglo es: " + ceros);
-}
-
-
-
-
-
-START_WITH main();
-
-var var1: int = 0;
-
-
-const arreglo2: int[] = [0, 0, 1, 2, 0, 0, 5, 1, 0, 0, 8, 0, 0];
-
-void main(){
-    println("Archivo de prueba");
-    println("Si sale compi1");
-
-    var var1: int = 10;
-
-    if (var1 == 0) {
-        println("Manejo de ambitos erroneo :'(");
+// probando una funcion recursiva
+double mcd(double a, double b){
+    if (b == 0.0) {
+        return a;
     } else {
-        println("Manejo de ambitos correcto");
+        return mcd(b, a % b);
     }
-
-    // tabla de multiplicar
-    tablaMultiplicar(5);
-
-    // arreglos
-    AnalizarArreglo();
-
-    println("Fin de la prueba");
 }
 
-void tablaMultiplicar(int valor){
-    const cadenaSalida: string = "Final de la tabla de multiplicar";
-    var i: int = 0;
-    for (i = 1; i <= 11; i++) {
-        println(valor + " x " + i + " = " + valor * i);
-        if (i == 10) {
-            println(cadenaSalida);
-            break;
-        }
+void recursividadBasica(){
+    const resultado: double = mcd(48.0, 18.0); ///
+
+    if (resultado == 6) {
+        println("Funcion recursiva correcta");
+        return;
     }
+    println("Funcion recursiva incorrecta");
 }
 
 // viendo arreglos
@@ -156,92 +88,40 @@ void AnalizarArreglo(){
 
 
 
-ERROR ARITMETICAS
-expresiones.Llamada1@5856775
-Valor interpretado: 10 ID: n Tipo: INT
-RESULTADO: null
-Valor interpretado: 10 ID: i Tipo: INT
-RESULTADO: null
-RESULTADO: funciones.Println@7d5faa0e
-INT INT
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-RESULTADO: funciones.Return@6e3a8b98
-Return en metodo: funciones.Return@6e3a8b98
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-RESULTADO: funciones.Return@2ad57652
-Return en metodo: funciones.Return@2ad57652
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-RESULTADO: funciones.Return@2ad57652
-Return en metodo: funciones.Return@2ad57652
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-RESULTADO: funciones.Return@6e3a8b98
-Return en metodo: funciones.Return@6e3a8b98
-RETURN  en Else: funciones.Return@7eb2b373
-RESULTADO: funciones.Return@7eb2b373
-Return en metodo: funciones.Return@7eb2b373
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-RETURN  en Else: funciones.Return@7eb2b373
-RESULTADO: funciones.Return@7eb2b373
-Return en metodo: funciones.Return@7eb2b373
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-RETURN  en Else: funciones.Return@7eb2b373
-RESULTADO: funciones.Return@7eb2b373
-Return en metodo: funciones.Return@7eb2b373
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-RETURN  en Else: funciones.Return@7eb2b373
-RESULTADO: funciones.Return@7eb2b373
-Return en metodo: funciones.Return@7eb2b373
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-RETURN  en Else: funciones.Return@7eb2b373
-RESULTADO: funciones.Return@7eb2b373
-Return en metodo: funciones.Return@7eb2b373
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-RETURN  en Else: funciones.Return@7eb2b373
-RESULTADO: funciones.Return@7eb2b373
-Return en metodo: funciones.Return@7eb2b373
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-RETURN  en Else: funciones.Return@7eb2b373
-RESULTADO: funciones.Return@7eb2b373
-Return en metodo: funciones.Return@7eb2b373
-Valor interpretado: 0 ID: n Tipo: INT
-variable.getTipo() INT valor.getTipo() INT
-Interpretando Return
-Return con expresion
-RETURN  en Else: funciones.Return@7eb2b373
-RESULTADO: funciones.Return@7eb2b373
-Return en metodo: funciones.Return@7eb2b373
-RESULTADO: null
+START_WITH main();
+
+void main(){
+    println("Archivo de prueba");
+    println("Si sale compi1");
+
+    var var1: int = 10;
+
+    if (var1 == 0) {
+        println("Manejo de ambitos erroneo :'(");
+    } else {
+        println("Manejo de ambitos correcto");
+    }
+
+    // recursividad
+    recursividadBasica();
+}
+
+
+// probando una funcion recursiva
+double mcd(double a, double b){
+    if (b == 0.0) {
+        return a;
+    } else {
+        return mcd(b, a % b);
+    }
+}
+
+void recursividadBasica(){
+    const resultado: double = mcd(48.0, 18.0);
+
+    if (resultado == 6) {
+        println("Funcion recursiva correcta");
+        return;
+    }
+    println("Funcion recursiva incorrecta");
+}
