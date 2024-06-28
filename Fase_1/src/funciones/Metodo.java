@@ -50,26 +50,15 @@ public class Metodo extends Instruccion{
 
         for(var i: this.instrucciones){
             var resultado = i.interpretar(ent, ts);
-
             if(resultado != null){
                 if(resultado instanceof Errores){
                     return resultado;
                 }
 
-                if(resultado instanceof Break){
-                    return null;
-                }
-
-                if(resultado instanceof Continue){
-                    return null;
-                }
-
                 if (resultado instanceof Return) {
-                    if(resultado != null && resultado instanceof Simbolo){
-                        return resultado;
-                    }else{
-                        return null;
-                    }
+                    System.out.println("Return en metodo");
+                    //return ((Return) resultado).getExpresion() != null ? ((Return) resultado).getExpresion().interpretar(ent, ts) : null;
+                    return resultado;
                 }
 
             }

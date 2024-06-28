@@ -232,8 +232,8 @@ llamada ::= ID:id A_PARENTESIS paramLlamada:b C_PARENTESIS PYC  {:RESULT = new L
         | ID:id A_PARENTESIS C_PARENTESIS PYC                   {:RESULT = new Llamada(id.toLowerCase(), new LinkedList<Expresion>(), idleft, idright);:}
 ;
 
-llamada1 ::= ID:id A_PARENTESIS paramLlamada:b C_PARENTESIS PYC  {:RESULT = new Llamada1(id.toLowerCase(), b, idleft, idright);:}
-        | ID:id A_PARENTESIS C_PARENTESIS PYC                   {:RESULT = new Llamada1(id.toLowerCase(), new LinkedList<Expresion>(), idleft, idright);:}
+llamada1 ::= ID:id A_PARENTESIS paramLlamada:b C_PARENTESIS  {:RESULT = new Llamada1(id.toLowerCase(), b, idleft, idright);:}
+        | ID:id A_PARENTESIS C_PARENTESIS                    {:RESULT = new Llamada1(id.toLowerCase(), new LinkedList<Expresion>(), idleft, idright);:}
 ;
 
 //METODO

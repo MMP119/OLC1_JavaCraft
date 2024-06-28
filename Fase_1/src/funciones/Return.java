@@ -32,13 +32,36 @@ public class Return extends Instruccion {
     }
 
 
-    public Object interpretar(Entorno ent, tablaSimbolos ts) {
+    /*public Object interpretar(Entorno ent, tablaSimbolos ts) {
+        System.out.println("Interpretando Return");
         if (expresion != null) {
-            Expresion resultado = (Expresion) expresion.interpretar(ent, ts);
+            System.out.println("Return con expresion");
+            Object resultado = expresion.interpretar(ent, ts);
+            if (resultado instanceof Errores) {
+                return resultado;
+            }
             return resultado;
         }
-        return null; // return sin expresión
+        System.out.println("Return sin expresion");
+        return null;
+    }*/
+
+
+    public Object interpretar(Entorno ent, tablaSimbolos ts) {
+        System.out.println("Interpretando Return");
+        if (expresion != null) {
+            System.out.println("Return con expresion");
+            Object resultado = expresion.interpretar(ent, ts);
+            if (resultado instanceof Errores) {
+                return resultado;
+            }
+            this.expresion = (Expresion) resultado;
+            return this; 
+        }
+        System.out.println("Return sin expresion");
+        return this; 
     }
+
 
 
     public Expresion getExpresion() {

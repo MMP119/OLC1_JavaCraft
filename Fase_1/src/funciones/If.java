@@ -77,6 +77,10 @@ public class If extends Instruccion{
                     if(inst instanceof Continue){
                         return new Continue(fila, columna);
                     }
+
+                    if(inst instanceof Return){
+                        return result;
+                    }
                 
                 }
 
@@ -100,6 +104,10 @@ public class If extends Instruccion{
                             return new Continue(fila, columna);
                         }
 
+                        if(a instanceof Return){
+                            return a;
+                        }
+
                     }
 
 
@@ -116,6 +124,10 @@ public class If extends Instruccion{
 
                         if(a instanceof Continue){
                             return new Continue(fila, columna);
+                        }
+
+                        if(a instanceof Return){
+                            return a;
                         }
 
                     }

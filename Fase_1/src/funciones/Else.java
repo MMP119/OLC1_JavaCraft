@@ -52,6 +52,10 @@ public class Else extends Instruccion{
                 if(resultado instanceof Continue){
                     return new Continue(this.fila, this.columna);
                 }
+
+                if(resultado instanceof Return){
+                    return resultado;
+                }
             }
             
             return null;

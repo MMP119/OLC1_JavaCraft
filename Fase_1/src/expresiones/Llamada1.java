@@ -8,6 +8,7 @@ import entorno.tablaSimbolos;
 import excepciones.Errores;
 import funciones.DecVariables;
 import funciones.Metodo;
+import funciones.Return;
 
 
 public class Llamada1 extends Expresion {
@@ -102,6 +103,11 @@ public class Llamada1 extends Expresion {
                 var resultadoFuncion = metodo.interpretar(ent, newTabla);
                 if(resultadoFuncion instanceof Errores){
                     return resultadoFuncion;
+                }
+
+                if (resultadoFuncion instanceof Return) {
+                    Return returnValue = (Return) resultadoFuncion;
+                    return returnValue.getExpresion().interpretar(ent, newTabla);
                 }
 
 
