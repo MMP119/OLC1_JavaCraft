@@ -70,15 +70,15 @@ public class If extends Instruccion{
                         return result;
                     }
 
-                    if(inst instanceof Break){
+                    if(result instanceof Break){
                         return new Break(fila, columna);
                     }
 
-                    if(inst instanceof Continue){
+                    if(result instanceof Continue){
                         return new Continue(fila, columna);
                     }
 
-                    if(inst instanceof Return){
+                    if(result instanceof Return){
                         return result;
                     }
                 

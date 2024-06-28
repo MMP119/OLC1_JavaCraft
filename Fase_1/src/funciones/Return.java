@@ -2,6 +2,7 @@ package funciones;
 
 import entorno.Entorno;
 import entorno.tablaSimbolos;
+import expresiones.Dato;
 import expresiones.Expresion;
 import AST.NodoAst;
 import instruccion.Instruccion;
@@ -47,24 +48,31 @@ public class Return extends Instruccion {
     }*/
 
 
-    public Object interpretar(Entorno ent, tablaSimbolos ts) {
-        System.out.println("Interpretando Return");
+    /*public Object interpretar(Entorno ent, tablaSimbolos ts) {
+
         if (expresion != null) {
-            System.out.println("Return con expresion");
+            Expresion resultado = (Expresion)this.expresion.interpretar(ent, ts);
+            //this.expresion = (Expresion) resultado;
+            return new Return(resultado, fila, columna); 
+        }
+        System.out.println("Return sin expresion");
+        return new Return(null, fila, columna); 
+    }*/
+
+    public Object interpretar(Entorno ent, tablaSimbolos ts) {
+        if (expresion != null) {
             Object resultado = expresion.interpretar(ent, ts);
             if (resultado instanceof Errores) {
                 return resultado;
             }
-            this.expresion = (Expresion) resultado;
-            return this; 
+            return new Return(new Dato(resultado, expresion.getTipo(), fila, columna), fila, columna);
         }
         System.out.println("Return sin expresion");
-        return this; 
+        return new Return(null, fila, columna);
     }
 
 
-
     public Expresion getExpresion() {
-        return expresion;
+        return this.expresion;
     }
 }

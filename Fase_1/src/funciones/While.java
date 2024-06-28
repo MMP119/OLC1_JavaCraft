@@ -61,6 +61,11 @@ public class While extends Instruccion {
                             break;
                         }
 
+                        if(result instanceof Return){
+                            Instruccion.cicloProfundida--; //Disminuimos la profundidad del ciclo antes de salir
+                            return result;
+                        }
+
                     }
                 }
 

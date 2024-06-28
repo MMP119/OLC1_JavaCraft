@@ -74,6 +74,11 @@ public class Casos extends Instruccion {
                             return new Continue(fila, columna);
                         }
 
+                        // Return
+                        if (a instanceof Return || res instanceof Return) {
+                            return res;
+                        }
+
                     }
                     return this;
                 }

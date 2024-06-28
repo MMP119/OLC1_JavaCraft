@@ -54,6 +54,7 @@ public class Else extends Instruccion{
                 }
 
                 if(resultado instanceof Return){
+                    System.out.println("RETURN  en Else: "+resultado);
                     return resultado;
                 }
             }

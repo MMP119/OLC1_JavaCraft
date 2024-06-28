@@ -72,6 +72,10 @@ public class DoWhile extends Instruccion {
                 if(a instanceof Continue){
                     break;
                 }
+
+                if(a instanceof Return){
+                    return  a;
+                }
             }
             
             condicional = this.condicion.interpretar(arbol, newTabla);

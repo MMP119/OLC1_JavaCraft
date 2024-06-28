@@ -82,6 +82,11 @@ public class For extends Instruccion{
                         return null;
                     }
 
+                    // if(i instanceof Return){
+                    //     Instruccion.cicloProfundida--;
+                    //     return i.interpretar(ent, newTabla2);
+                    // }
+
                     var res = i.interpretar(ent, newTabla2);
                     if(res instanceof Errores){
                         return res;
@@ -93,6 +98,12 @@ public class For extends Instruccion{
 
                     if(res instanceof Continue){
                         break;
+                    }
+
+                    if(res instanceof Return){
+                        Instruccion.cicloProfundida--;
+                        System.out.println("RETURN EN FOR: " + res);
+                        return res;
                     }
 
                 }

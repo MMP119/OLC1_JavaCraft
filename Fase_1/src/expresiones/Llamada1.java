@@ -107,16 +107,14 @@ public class Llamada1 extends Expresion {
 
                 if (resultadoFuncion instanceof Return) {
                     Return returnValue = (Return) resultadoFuncion;
-                    return returnValue.getExpresion().interpretar(ent, newTabla);
+                    Object valorRetornado = returnValue.getExpresion().interpretar(ent, newTabla);
+                    if(valorRetornado instanceof Errores){
+                        return valorRetornado;
+                    }
+                    return valorRetornado;
                 }
-
-
-
             }
-
             return null;
-
-
         }
     
 }

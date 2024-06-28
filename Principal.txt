@@ -146,3 +146,102 @@ void AnalizarArreglo(){
     println("La suma de los elementos del arreglo es: " + suma);
     println("La cantidad de ceros en el arreglo es: " + ceros);
 }
+
+
+
+
+
+
+
+
+
+
+ERROR ARITMETICAS
+expresiones.Llamada1@5856775
+Valor interpretado: 10 ID: n Tipo: INT
+RESULTADO: null
+Valor interpretado: 10 ID: i Tipo: INT
+RESULTADO: null
+RESULTADO: funciones.Println@7d5faa0e
+INT INT
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+RESULTADO: funciones.Return@6e3a8b98
+Return en metodo: funciones.Return@6e3a8b98
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+RESULTADO: funciones.Return@2ad57652
+Return en metodo: funciones.Return@2ad57652
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+RESULTADO: funciones.Return@2ad57652
+Return en metodo: funciones.Return@2ad57652
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+RESULTADO: funciones.Return@6e3a8b98
+Return en metodo: funciones.Return@6e3a8b98
+RETURN  en Else: funciones.Return@7eb2b373
+RESULTADO: funciones.Return@7eb2b373
+Return en metodo: funciones.Return@7eb2b373
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+RETURN  en Else: funciones.Return@7eb2b373
+RESULTADO: funciones.Return@7eb2b373
+Return en metodo: funciones.Return@7eb2b373
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+RETURN  en Else: funciones.Return@7eb2b373
+RESULTADO: funciones.Return@7eb2b373
+Return en metodo: funciones.Return@7eb2b373
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+RETURN  en Else: funciones.Return@7eb2b373
+RESULTADO: funciones.Return@7eb2b373
+Return en metodo: funciones.Return@7eb2b373
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+RETURN  en Else: funciones.Return@7eb2b373
+RESULTADO: funciones.Return@7eb2b373
+Return en metodo: funciones.Return@7eb2b373
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+RETURN  en Else: funciones.Return@7eb2b373
+RESULTADO: funciones.Return@7eb2b373
+Return en metodo: funciones.Return@7eb2b373
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+RETURN  en Else: funciones.Return@7eb2b373
+RESULTADO: funciones.Return@7eb2b373
+Return en metodo: funciones.Return@7eb2b373
+Valor interpretado: 0 ID: n Tipo: INT
+variable.getTipo() INT valor.getTipo() INT
+Interpretando Return
+Return con expresion
+RETURN  en Else: funciones.Return@7eb2b373
+RESULTADO: funciones.Return@7eb2b373
+Return en metodo: funciones.Return@7eb2b373
+RESULTADO: null
