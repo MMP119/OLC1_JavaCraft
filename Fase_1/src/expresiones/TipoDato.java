@@ -16,4 +16,5 @@ public enum TipoDato {
     LENGTH,
     TOSTRING,
     STRUCT,
+    LLAMADA,
 }

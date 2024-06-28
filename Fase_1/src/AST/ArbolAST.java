@@ -23,7 +23,7 @@ public class ArbolAST {
         
         // Rutas de los archivos
         String dotRuta = "Fase_1/Reports/arbolAST.dot";
-        String svgRuta = "Fase_1/Reports/arbolAST.svg";
+        String svgRuta = "arbolAST.svg";
 
         try (FileWriter writer = new FileWriter(dotRuta)) {
             writer.write(principal);

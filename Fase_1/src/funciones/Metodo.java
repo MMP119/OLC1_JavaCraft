@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import AST.NodoAst;
 import entorno.Entorno;
+import entorno.Simbolo;
 import entorno.Tipo;
 import entorno.tablaSimbolos;
 import excepciones.Errores;
@@ -47,17 +48,33 @@ public class Metodo extends Instruccion{
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
-        //tablaSimbolos tablaLocal = new tablaSimbolos(ts);
-
         for(var i: this.instrucciones){
             var resultado = i.interpretar(ent, ts);
 
+            if(resultado != null){
+                if(resultado instanceof Errores){
+                    return resultado;
+                }
+
+                if(resultado instanceof Break){
+                    return null;
+                }
+
+                if(resultado instanceof Continue){
+                    return null;
+                }
+
+                if (resultado instanceof Return) {
+                    if(resultado != null && resultado instanceof Simbolo){
+                        return resultado;
+                    }else{
+                        return null;
+                    }
+                }
+
+            }
         }
-
-
         return null;
     }
     
-
-
 }

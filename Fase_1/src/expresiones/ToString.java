@@ -32,24 +32,11 @@ public class ToString extends Expresion{
         try {
             
             Object valor = exp.interpretar(ent, ts);
-            Expresion tipo = (Expresion) valor;
-            TipoDato tipoDato = tipo.getTipo();
-
-            switch(tipoDato){
-                case INT:
-                case DOUBLE:
-                case CHAR:
-                case BOOLEAN:
-                case STRUCT:
-                    return new Dato(valor.toString(), TipoDato.CADENA, this.linea, this.columna);
-                default:
-                    System.out.println("ERROR SEMANTICO, Tipo de dato no valido para uso de funcion toString.");
-                    Errores.errores.add(new Errores("ERROR SEMANTICO", "Tipo de dato no valido para uso de funcion toString.", this.linea, this.columna));
-                    return new Errores("ERROR SEMANTICO", "Tipo de dato no valido para uso de funcion toString.", this.linea, this.columna);
-            }
+            String val = valor.toString();
+            return new Dato(val, TipoDato.CADENA, this.linea, this.columna);
 
         } catch (Exception e) {
-            System.out.println("ERROR SEMANTICO, Tipo de dato no valido para uso de funcion toString.");
+            System.out.println("ERROR SEMANTICO CATCH, Tipo de dato no valido para uso de funcion toString.");
             Errores.errores.add(new Errores("ERROR SEMANTICO", "Tipo de dato no valido para uso de funcion toString.", this.linea, this.columna));
             return new Errores("ERROR SEMANTICO", "Tipo de dato no valido para uso de funcion toString.", this.linea, this.columna);
         }
