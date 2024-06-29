@@ -63,7 +63,7 @@ public class AsignarVariables extends Instruccion{
                     }else{
     
                         //verificar si la expresion es del mismo tipo que la variable
-                        System.out.println(variable.getTipo() + " " + nuevoValor.getTipo());
+                        //System.out.println(variable.getTipo() + " " + nuevoValor.getTipo());
                         if(variable.getTipo() == nuevoValor.getTipo()){
     
                             Object valor = nuevoValor.getValor();

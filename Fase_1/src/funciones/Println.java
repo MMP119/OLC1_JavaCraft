@@ -53,7 +53,7 @@ public class Println extends Instruccion{
                             .replace("\\'", "'");
         }
 
-        datos.add(valorStr);
+        //datos.add(valorStr);
         ent.Print(valorStr);
         return this;
     }

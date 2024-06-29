@@ -74,7 +74,7 @@ public class DecVariables extends Instruccion {
 
                 // Interpretar la expresión para obtener el valor
                 Expresion valorInterpretado = (Expresion)this.expresion.interpretar(ent, ts);
-                System.out.println("Valor interpretado: " + valorInterpretado.getValor() + " ID: " + this.id + " Tipo: " + valorInterpretado.getTipo());
+                //System.out.println("Valor interpretado: " + valorInterpretado.getValor() + " ID: " + this.id + " Tipo: " + valorInterpretado.getTipo());
                 
 
                 //verificar que sean del mismo tipo
@@ -84,12 +84,6 @@ public class DecVariables extends Instruccion {
                     return new Errores("Semantico", "Error al declarar la variable " + this.id, this.fila, this.columna);
                 }
 
-                //verificar si ya existe
-                // if(ts.getVariable(this.id) != null){
-                //     System.out.println("SEMANTICO: Variable " + this.id + " ya existe");
-                //     Errores.errores.add(new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna));
-                //     return new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna);
-                // }
                 if(ts.getTablaActual().containsKey(this.id)){
                     System.out.println("SEMANTICO: Variable " + this.id + " ya existe");
                     Errores.errores.add(new Errores("Semantico", "Variable " + this.id + " ya existe", this.fila, this.columna));

@@ -58,7 +58,7 @@ public class StartWith extends Instruccion{
             for (int i=0; i<this.parametros.size(); i++){
                 var identificador = (String)metodo.parametros.get(i).get("id");
                 var valor = this.parametros.get(i);
-                System.out.println("TIPO 2: "+metodo.parametros.get(i).get("tipo"));
+                //System.out.println("TIPO 2: "+metodo.parametros.get(i).get("tipo"));
                 var tipo2 = (TipoDato)metodo.parametros.get(i).get("tipo");
 
                 var declaracionParametro = new DecVariables("var", identificador, tipo2, valor, null, this.fila, this.columna);
