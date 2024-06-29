@@ -130,47 +130,6 @@ public class Fase_1 {
                 }    
             }
 
-            // try{
-            //     //llamada a la función principal
-            //     // StartWith e = null;
-            //     // for (var a: ast.getInstrucciones()){
-            //     //     if(a == null){
-            //     //         continue;
-            //     //     }
-            //     //     if(a instanceof StartWith startwith){
-            //     //         e = startwith;
-            //     //         break;
-            //     //     }
-            //     // }
-
-            //     //var resultadoStartWith = e.interpretar(ast, ts);
-                
-            //     if(resultadoStartWith instanceof Errores){
-            //         errores.add((Errores)resultadoStartWith);
-            //         var erroresSemanticos = Errores.getErrores();
-
-            //         //verificar si hay errores repetidos
-            //         for (var t: erroresSemanticos){
-            //             boolean repetido = false;
-            //             for (var t2: errores){
-            //                 if (t.getNombre().equals(t2.getNombre()) && t.getDesc().equals(t2.getDesc()) && t.getLinea() == t2.getLinea() && t.getColumna() == t2.getColumna()){
-            //                     repetido = true;
-            //                     break;
-            //                 }
-            //             }
-            //             if (!repetido){
-            //                 errores.add(t);
-            //             }
-            //         }
-            //         //Errores.borraErrores();
-            //         System.out.println("MEGA ERROR COMPAE");
-                    
-            //     }
-            // }catch(Exception e){
-            //     System.out.println("Error en la instruccion: "+e);
-            //     e.printStackTrace();
-            // }
-
             for (var a: ast.getInstrucciones()){
                 if(a == null){
                     continue;

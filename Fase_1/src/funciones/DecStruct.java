@@ -66,7 +66,7 @@ public class DecStruct extends Instruccion{
             }
             ts.setVariable(structSimbolo);
 
-            System.out.println(structSimbolo.toString());
+            //System.out.println(structSimbolo.toString());
 
             return null;
         

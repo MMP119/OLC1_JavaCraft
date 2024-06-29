@@ -91,7 +91,7 @@ public class DecArreglos extends Instruccion {
         Simbolo simbolo = new Simbolo(new Tipo(TipoInstruccion.ARREGLO1D), this.id, new DatoArreglo(valores, this.tipo));
         ts.setVariable(simbolo);
 
-        System.out.println("Declaracion de arreglo: "+this.id+" = "+valores);
+        //System.out.println("Declaracion de arreglo: "+this.id+" = "+valores);
     
         return null;
     }catch(Exception e){

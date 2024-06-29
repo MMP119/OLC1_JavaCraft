@@ -34,21 +34,21 @@ public class Return extends Instruccion {
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
         try{
-        if (expresion != null) {
-            Object resultado = expresion.interpretar(ent, ts);
-            Expresion exp = (Expresion) resultado;
-            if (resultado instanceof Errores) {
-                return resultado;
+            if (expresion != null) {
+                Object resultado = expresion.interpretar(ent, ts); 
+                Expresion exp = (Expresion) resultado;
+                if (resultado instanceof Errores) {
+                    return resultado;
+                }
+                return new Return(new Dato(exp.getValor(), exp.getTipo(), fila, columna), fila, columna);
             }
-            return new Return(new Dato(exp.getValor(), exp.getTipo(), fila, columna), fila, columna);
+            //System.out.println("Return sin expresion");
+            return new Return(null, fila, columna); 
+        }catch(Exception e){
+            System.out.println("Error en Return");
+            Errores.errores.add(new Errores("Semantico", "Error en Return", fila, columna));
+            return new Errores("Semantico", "Error en Return", fila, columna);
         }
-        //System.out.println("Return sin expresion");
-        return new Return(null, fila, columna);
-    }catch(Exception e){
-        System.out.println("Error en Return");
-        Errores.errores.add(new Errores("Semantico", "Error en Return", fila, columna));
-        return new Errores("Semantico", "Error en Return", fila, columna);
-    }
     }
 
 

@@ -92,7 +92,7 @@ public class Llamada extends Instruccion {
 
                 Expresion var = (Expresion)valor.interpretar(ent, ts);
 
-                System.out.println("variable.getTipo() "+variable.getTipo()+" valor.getTipo() "+var.getTipo());
+                //System.out.println("variable.getTipo() "+variable.getTipo()+" valor.getTipo() "+var.getTipo());
 
                 if(variable.getTipo() != var.getTipo()){
                     System.out.println("Error semantico: el tipo de la variable "+identificador+" no coincide con el tipo de la expresion en parametro");

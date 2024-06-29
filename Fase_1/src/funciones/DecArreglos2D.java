@@ -96,7 +96,7 @@ public class DecArreglos2D extends Instruccion{
         ts.setVariable(simbolo);
 
         //impresion en consola solo para confirmar xd
-        System.out.println("DEclaracion arreglo 2D:"+this.id+" = "+valores);       
+        //System.out.println("DEclaracion arreglo 2D:"+this.id+" = "+valores);       
         
         return null;
         
