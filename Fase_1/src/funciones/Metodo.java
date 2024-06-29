@@ -53,7 +53,8 @@ public class Metodo extends Instruccion{
                 var resultado = i.interpretar(ent, ts);
                 if(resultado != null){
                     if(resultado instanceof Errores){
-                        return resultado;
+                        //return 
+                        continue;
                     }
 
                     if (resultado instanceof Return) {

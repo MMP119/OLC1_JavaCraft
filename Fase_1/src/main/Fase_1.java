@@ -91,6 +91,7 @@ public class Fase_1 {
                 if(a instanceof Metodo){
                     ast.addFunciones(a);
                 }
+                
             }
             
             // declaraciones o asignaciones globales
@@ -129,41 +130,86 @@ public class Fase_1 {
                 }    
             }
 
-            try{
-                //llamada a la función principal
-                StartWith e = null;
-                for (var a: ast.getInstrucciones()){
-                    if(a == null){
-                        continue;
-                    }
-                    if(a instanceof StartWith startwith){
-                        e = startwith;
-                        break;
-                    }
-                }
+            // try{
+            //     //llamada a la función principal
+            //     // StartWith e = null;
+            //     // for (var a: ast.getInstrucciones()){
+            //     //     if(a == null){
+            //     //         continue;
+            //     //     }
+            //     //     if(a instanceof StartWith startwith){
+            //     //         e = startwith;
+            //     //         break;
+            //     //     }
+            //     // }
 
-                var resultadoStartWith = e.interpretar(ast, ts);
+            //     //var resultadoStartWith = e.interpretar(ast, ts);
                 
-                if(resultadoStartWith instanceof Errores){
-                    errores.add((Errores)resultadoStartWith);
-                    Errores.borraErrores();
-                    System.out.println("MEGA ERROR COMPAE");
-                    //si encuentra en la funcion principal, continuar con las demas instrucciones
+            //     if(resultadoStartWith instanceof Errores){
+            //         errores.add((Errores)resultadoStartWith);
+            //         var erroresSemanticos = Errores.getErrores();
+
+            //         //verificar si hay errores repetidos
+            //         for (var t: erroresSemanticos){
+            //             boolean repetido = false;
+            //             for (var t2: errores){
+            //                 if (t.getNombre().equals(t2.getNombre()) && t.getDesc().equals(t2.getDesc()) && t.getLinea() == t2.getLinea() && t.getColumna() == t2.getColumna()){
+            //                     repetido = true;
+            //                     break;
+            //                 }
+            //             }
+            //             if (!repetido){
+            //                 errores.add(t);
+            //             }
+            //         }
+            //         //Errores.borraErrores();
+            //         System.out.println("MEGA ERROR COMPAE");
                     
-                    
+            //     }
+            // }catch(Exception e){
+            //     System.out.println("Error en la instruccion: "+e);
+            //     e.printStackTrace();
+            // }
+
+            for (var a: ast.getInstrucciones()){
+                if(a == null){
+                    continue;
                 }
-            }catch(Exception e){
-                System.out.println("Error en la instruccion: "+e);
-                e.printStackTrace();
+                if(a instanceof StartWith){
+                    try{
+                        a.interpretar(ast, ts);
+                            var erroresSemanticos = Errores.getErrores();
+                            //verificar si hay errores repetidos
+                            for (var t: erroresSemanticos){
+                                boolean repetido = false;
+                                for (var t2: errores){
+                                    if (t.getNombre().equals(t2.getNombre()) && t.getDesc().equals(t2.getDesc()) && t.getLinea() == t2.getLinea() && t.getColumna() == t2.getColumna()){
+                                        repetido = true;
+                                        break;
+                                    }
+                                }
+                                if (!repetido){
+                                    errores.add(t);
+                                }
+                            }
+                            Errores.borraErrores();
+                    }catch(Exception e){
+                        System.out.println("Error en la instruccion: "+a);
+                        e.printStackTrace();
+                    }
+                }
             }
 
             //para el ast 
-
+            try{
             for (var i: ast.getInstrucciones()){
                 if(i == null){
                     continue;
                 }
                 instruc.agregarHijoAST(i.getNodo());
+            }}catch(Exception e){
+                System.out.println("Error en el ast: "+e);
+                e.printStackTrace();
             }
 
             //insertar ast.getConsola en la consola de la interfaz
