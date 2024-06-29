@@ -51,6 +51,8 @@ public class DecArreglos extends Instruccion {
     @Override
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
+        try{
+
         //verificar si el arreglo ya existe 
         if(ts.getTablaActual().containsKey(this.id)){
             System.out.println("Error Semantico: El arreglo "+this.id+" ya existe en este ambito. Linea: "+this.fila+" Columna: "+this.columna);
@@ -92,5 +94,10 @@ public class DecArreglos extends Instruccion {
         System.out.println("Declaracion de arreglo: "+this.id+" = "+valores);
     
         return null;
+    }catch(Exception e){
+        System.out.println("Error en la declaracion del arreglo");
+        Errores.errores.add(new Errores("Semantico", "Error en la declaracion del arreglo", this.fila, this.columna));
+        return new Errores("Semantico", "Error en la declaracion del arreglo", this.fila, this.columna);
+    }
     }
 }

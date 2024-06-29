@@ -16,11 +16,14 @@ import AST.NodoAst;
 public class DoWhile extends Instruccion {
     private LinkedList<Instruccion> instrucciones;
     private Expresion condicion;
+    private int linea, columna;
     
     public DoWhile(Expresion condicion, LinkedList<Instruccion> instrucciones, int linea, int columna){
         super(new Tipo(TipoInstruccion.DOWHILE), linea, columna);
         this.instrucciones = instrucciones;
         this.condicion = condicion;
+        this.linea = linea;
+        this.columna = columna;
     }
 
     public NodoAst getNodo(){
@@ -39,6 +42,8 @@ public class DoWhile extends Instruccion {
     
     @Override
     public Object interpretar(Entorno arbol, tablaSimbolos tabla){
+
+        try{
         var condicional = this.condicion.interpretar(arbol, tabla);
         //tablaSimbolos local = new tablaSimbolos(tabla);
         
@@ -85,6 +90,11 @@ public class DoWhile extends Instruccion {
         }while(Boolean.parseBoolean(condicional.toString()) == true);
         Instruccion.cicloProfundida--;
         return  null;
+    }catch(Exception e){
+        Errores.errores.add(new Errores("SEMANTICO", "Error en la instruccion Do-While", this.linea, this.columna));
+        return new Errores("SEMANTICO", "Error en la instruccion Do-While", this.linea, this.columna);
+    }
+
     }
     
 }

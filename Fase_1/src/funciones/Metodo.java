@@ -48,26 +48,32 @@ public class Metodo extends Instruccion{
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
 
-        for(var i: this.instrucciones){
-            var resultado = i.interpretar(ent, ts);
-            if(resultado != null){
-                if(resultado instanceof Errores){
-                    return resultado;
-                }
+        try{
+            for(var i: this.instrucciones){
+                var resultado = i.interpretar(ent, ts);
+                if(resultado != null){
+                    if(resultado instanceof Errores){
+                        return resultado;
+                    }
 
-                if (resultado instanceof Return) {
-                    return resultado;
-                }
+                    if (resultado instanceof Return) {
+                        return resultado;
+                    }
 
-                //si es instancia de un break o continue es un error, ya que no se puede usar fuera de un ciclo
-                if(resultado instanceof Break || resultado instanceof Continue){
-                    System.out.println("Error: break o continue fuera de un ciclo");
-                    Errores.errores.add(new Errores("Semantico", "break o continue fuera de un ciclo", fila, columna));
-                    return new Errores("Semantico", "break o continue fuera de un ciclo", fila, columna);
+                    //si es instancia de un break o continue es un error, ya que no se puede usar fuera de un ciclo
+                    if(resultado instanceof Break || resultado instanceof Continue){
+                        System.out.println("Error: break o continue fuera de un ciclo");
+                        Errores.errores.add(new Errores("Semantico", "break o continue fuera de un ciclo", fila, columna));
+                        return new Errores("Semantico", "break o continue fuera de un ciclo", fila, columna);
+                    }
                 }
             }
+            return null;
+        }catch(Exception e){
+            System.out.println("Error en metodo: "+e);
+            Errores.errores.add(new Errores("Semantico", "Error en metodo: "+e, fila, columna));
+            return new Errores("Semantico", "Error en metodo: "+e, fila, columna);
         }
-        return null;
     }
     
 }

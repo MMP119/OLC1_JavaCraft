@@ -98,7 +98,10 @@ public class Fase_1 {
                 if(a == null){
                     continue;
                 }
-                if(a instanceof DecVariables || a instanceof AsignarVariables || a instanceof IncDec || a instanceof DecArreglos || a instanceof DecArreglos2D || a instanceof  DeclaraLista || a instanceof DecStruct){
+                if(a instanceof DecVariables || a instanceof AsignarVariables || a instanceof IncDec || a instanceof DecArreglos 
+                || a instanceof DecArreglos2D || a instanceof  DeclaraLista || a instanceof DecStruct || a instanceof AsigArreglos 
+                || a instanceof AsigArreglos2D || a instanceof InstStruct || a instanceof AsignacionCampoStruct){
+
                     try{
                         a.interpretar(ast, ts);
                         //instruc.agregarHijoAST(a.getNodo());
@@ -126,23 +129,32 @@ public class Fase_1 {
                 }    
             }
 
-            //llamada a la función principal
-            StartWith e = null;
-            for (var a: ast.getInstrucciones()){
-                if(a == null){
-                    continue;
+            try{
+                //llamada a la función principal
+                StartWith e = null;
+                for (var a: ast.getInstrucciones()){
+                    if(a == null){
+                        continue;
+                    }
+                    if(a instanceof StartWith startwith){
+                        e = startwith;
+                        break;
+                    }
                 }
-                if(a instanceof StartWith startwith){
-                    e = startwith;
-                    break;
-                }
-            }
 
-            var resultadoStartWith = e.interpretar(ast, ts);
-            
-            if(resultadoStartWith instanceof Errores){
-                errores.add((Errores)resultadoStartWith);
-                System.out.println("MEGA ERROR COMPAE");
+                var resultadoStartWith = e.interpretar(ast, ts);
+                
+                if(resultadoStartWith instanceof Errores){
+                    errores.add((Errores)resultadoStartWith);
+                    Errores.borraErrores();
+                    System.out.println("MEGA ERROR COMPAE");
+                    //si encuentra en la funcion principal, continuar con las demas instrucciones
+                    
+                    
+                }
+            }catch(Exception e){
+                System.out.println("Error en la instruccion: "+e);
+                e.printStackTrace();
             }
 
             //para el ast 

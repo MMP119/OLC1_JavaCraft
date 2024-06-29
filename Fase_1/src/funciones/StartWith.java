@@ -30,6 +30,8 @@ public class StartWith extends Instruccion{
 
 
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
+
+        try{
         
         //encontrar la funcion
         var buscarFuncion = ent.getFuncion(id);
@@ -76,6 +78,11 @@ public class StartWith extends Instruccion{
             
         }
         return null;
+    }catch(Exception e){
+        System.out.println("Error en Start_With");
+        Errores.errores.add(new Errores("Semantico", "Error en Start_With", fila, columna));
+        return new Errores("Semantico", "Error en Start_With", fila, columna);
+    }
 
     }
     
