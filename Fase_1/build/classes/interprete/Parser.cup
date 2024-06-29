@@ -53,6 +53,9 @@ import instruccion.TipoInstruccion;
 import entorno.Tipo;
 import java.util.HashMap;
 import funciones.StartWith;
+import expresiones.Llamada;
+import expresiones.Llamada1;
+import funciones.Return;
 
 //------> Codigo para el parser
 //------> Declaracion de variables, funciones y funciones de error
@@ -141,10 +144,8 @@ non terminal Expresion accesoVector;
 non terminal Expresion accesoVector2D;
 non terminal Instruccion asignacionVector;
 non terminal Instruccion decListas;
-non terminal Instruccion asignacionLista;
 non terminal Instruccion addLista;
 non terminal Expresion removeLista;
-non terminal Expresion accesoLista;
 non terminal Expresion natRound;
 non terminal Expresion natLength;
 non terminal Expresion natfind;
@@ -163,6 +164,9 @@ non terminal TipoDato tipoInstrucciones;
 non terminal LinkedList<HashMap> param;
 non terminal Instruccion StartWith1;
 non terminal LinkedList<Expresion> paramLlamada;
+non terminal Instruccion llamada;
+non terminal Expresion llamada1;
+non terminal Instruccion return;
 
 
 
@@ -193,8 +197,8 @@ instruccion ::= expresiones:a                     {:RESULT = new LinkedList<>();
 ;
 
 expresiones ::= printConsole:a    {:RESULT=a;:}
-        | declararVariables:a     {:RESULT=a;:}
-        | asignarVariables:a      {:RESULT=a;:}
+        | declararVariables:a     {:RESULT=a;:} 
+        | asignarVariables:a      {:RESULT=a;:} 
         | sentIF:a                {:RESULT=a;:}
         | sentMATCH:a             {:RESULT=a;:}
         | sentWhile:a             {:RESULT=a;:}
@@ -202,18 +206,34 @@ expresiones ::= printConsole:a    {:RESULT=a;:}
         | sentDO:a                {:RESULT=a;:}
         | break:a                 {:RESULT=a;:}
         | continue:a              {:RESULT=a;:}
-        | vector1:a               {:RESULT=a;:}
-        | vector2:a               {:RESULT=a;:}
-        | asignacionVector:a      {:RESULT=a;:}
-        | decListas:a             {:RESULT=a;:}
-        | addLista:a              {:RESULT=a;:}
-        | decStructs:a            {:RESULT=a;:}
-        | instStruct:a            {:RESULT=a;:}
-        | asigStruct:a            {:RESULT=a;:}
+        | vector1:a               {:RESULT=a;:} 
+        | vector2:a               {:RESULT=a;:} 
+        | asignacionVector:a      {:RESULT=a;:} 
+        | decListas:a             {:RESULT=a;:} 
+        | addLista:a              {:RESULT=a;:} 
+        | decStructs:a            {:RESULT=a;:} 
+        | instStruct:a            {:RESULT=a;:} 
+        | asigStruct:a            {:RESULT=a;:} 
         | metodo:a                {:RESULT=a;:}
         | StartWith1:a            {:RESULT=a;:}
+        | llamada:a               {:RESULT=a;:}
+        | return:a                {:RESULT=a;:} 
         | error PYC               {:RESULT=null;:}
+;
 
+
+return ::= RETURN PYC              {:RESULT = new Return(null, 0, 0);:}
+        | RETURN expresion:val PYC {:RESULT = new Return(val, valleft, valright);:}
+;
+
+//poner en expresion tambien la llamada;
+
+llamada ::= ID:id A_PARENTESIS paramLlamada:b C_PARENTESIS PYC  {:RESULT = new Llamada(id.toLowerCase(), b, idleft, idright);:}
+        | ID:id A_PARENTESIS C_PARENTESIS PYC                   {:RESULT = new Llamada(id.toLowerCase(), new LinkedList<Expresion>(), idleft, idright);:}
+;
+
+llamada1 ::= ID:id A_PARENTESIS paramLlamada:b C_PARENTESIS  {:RESULT = new Llamada1(id.toLowerCase(), b, idleft, idright);:}
+        | ID:id A_PARENTESIS C_PARENTESIS                    {:RESULT = new Llamada1(id.toLowerCase(), new LinkedList<Expresion>(), idleft, idright);:}
 ;
 
 //METODO
@@ -453,4 +473,5 @@ expresion::= MENOS expresion: val                       {:RESULT = new Aritmetic
         | natfind:a                                     {:RESULT=a;:}
         | natToString:a                                 {:RESULT=a;:}
         | accesoCampoStruct:a                           {:RESULT=a;:}
+        | llamada1:a                                    {:RESULT=a;:}
 ;

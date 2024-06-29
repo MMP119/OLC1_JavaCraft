@@ -35,7 +35,7 @@ public class Length extends Expresion{
     public Object interpretar(Entorno ent, tablaSimbolos ts) {
         try {
             Object valor = expresion.interpretar(ent, ts);
-            
+                        
             if(valor instanceof Dato && ((Dato)valor).getTipo() == TipoDato.CADENA){
                 String cadena = (String) valor.toString();
                 int numero = cadena.length();

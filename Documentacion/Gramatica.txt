@@ -1,67 +1,159 @@
-<inicio> ::= <instruccion>
+<inicio> ::= <instruccion>;
 
 <instruccion> ::= <expresiones>
-                | <instruccion> <expresiones>
+                | <instruccion> <expresiones>;
 
 <expresiones> ::= <printConsole>
-               | <declararVariables>
-               | <asignarVariables>
-               | <sentIF>
-               | <sentMATCH>
-               | <sentWhile>
-               | <sentFOR>
-               | <sentDO>
-               | <break>
-               | <continue>
-               | error PYC
+                | <declararVariables>
+                | <asignarVariables>
+                | <sentIF>
+                | <sentMATCH>
+                | <sentWhile>
+                | <sentFOR>
+                | <sentDO>
+                | <break>
+                | <continue>
+                | <vector1>
+                | <vector2>
+                | <asignacionVector>
+                | <decListas>
+                | <addLista>
+                | <decStructs>
+                | <instStruct>
+                | <asigStruct>
+                | <metodo>
+                | <StartWith1>
+                | <llamada>
+                | <return>
+                | error PYC;
+
+<return> ::= RETURN PYC
+           | RETURN <expresion> PYC;
+
+<llamada> ::= ID A_PARENTESIS <paramLlamada> C_PARENTESIS PYC
+            | ID A_PARENTESIS C_PARENTESIS PYC;
+
+<llamada1> ::= ID A_PARENTESIS <paramLlamada> C_PARENTESIS
+             | ID A_PARENTESIS C_PARENTESIS;
+
+<metodo> ::= <tipoInstrucciones> ID A_PARENTESIS C_PARENTESIS A_LLAVE <instruccion> C_LLAVE
+           | <tipoInstrucciones> ID A_PARENTESIS <param> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE;
+
+<param> ::= <param> COMA <tipoInstrucciones> ID
+          | <tipoInstrucciones> ID;
+
+<StartWith1> ::= START_WITH ID A_PARENTESIS <paramLlamada> C_PARENTESIS PYC
+               | START_WITH ID A_PARENTESIS C_PARENTESIS PYC;
+
+<paramLlamada> ::= <paramLlamada> COMA <expresion>
+                 | <expresion>;
+
+<tipoInstrucciones> ::= VOID
+                      | INT
+                      | DOUBLE
+                      | BOOL
+                      | CHAR
+                      | STRING;
 
 <tipoExpresion> ::= INT
-                 | DOUBLE
-                 | BOOL
-                 | CHAR
-                 | STRING
+                  | DOUBLE
+                  | BOOL
+                  | CHAR
+                  | STRING;
 
 <declararVariables> ::= VARIABLE ID DOS_P <tipoExpresion> PYC
-                     | CONSTANTE ID DOS_P <tipoExpresion> PYC
-                     | VARIABLE ID DOS_P <tipoExpresion> IGUAL <expresion> PYC
-                     | CONSTANTE ID DOS_P <tipoExpresion> IGUAL <expresion> PYC
-                     | VARIABLE ID DOS_P <tipoExpresion> IGUAL A_PARENTESIS <tipoExpresion> C_PARENTESIS <expresion> PYC
-                     | CONSTANTE ID DOS_P <tipoExpresion> IGUAL A_PARENTESIS <tipoExpresion> C_PARENTESIS <expresion> PYC
+                      | CONSTANTE ID DOS_P <tipoExpresion> PYC
+                      | VARIABLE ID DOS_P <tipoExpresion> IGUAL <expresion> PYC
+                      | CONSTANTE ID DOS_P <tipoExpresion> IGUAL <expresion> PYC
+                      | VARIABLE ID DOS_P <tipoExpresion> IGUAL A_PARENTESIS <tipoExpresion> C_PARENTESIS <expresion> PYC
+                      | CONSTANTE ID DOS_P <tipoExpresion> IGUAL A_PARENTESIS <tipoExpresion> C_PARENTESIS <expresion> PYC;
 
 <asignarVariables> ::= ID IGUAL <expresion> PYC
-                     | ID IGUAL A_PARENTESIS <tipoExpresion> C_PARENTESIS <expresion> PYC
                      | ID MAS MAS PYC
-                     | ID MENOS MENOS PYC
+                     | ID MENOS MENOS PYC;
 
 <sentIF> ::= IF A_PARENTESIS <expresion> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE
-           | IF A_PARENTESIS <expresion> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE <elseIF>
+           | IF A_PARENTESIS <expresion> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE <elseIF>;
 
 <elseIF> ::= ELSE A_LLAVE <instruccion> C_LLAVE
-           | ELSE <sentIF>
+           | ELSE <sentIF>;
 
-<sentMATCH> ::= MATCH <expresion> A_LLAVE <casos> C_LLAVE
+<sentMATCH> ::= MATCH <expresion> A_LLAVE <casos> C_LLAVE;
 
 <casos> ::= <caso>
-          | <casos> <caso>
+          | <casos> <caso>;
 
 <caso> ::= <expresion> IGUAL MAYOR_Q A_LLAVE <instruccion> C_LLAVE
-         | GUION_BAJO IGUAL MAYOR_Q A_LLAVE <instruccion> C_LLAVE
+         | GUION_BAJO IGUAL MAYOR_Q A_LLAVE <instruccion> C_LLAVE;
 
-<sentWhile> ::= WHILE A_PARENTESIS <expresion> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE
+<sentWhile> ::= WHILE A_PARENTESIS <expresion> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE;
 
-<sentFOR> ::= FOR A_PARENTESIS <asignarVariables> <expresion> PYC <updateFOR> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE
+<sentFOR> ::= FOR A_PARENTESIS <asignarVariables> <expresion> PYC <updateFOR> C_PARENTESIS A_LLAVE <instruccion> C_LLAVE;
 
 <updateFOR> ::= ID IGUAL <expresion>
               | ID MAS MAS
-              | ID MENOS MENOS
+              | ID MENOS MENOS;
 
-<sentDO> ::= DO A_LLAVE <instruccion> C_LLAVE WHILE A_PARENTESIS <expresion> C_PARENTESIS PYC
+<sentDO> ::= DO A_LLAVE <instruccion> C_LLAVE WHILE A_PARENTESIS <expresion> C_PARENTESIS PYC;
 
-<break> ::= BREAK PYC
+<break> ::= BREAK PYC;
 
-<continue> ::= CONTINUE PYC
+<continue> ::= CONTINUE PYC;
 
-<printConsole> ::= PRINTLN A_PARENTESIS <expresion> C_PARENTESIS PYC
+<printConsole> ::= PRINTLN A_PARENTESIS <expresion> C_PARENTESIS PYC;
+
+<vector1> ::= VARIABLE ID DOS_P <tipoExpresion> A_CORCHETE C_CORCHETE IGUAL A_CORCHETE <listaExpresionesVectores> C_CORCHETE PYC
+            | CONSTANTE ID DOS_P <tipoExpresion> A_CORCHETE C_CORCHETE IGUAL A_CORCHETE <listaExpresionesVectores> C_CORCHETE PYC;
+
+<vector2> ::= VARIABLE ID DOS_P <tipoExpresion> A_CORCHETE C_CORCHETE A_CORCHETE C_CORCHETE IGUAL A_CORCHETE <listaExpresionesVectores2> C_CORCHETE PYC
+            | CONSTANTE ID DOS_P <tipoExpresion> A_CORCHETE C_CORCHETE A_CORCHETE C_CORCHETE IGUAL A_CORCHETE <listaExpresionesVectores2> C_CORCHETE PYC;
+
+<listaExpresionesVectores> ::= <expresion>
+                             | <listaExpresionesVectores> COMA <expresion>;
+
+<listaExpresionesVectores2> ::= A_CORCHETE <listaExpresionesVectores> C_CORCHETE
+                              | <listaExpresionesVectores2> COMA A_CORCHETE <listaExpresionesVectores> C_CORCHETE;
+
+<accesoVector> ::= ID A_CORCHETE <expresion> C_CORCHETE;
+
+<accesoVector2D> ::= ID A_CORCHETE <expresion> C_CORCHETE A_CORCHETE <expresion> C_CORCHETE;
+
+<asignacionVector> ::= ID A_CORCHETE <expresion> C_CORCHETE IGUAL <expresion> PYC
+                     | ID A_CORCHETE <expresion> C_CORCHETE A_CORCHETE <expresion> C_CORCHETE IGUAL <expresion> PYC;
+
+<decListas> ::= LIST MENOR_Q <tipoExpresion> MAYOR_Q ID IGUAL NEW LIST A_PARENTESIS C_PARENTESIS PYC;
+
+<addLista> ::= ID PUNTO APPEND A_PARENTESIS <expresion> C_PARENTESIS PYC;
+
+<removeLista> ::= ID PUNTO REMOVE A_PARENTESIS <expresion> C_PARENTESIS;
+
+<decStructs> ::= STRUCT A_LLAVE <listaCampos> C_LLAVE ID PYC;
+
+<listaCampos> ::= <listaCampos> <campoStruct>
+                | <campoStruct>;
+
+<campoStruct> ::= ID DOS_P <tipoExpresion> PYC
+                | ID DOS_P ID PYC;
+
+<instStruct> ::= VARIABLE ID DOS_P ID IGUAL A_LLAVE <valoresStruct> C_LLAVE PYC
+               | CONSTANTE ID DOS_P ID IGUAL A_LLAVE <valoresStruct> C_LLAVE PYC;
+
+<valoresStruct> ::= <valoresStruct> COMA <valorStruct>
+                  | <valorStruct>;
+
+<valorStruct> ::= ID DOS_P <expresion>;
+
+<accesoCampoStruct> ::= ID PUNTO ID;
+
+<asigStruct> ::= ID PUNTO ID IGUAL <expresion> PYC;
+
+<natRound> ::= ROUND A_PARENTESIS <expresion> C_PARENTESIS;
+
+<natLength> ::= LENGTH A_PARENTESIS <expresion> C_PARENTESIS;
+
+<natToString> ::= TOSTRING A_PARENTESIS <expresion> C_PARENTESIS;
+
+<natfind> ::= ID PUNTO FIND A_PARENTESIS <expresion> C_PARENTESIS;
 
 <expresion> ::= MENOS <expresion>
               | <expresion> POTENCIA <expresion>
@@ -87,3 +179,12 @@
               | CADENA
               | CARACTER
               | ID
+              | A_PARENTESIS <tipoExpresion> C_PARENTESIS <expresion>
+              | <accesoVector>
+              | <accesoVector2D>
+              | <accesoCampoStruct>
+              | <llamada1>
+              | <natRound>
+              | <natLength>
+              | <natToString>
+              | <natfind>;

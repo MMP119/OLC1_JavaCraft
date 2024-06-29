@@ -58,6 +58,13 @@ public class Metodo extends Instruccion{
                 if (resultado instanceof Return) {
                     return resultado;
                 }
+
+                //si es instancia de un break o continue es un error, ya que no se puede usar fuera de un ciclo
+                if(resultado instanceof Break || resultado instanceof Continue){
+                    System.out.println("Error: break o continue fuera de un ciclo");
+                    Errores.errores.add(new Errores("Semantico", "break o continue fuera de un ciclo", fila, columna));
+                    return new Errores("Semantico", "break o continue fuera de un ciclo", fila, columna);
+                }
             }
         }
         return null;
