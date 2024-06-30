@@ -7,6 +7,7 @@ import entorno.Entorno;
 import entorno.tablaSimbolos;
 import excepciones.Errores;
 import funciones.DatoArreglo;
+import funciones.DatoArreglo2D;
 import funciones.DatoLista;
 import entorno.Simbolo;
 
@@ -41,6 +42,7 @@ public class AccesoVector extends Expresion {
         try{
 
             Simbolo simbolo = ts.getVariable(this.id);
+            System.out.println("SIMBOLO: "+simbolo.getValor());
 
             if(simbolo != null && (simbolo.getValor() instanceof DatoArreglo || simbolo.getValor() instanceof DatoLista)){
                 
@@ -98,7 +100,35 @@ public class AccesoVector extends Expresion {
                         }
                 }
                 
-            }else{
+            }else if(simbolo != null && simbolo.getValor() instanceof DatoArreglo2D){
+
+                DatoArreglo2D arreglo2D = (DatoArreglo2D) simbolo.getValor();
+                LinkedList<LinkedList<Object>> valores = arreglo2D.getValor();
+
+                // Interpretar el índice
+                Object indiceValor = indice.interpretar(ent, ts);
+
+                int index;
+
+                try {
+                    index = Integer.parseInt(indiceValor.toString());
+
+                } catch (Exception e) {
+                    System.out.println("Error Semantico: Indice no es un entero");
+                    Errores.errores.add(new Errores("Semantico", "Indice no es un entero", this.fila, this.columna));
+                    return new Errores("Semantico", "Indice no es un entero", this.fila, this.columna);
+                }
+
+                if (index >= 0 && index < valores.size()) {
+                    return valores.get(index);
+                } else {
+                    System.out.println("Error Semantico: Indice fuera de rango");
+                    Errores.errores.add(new Errores("Semantico", "Indice fuera de rango", this.fila, this.columna));
+                    return new Errores("Semantico", "Indice fuera de rango", this.fila, this.columna);
+                }
+
+            }
+            else{
                 System.out.println("Error Semantico: El vector o lista: "+this.id+" no existe");
                 Errores.errores.add(new Errores("Semantico", "El vector o lista: "+this.id+" no existe", this.fila, this.columna));
                 return new Errores("Semantico", "El vector o lista: "+this.id+" no existe", this.fila, this.columna);
