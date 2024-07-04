@@ -97,6 +97,8 @@ public class Interfaz extends javax.swing.JFrame {
 
         Archivo_button.setText("Archivo");
 
+        NuevoArchivo_button.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        NuevoArchivo_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/imgs/registro (2).png"))); // NOI18N
         NuevoArchivo_button.setText("Nuevo Archivo");
         NuevoArchivo_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,6 +107,8 @@ public class Interfaz extends javax.swing.JFrame {
         });
         Archivo_button.add(NuevoArchivo_button);
 
+        AbrirArchivo_button.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        AbrirArchivo_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/imgs/carpeta-abierta.png"))); // NOI18N
         AbrirArchivo_button.setText("Abrir Archivo");
         AbrirArchivo_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,6 +117,8 @@ public class Interfaz extends javax.swing.JFrame {
         });
         Archivo_button.add(AbrirArchivo_button);
 
+        GuardarArchivo_button.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        GuardarArchivo_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/imgs/expediente.png"))); // NOI18N
         GuardarArchivo_button.setText("Guardar Archivo");
         GuardarArchivo_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,6 +131,8 @@ public class Interfaz extends javax.swing.JFrame {
 
         Pestania_button.setText("Pestañas");
 
+        NewPestania_button.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PLUS, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        NewPestania_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/imgs/mas (1).png"))); // NOI18N
         NewPestania_button.setText("Nueva Pestaña");
         NewPestania_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,6 +141,8 @@ public class Interfaz extends javax.swing.JFrame {
         });
         Pestania_button.add(NewPestania_button);
 
+        DeletePestania_button.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_MINUS, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        DeletePestania_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/imgs/menos (1).png"))); // NOI18N
         DeletePestania_button.setText("Eliminar Pestaña");
         DeletePestania_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +155,8 @@ public class Interfaz extends javax.swing.JFrame {
 
         Run_button.setText("Ejecutar");
 
+        Go_button.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        Go_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/imgs/flecha-correcta (1).png"))); // NOI18N
         Go_button.setText("Iniciar");
         Go_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,6 +169,8 @@ public class Interfaz extends javax.swing.JFrame {
 
         Reporte_button.setText("Reportes");
 
+        Error_button.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        Error_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/imgs/advertencia.png"))); // NOI18N
         Error_button.setText("Reporte Errores");
         Error_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,6 +179,8 @@ public class Interfaz extends javax.swing.JFrame {
         });
         Reporte_button.add(Error_button);
 
+        AST_button.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        AST_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/imgs/arbol.png"))); // NOI18N
         AST_button.setText("Generar AST");
         AST_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,6 +189,8 @@ public class Interfaz extends javax.swing.JFrame {
         });
         Reporte_button.add(AST_button);
 
+        SymbolsTable_button.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        SymbolsTable_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/imgs/mesa.png"))); // NOI18N
         SymbolsTable_button.setText("Tabla de Simbolos");
         SymbolsTable_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,29 +284,6 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_SymbolsTable_buttonActionPerformed
 
-    private void Go_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Go_buttonActionPerformed
-        
-        Salida.setText("");
-        interprete.Parser parser;
-        interprete.Lexer lexer;
-        
-
-
-        try{
-            Fase_1.analizar(Entrada.getText(), Interfaz.this);
-            
-        }catch(Exception e){
-            e.printStackTrace();
-            StackTraceElement[] stackTrace = e.getStackTrace();
-            if (stackTrace.length > 0) {
-                StackTraceElement element = stackTrace[0];
-                Salida.setText("Error en la clase: " + element.getClassName());
-                Salida.setText("Error en el método: " + element.getMethodName());
-                Salida.setText("Error en la línea: " + element.getLineNumber());
-            } 
-        }
-    }//GEN-LAST:event_Go_buttonActionPerformed
-
     
 
     private void NewPestania_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewPestania_buttonActionPerformed
@@ -350,6 +345,27 @@ public class Interfaz extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
     }//GEN-LAST:event_AST_buttonActionPerformed
+
+    private void Go_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Go_buttonActionPerformed
+
+        Salida.setText("");
+        interprete.Parser parser;
+        interprete.Lexer lexer;
+
+        try{
+            Fase_1.analizar(Entrada.getText(), Interfaz.this);
+
+        }catch(Exception e){
+            e.printStackTrace();
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            if (stackTrace.length > 0) {
+                StackTraceElement element = stackTrace[0];
+                Salida.setText("Error en la clase: " + element.getClassName());
+                Salida.setText("Error en el método: " + element.getMethodName());
+                Salida.setText("Error en la línea: " + element.getLineNumber());
+            }
+        }
+    }//GEN-LAST:event_Go_buttonActionPerformed
 
     /**
      * @param args the command line arguments
